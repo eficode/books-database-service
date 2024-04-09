@@ -15,5 +15,9 @@ def create_book(book: BookCreate, db: Session = Depends(get_db)):
     db.refresh(db_book)
     return BookInfo(**db_book.__dict__)
 
-## Assignement: Create rest of the CRUD REST methods for book
-# implement testing for it and use best coding conventions and practices
+## Assignement: Create rest of the CRUD methods as follows for managing book entities
+# This project has already implemented creation of book and unit test for it.
+# 
+# 1. Create book read method with unit testing, use best coding conventions and practices.
+# 2. Create book update method with unit testing, use best coding conventions and practices.
+# 3. Create book delete method with unit testing, use best coding conventions and practices.
