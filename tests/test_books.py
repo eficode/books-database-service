@@ -6,7 +6,7 @@ from fastapi import HTTPException
 
 client = TestClient(app)
 
-def test_create_book():
+def test_create_book(mock_db_session):
     response = client.post("/books/", json={
         "title": "Test Book",
         "author": "Test Author",
