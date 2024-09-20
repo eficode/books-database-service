@@ -1,6 +1,7 @@
 from unittest.mock import MagicMock
 import pytest
-from fastapi_demo.main import app, get_db
+from fastapi_demo.main import app
+from fastapi_demo.database import get_db
 
 mock_session = MagicMock()
 

@@ -1,7 +1,10 @@
 # FILEPATH: /Users/alexjantunen/dev/fast-api-demo/test_main.py
 from unittest.mock import MagicMock, patch
 from fastapi.testclient import TestClient
-from fastapi_demo.main import app, get_db, Book
+from fastapi_demo.main import app
+from fastapi_demo.database import get_db
+from fastapi_demo.models import Book
+
 from fastapi import HTTPException
 
 client = TestClient(app)
