@@ -6,6 +6,9 @@ authors = ["Alex Jantunen <alex.jantunen@eficode.com>"]
 license = "MIT"
 readme = "README.md"
 
+[tool.poetry.scripts]
+dev-server = "server:main"
+
 [tool.poetry.dependencies]
 python = "^3.12"
 fastapi = "^0.110.1"

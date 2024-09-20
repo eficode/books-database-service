@@ -18,24 +18,22 @@
     poetry install
     ```
 
-4. **Activate the Virtual Environment**: Run the following command to activate the virtual environment:
+4. **Run the Application**: Run your FastAPI application with the following command:
 
     ```bash
+    poetry run dev-server
+    ```
+
+Your application should now be running at http://localhost:8000/docs.
+
+### Tips
+
+**Activate the Virtual Environment**: Run the following command to activate the virtual environment:
+
     poetry shell
-    ```
-
-5. **Run the Application**: Run your FastAPI application with the following command:
-
-    ```bash
-    uvicorn fastapi_demo.main:app --reload
-    ```
-
-Your application should now be running at http://localhost:8000.
 
 ## Run tests
 
 To run the tests, run the following command:
 
-```bash
-poetry run pytest
-```
+    poetry run pytest
