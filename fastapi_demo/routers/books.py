@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, Body, Path
 from sqlalchemy.orm import Session
 from ..database import get_db
-from ..models import Book, BookCreate, BookInfo
+from ..models import Book
+from ..dtos import BookCreate, BookInfo
 
 router = APIRouter()
 
