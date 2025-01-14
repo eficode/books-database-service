@@ -1,11 +1,19 @@
 from pydantic import BaseModel
 from typing import Optional
 
+class CategoryCreate(BaseModel):
+    name: str
 
-class BookCreate(BaseModel):
-    title: str
-    author: str
-    pages: int
+class CategoryInfo(BaseModel):
+    id: int
+    name: str
 
-class BookInfo(BookCreate):
-    id: Optional[int] = None
+    class Config:
+        orm_mode = True
+
+class BookCategoryAssign(BaseModel):
+    book_id: int
+    category_id: int
+
+class BookSearchByCategory(BaseModel):
+    category_id: int
