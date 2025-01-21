@@ -1,11 +1,14 @@
 from pydantic import BaseModel
-from typing import Optional
+from typing import List
 
-
-class BookCreate(BaseModel):
+class BookSalesInfo(BaseModel):
+    id: int
     title: str
     author: str
-    pages: int
+    sales: int
 
-class BookInfo(BookCreate):
-    id: Optional[int] = None
+    class Config:
+        orm_mode = True
+
+class BookSalesResponse(BaseModel):
+    books: List[BookSalesInfo]
