@@ -1,61 +1,74 @@
-from fastapi import APIRouter, Depends, HTTPException, Body, Path
+from fastapi import APIRouter, Depends, HTTPException, Body, Path, status
 from sqlalchemy.orm import Session
 from ..database import get_db
 from ..models import Book
 from ..dtos import BookCreate, BookInfo
+from fastapi.security import OAuth2PasswordBearer
+from ..auth import get_current_user, User
+import logging
+from datetime import datetime
 
 router = APIRouter()
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 @router.post("/books/", response_model=BookInfo,
-    summary="Create a new book",
-    description="This endpoint creates a new book with the provided details and returns the book information",
-    response_description="The created book's information")
+  summary="Create a new book",
+  description="This endpoint creates a new book with the provided details and returns the book information",
+  response_description="The created book's information")
 def create_book(
-    book: BookCreate = Body(..., description="The details of the book to be created", examples={"title": "Example Book", "author": "John Doe", "year": 2021}),
-    db: Session = Depends(get_db)):
-    db_book = Book(**book.model_dump())
-    db.add(db_book)
-    db.commit()
-    db.refresh(db_book)
-    return BookInfo(**db_book.__dict__)
+  book: BookCreate = Body(..., description="The details of the book to be created", examples={"title": "Example Book", "author": "John Doe", "year": 2021}),
+  db: Session = Depends(get_db)):
+  db_book = Book(**book.model_dump())
+  db.add(db_book)
+  db.commit()
+  db.refresh(db_book)
+  return BookInfo(**db_book.__dict__)
 
 @router.get("/books/{book_id}",
-    response_model=BookInfo,
-    summary="Read a book",
-    description="This endpoint retrieves the details of a book with the provided ID",
-    response_description="The requested book's information")
+  response_model=BookInfo,
+  summary="Read a book",
+  description="This endpoint retrieves the details of a book with the provided ID",
+  response_description="The requested book's information")
 def read_book(
-    book_id: int = Path(..., description="The ID of the book to be retrieved", examples=1),
-    db: Session = Depends(get_db)):
-    db_book = db.query(Book).filter(Book.id == book_id).first()
-    if db_book is None:
-        raise HTTPException(status_code=404, detail="Book not found")
-    return BookInfo(**db_book.__dict__)
+  book_id: int = Path(..., description="The ID of the book to be retrieved", examples=1),
+  db: Session = Depends(get_db)):
+  db_book = db.query(Book).filter(Book.id == book_id).first()
+  if db_book is None:
+    raise HTTPException(status_code=404, detail="Book not found")
+  return BookInfo(**db_book.__dict__)
 
 @router.put("/books/{book_id}", response_model=BookInfo)
 def update_book(book_id: int, book: BookCreate, db: Session = Depends(get_db)):
-    db_book = db.query(Book).filter(Book.id == book_id).first()
-    if db_book is None:
-        raise HTTPException(status_code=404, detail="Book not found")
-    for key, value in book.model_dump().items():
-        setattr(db_book, key, value)
-    db.commit()
-    db.refresh(db_book)
-    return BookInfo(**db_book.__dict__)
+  db_book = db.query(Book).filter(Book.id == book_id).first()
+  if db_book is None:
+    raise HTTPException(status_code=404, detail="Book not found")
+  for key, value in book.model_dump().items():
+    setattr(db_book, key, value)
+  db.commit()
+  db.refresh(db_book)
+  return BookInfo(**db_book.__dict__)
 
 @router.delete("/books/{book_id}")
-def delete_book(book_id: int, db: Session = Depends(get_db)):
-    db_book = db.query(Book).filter(Book.id == book_id).first()
-    if db_book is None:
-        raise HTTPException(status_code=404, detail="Book not found")
-    db.delete(db_book)
-    db.commit()
-    return {"message": "Book deleted successfully"}
+def delete_book(book_id: int, db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
+  user: User = get_current_user(token)
+  if not user.is_book_seller:
+    raise HTTPException(status_code=403, detail="Not authorized to remove this book")
+  db_book = db.query(Book).filter(Book.id == book_id).first()
+  if db_book is None:
+    raise HTTPException(status_code=404, detail="Book not found")
+  db.delete(db_book)
+  db.commit()
+  logger.info(f"Book deleted: {{'book_id': {book_id}, 'user_id': {user.id}, 'timestamp': {datetime.utcnow()}}}")
+  return {"detail": "Book deleted"}
 
 @router.get("/books/most-sold/", response_model=List[BookInfo],
-    summary="Get most sold books",
-    description="This endpoint retrieves the list of most sold books",
-    response_description="The list of most sold books")
+  summary="Get most sold books",
+  description="This endpoint retrieves the list of most sold books",
+  response_description="The list of most sold books")
 def get_most_sold_books(db: Session = Depends(get_db)):
-    most_sold_books = db.query(Book).order_by(Book.sales_volume.desc()).all()
-    return [BookInfo(**book.__dict__) for book in most_sold_books]
+  most_sold_books = db.query(Book).order_by(Book.sales_volume.desc()).all()
+  return [BookInfo(**book.__dict__) for book in most_sold_books]
