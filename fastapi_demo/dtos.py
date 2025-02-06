@@ -1,6 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional
-
+from typing import List, Optional
 
 class BookCreate(BaseModel):
     title: str
@@ -9,3 +8,11 @@ class BookCreate(BaseModel):
 
 class BookInfo(BookCreate):
     id: Optional[int] = None
+
+class CartItem(BaseModel):
+    book_id: int
+    title: str
+    price: float
+
+class CartResponse(BaseModel):
+    cart: List[CartItem]
