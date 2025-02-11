@@ -1,11 +1,14 @@
 from pydantic import BaseModel
-from typing import Optional
+from typing import List, Optional
 
-
-class BookCreate(BaseModel):
+class BookSales(BaseModel):
     title: str
     author: str
-    pages: int
+    sales_volume: int
 
-class BookInfo(BookCreate):
-    id: Optional[int] = None
+class GenreSales(BaseModel):
+    genre: str
+    books: List[BookSales]
+
+class SalesReport(BaseModel):
+    report: List[GenreSales]
