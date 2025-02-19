@@ -1,10 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from ..database import get_db
-from ..models import Book
-from ..dependencies import get_current_user
-from ..dtos import User
-import logging
+from fastapi_demo.database import get_db
+from fastapi_demo.models import Book
+from fastapi_demo.dependencies import get_current_user
+from fastapi_demo.schemas import User
 
 router = APIRouter()
 
@@ -18,9 +17,6 @@ def delete_all_test_books(db: Session = Depends(get_db), current_user: User = De
         log_deletion_action(current_user.id)
         return {"detail": "All test books deleted"}
     except HTTPException as e:
-        db.rollback()
-        if e.status_code == 503:
-            raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="Network failure")
         raise e
     except Exception as e:
         db.rollback()
@@ -28,5 +24,5 @@ def delete_all_test_books(db: Session = Depends(get_db), current_user: User = De
 
 # Helper function to log the deletion action
 def log_deletion_action(user_id: int):
-    logging.basicConfig(filename="deletion_log.txt", level=logging.INFO)
-    logging.info(f"{datetime.now()} - User {user_id} deleted all test books")
+    with open("deletion_log.txt", "a") as log_file:
+        log_file.write(f"{datetime.now()} - User {user_id} deleted all test books\n")
