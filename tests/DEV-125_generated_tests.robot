@@ -83,8 +83,8 @@ I am not authorized to remove test books
 
 system is experiencing an error
     # Simulate system error
-    Execute JavaScript    window.simulateSystemError()
+    Evaluate    window.simulateSystemError()    window
 
 there is a network failure
     # Simulate network failure
-    Execute JavaScript    window.simulateNetworkFailure()
+    Evaluate    window.simulateNetworkFailure()    window
