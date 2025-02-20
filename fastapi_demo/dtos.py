@@ -1,11 +1,8 @@
 from pydantic import BaseModel
-from typing import Optional
 
-
-class BookCreate(BaseModel):
+class BookInfo(BaseModel):
+    id: int
     title: str
     author: str
     pages: int
-
-class BookInfo(BookCreate):
-    id: Optional[int] = None
+    language: str
