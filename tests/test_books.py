@@ -1,12 +1,17 @@
-# FILEPATH: /Users/alexjantunen/dev/fast-api-demo/test_main.py
 from unittest.mock import MagicMock, patch
 from fastapi.testclient import TestClient
 from fastapi_demo.main import app
 from fastapi_demo.models import Book
-
 from fastapi import HTTPException
+import pytest
 
 client = TestClient(app)
+
+@pytest.fixture
+def mock_db_session():
+    return MagicMock()
+
+client.app.dependency_overrides[get_db] = mock_db_session
 
 def test_create_book(mock_db_session):
     response = client.post("/books/", json={
@@ -14,7 +19,6 @@ def test_create_book(mock_db_session):
         "author": "Test Author",
         "pages": 100
     })
-
     assert response.status_code == 200
     assert response.json().get("title") == "Test Book"
     assert response.json().get("author") == "Test Author"
@@ -34,16 +38,13 @@ def test_read_book_not_found(mock_db_session):
     assert response.status_code == 404
     assert response.json().get("detail") == "Book not found"
 
-
 def test_update_book_success(mock_db_session):
     mock_db_session.query.return_value.filter.return_value.first.return_value = Book(id=1, title="Old Title", author="Old Author", pages=100)
-
     response = client.put("/books/1", json={
         "title": "New Title",
         "author": "New Author",
         "pages": 200
     })
-
     assert response.status_code == 200
     assert response.json().get("title") == "New Title"
     assert response.json().get("author") == "New Author"
@@ -51,28 +52,39 @@ def test_update_book_success(mock_db_session):
 
 def test_update_book_not_found(mock_db_session):
     mock_db_session.query.return_value.filter.return_value.first.return_value = None
-
     response = client.put("/books/1", json={
         "title": "New Title",
         "author": "New Author",
         "pages": 200
     })
-
     assert response.status_code == 404
     assert response.json().get("detail") == "Book not found"
 
 def test_delete_book_success(mock_db_session):
     mock_db_session.query.return_value.filter.return_value.first.return_value = Book(id=1, title="Test Book", author="Test Author", pages=100)
-
     response = client.delete("/books/1")
-
     assert response.status_code == 200
     assert response.json().get("message") == "Book deleted successfully"
 
 def test_delete_book_not_found(mock_db_session):
     mock_db_session.query.return_value.filter.return_value.first.return_value = None
-
     response = client.delete("/books/1")
-
     assert response.status_code == 404
     assert response.json().get("detail") == "Book not found"
+
+def test_delete_all_test_books_unauthorized(mock_db_session):
+    response = client.delete("/books/test", headers={"Authorization": "Bearer invalid_token"})
+    assert response.status_code == 403
+    assert response.json().get("detail") == "You do not have the necessary permissions."
+
+def test_delete_all_test_books_backend_failure(mock_db_session):
+    mock_db_session.query.return_value.filter.return_value.all.return_value = []
+    response = client.delete("/books/test", headers={"Authorization": "Bearer test_manager_token"})
+    assert response.status_code == 500
+    assert response.json().get("detail") == "Backend service is down."
+
+def test_delete_all_test_books_partial_deletion(mock_db_session):
+    mock_db_session.query.return_value.filter.return_value.all.side_effect = Exception("Network interruption")
+    response = client.delete("/books/test", headers={"Authorization": "Bearer test_manager_token"})
+    assert response.status_code == 500
+    assert response.json().get("detail") == "Partial deletion occurred due to network interruption."
