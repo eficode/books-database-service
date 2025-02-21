@@ -3,7 +3,6 @@ from sqlalchemy.orm import Session
 from fastapi_demo.database import get_db
 from fastapi_demo.models import Book
 from fastapi_demo.dependencies import get_current_user, User
-import logging
 
 router = APIRouter()
 
