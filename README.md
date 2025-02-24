@@ -1,39 +1,97 @@
-## Running the Application with Poetry
+# Books Database Service
 
-1. **Install Poetry**: If you haven't installed Poetry yet, you can do so by running the following command in your terminal:
+A modern web application for managing a books database with a beautiful UI and API.
+
+## Features
+
+- RESTful API for managing books
+- Beautiful and responsive user interface
+- Real-time filtering and sorting of books
+- Pagination for large datasets
+- Categorization of books
+
+## Running the Application
+
+### Using Docker (Recommended)
+
+The easiest way to run the application is using Docker Compose:
+
+1. Make sure you have Docker and Docker Compose installed
+2. Clone this repository
+3. Run the following command in the project directory:
+
+```bash
+docker-compose up -d
+```
+
+The application will be available at http://localhost:8000
+
+To stop the application:
+
+```bash
+docker-compose down
+```
+
+### Using Poetry
+
+1. **Install Poetry**:
 
     ```bash
     curl -sSL https://install.python-poetry.org | python3 -
     ```
 
-2. **Clone the Repository**: Clone the repository to your local machine by running the following command in your terminal:
-
-    ```bash
-    git clone <your-repository-url>
-    ```
-
-3. **Install the Dependencies**: Change to the directory where the repository was cloned and run the following command to install the dependencies:
+2. **Install the Dependencies**:
 
     ```bash
     poetry install
     ```
 
-4. **Run the Application**: Run your FastAPI application with the following command:
+3. **Run the Application**:
 
     ```bash
     poetry run dev-server
     ```
 
-Your application should now be running at http://localhost:8000/docs.
+The application will be available at http://localhost:8000
 
-### Tips
+### Using Python virtual environment
 
-**Activate the Virtual Environment**: Run the following command to activate the virtual environment:
+1. **Create and activate a virtual environment**:
 
-    poetry shell
+    ```bash
+    python -m venv .venv
+    source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+    ```
 
-## Run tests
+2. **Install dependencies**:
 
-To run the tests, run the following command:
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-    poetry run pytest
+3. **Run the application**:
+
+    ```bash
+    python server.py
+    ```
+
+The application will be available at http://localhost:8000
+
+## API Documentation
+
+The API documentation is available at http://localhost:8000/docs when the server is running.
+
+## Running Tests
+
+```bash
+python -m pytest
+```
+
+## Database Initialization
+
+To generate sample books data:
+
+```bash
+python scripts/migrate_db.py
+python scripts/generate_books.py
+```

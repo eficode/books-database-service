@@ -1,12 +1,25 @@
 from fastapi import APIRouter, Depends, HTTPException, Body, Path
 from sqlalchemy.orm import Session
+from typing import List
 from ..database import get_db
 from ..models import Book
 from ..dtos import BookCreate, BookInfo
 
-router = APIRouter()
+router = APIRouter(
+    prefix="/books",
+    tags=["books"]
+)
 
-@router.post("/books/", response_model=BookInfo, 
+@router.get("/", response_model=List[BookInfo],
+         summary="Get all books",
+         description="This endpoint retrieves all books from the database",
+         response_description="A list of all books")
+def read_books(db: Session = Depends(get_db)):
+    books = db.query(Book).all()
+    return [BookInfo(**book.__dict__) for book in books]
+
+
+@router.post("/", response_model=BookInfo, 
           summary="Create a new book", 
           description="This endpoint creates a new book with the provided details and returns the book information",
           response_description="The created book's information")
@@ -20,7 +33,7 @@ def create_book(
     return BookInfo(**db_book.__dict__)
 
 
-@router.get("/books/{book_id}", 
+@router.get("/{book_id}", 
          response_model=BookInfo, 
          summary="Read a book", 
          description="This endpoint retrieves the details of a book with the provided ID",
@@ -34,7 +47,10 @@ def read_book(
     return BookInfo(**db_book.__dict__)
 
 
-@router.put("/books/{book_id}", response_model=BookInfo)
+@router.put("/{book_id}", response_model=BookInfo,
+          summary="Update a book",
+          description="This endpoint updates the details of a book with the provided ID",
+          response_description="The updated book's information")
 def update_book(book_id: int, book: BookCreate, db: Session = Depends(get_db)):
     db_book = db.query(Book).filter(Book.id == book_id).first()
     if db_book is None:
@@ -45,7 +61,10 @@ def update_book(book_id: int, book: BookCreate, db: Session = Depends(get_db)):
     db.refresh(db_book)
     return BookInfo(**db_book.__dict__)
 
-@router.delete("/books/{book_id}")
+@router.delete("/{book_id}",
+             summary="Delete a book",
+             description="This endpoint deletes a book with the provided ID",
+             response_description="Confirmation message")
 def delete_book(book_id: int, db: Session = Depends(get_db)):
     db_book = db.query(Book).filter(Book.id == book_id).first()
     if db_book is None:

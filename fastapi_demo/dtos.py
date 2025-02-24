@@ -6,6 +6,7 @@ class BookCreate(BaseModel):
     title: str
     author: str
     pages: int
+    category: str = "Fiction"
 
 class BookInfo(BookCreate):
     id: Optional[int] = None

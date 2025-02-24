@@ -1,0 +1,43 @@
+# Compose specification
+
+services:
+  books-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: books-database-service
+    volumes:
+      - ./data:/app/data  # Persist the database
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=sqlite:///data/books.db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:8000/books/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    
+  # Optional service for initialization
+  initialization:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - books-service
+    volumes:
+      - ./data:/app/data
+    environment:
+      - DATABASE_URL=sqlite:///data/books.db
+    command: >
+      sh -c "
+        # Give the main service time to start
+        sleep 5
+        # Run migrations and load initial data
+        python -c 'import sys, os; sys.path.insert(0, os.path.abspath(\".\")); from fastapi_demo.database import Base, engine; Base.metadata.create_all(bind=engine); print(\"Database initialized\")'
+        python scripts/migrate_db.py
+        python scripts/generate_books.py
+      "
+    restart: on-failure

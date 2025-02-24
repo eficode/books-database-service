@@ -9,3 +9,4 @@ class Book(Base):
     title = Column(String, index=True)
     author = Column(String, index=True)
     pages = Column(Integer)
+    category = Column(String, index=True, default="Fiction")
