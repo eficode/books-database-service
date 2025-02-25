@@ -83,9 +83,53 @@ The API documentation is available at http://localhost:8000/docs when the server
 
 ## Running Tests
 
+### API Tests
+
+Run all API tests:
+
 ```bash
-python -m pytest
+poetry run pytest
 ```
+
+Run tests with verbose output:
+
+```bash
+poetry run pytest -v
+```
+
+Run a specific test:
+
+```bash
+poetry run pytest tests/test_books.py::test_create_book -v
+```
+
+### UI Tests with Robot Framework
+
+First, initialize the Browser library (only needed once):
+
+```bash
+poetry run python -m Browser.entry init
+```
+
+Run all Robot Framework UI tests:
+
+```bash
+poetry run robot --outputdir robot_results robot_tests/
+```
+
+Run a specific Robot test:
+
+```bash
+poetry run robot --outputdir robot_results -t "User Can Open Books UI" robot_tests/
+```
+
+Or use the provided script to run all UI tests:
+
+```bash
+./scripts/run_robot_tests.sh
+```
+
+The Robot Framework tests handle Docker automatically: they start the application with `docker-compose up` and clean up with `docker-compose down` when tests are complete.
 
 ## Database Initialization
 

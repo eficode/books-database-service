@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 6.1.1 (Python 3.13.2 on darwin)" generated="20250225 12:46:53.908" rpa="false" schemaversion="4">
+<suite id="s1" name="Robot Tests" source="/Users/kallemakela/books-database-service/robot_tests">
+<suite id="s1-s1" name="Books Ui" source="/Users/kallemakela/books-database-service/robot_tests/books_ui.robot">
+<kw name="Setup Test Environment" library="common" type="SETUP">
+<kw name="Run Process" library="Process">
+<arg>docker compose up -d</arg>
+<arg>shell=True</arg>
+<doc>Runs a process and waits for it to complete.</doc>
+<msg timestamp="20250225 12:46:53.967" level="INFO">Starting process:
+docker compose up -d</msg>
+<msg timestamp="20250225 12:46:53.968" level="INFO">Waiting for process to complete.</msg>
+<msg timestamp="20250225 12:46:54.274" level="INFO">Process completed.</msg>
+<status status="PASS" starttime="20250225 12:46:53.967" endtime="20250225 12:46:54.275"/>
+</kw>
+<kw name="Wait Until Keyword Succeeds" library="BuiltIn">
+<arg>${DOCKER_UP_TIMEOUT}</arg>
+<arg>2s</arg>
+<arg>Check Service Available</arg>
+<doc>Runs the specified keyword and retries if it fails.</doc>
+<kw name="Check Service Available" library="common">
+<kw name="New Browser" library="Browser">
+<arg>browser=${BROWSER}</arg>
+<arg>headless=${HEADLESS}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Create a new playwright Browser with specified options.</doc>
+<msg timestamp="20250225 12:46:54.278" level="INFO">{"browser": "chromium", "headless": true, "chromiumSandbox": false, "devtools": false, "handleSIGHUP": true, "handleSIGINT": true, "handleSIGTERM": true, "slowMo": 0.0, "timeout": 30000.0, "tracesDir": "/Users/kallemakela/books-database-service/robot_results/browser/traces/temp/60207e7d-a32c-495e-9a49-6051fcb8b474"}</msg>
+<msg timestamp="20250225 12:46:54.296" level="INFO">Starting Browser process /Users/kallemakela/books-database-service/.venv/lib/python3.13/site-packages/Browser/wrapper/index.js using port 59748</msg>
+<msg timestamp="20250225 12:46:54.297" level="INFO">Node startup parameters: ['node', '/Users/kallemakela/books-database-service/.venv/lib/python3.13/site-packages/Browser/wrapper/index.js', '59748']</msg>
+<msg timestamp="20250225 12:46:55.628" level="INFO">Successfully created browser with options: {"browser":"chromium","headless":true,"chromiumSandbox":false,"devtools":false,"handleSIGHUP":true,"handleSIGINT":true,"handleSIGTERM":true,"slowMo":0,"timeout":30000,"tracesDir":"/Users/kallemakela/books-database-service/robot_results/browser/traces/temp/60207e7d-a32c-495e-9a49-6051fcb8b474"}</msg>
+<status status="PASS" starttime="20250225 12:46:54.277" endtime="20250225 12:46:55.629"/>
+</kw>
+<kw name="New Page" library="Browser">
+<arg>${BASE_URL}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Open a new Page.</doc>
+<msg timestamp="20250225 12:46:56.163" level="INFO">Successfully initialized new page object and opened url: http://localhost:8000</msg>
+<msg timestamp="20250225 12:46:56.163" level="INFO">No context was open. New context was automatically opened when this page is created.</msg>
+<status status="PASS" starttime="20250225 12:46:55.629" endtime="20250225 12:46:56.163"/>
+</kw>
+<kw name="Wait For Elements State" library="Browser">
+<arg>h1:has-text("Books Library")</arg>
+<arg>visible</arg>
+<arg>${TIMEOUT}</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<msg timestamp="20250225 12:46:56.190" level="INFO">Waited for Element with selector h1:has-text("Books Library") at state visible</msg>
+<status status="PASS" starttime="20250225 12:46:56.164" endtime="20250225 12:46:56.190"/>
+</kw>
+<kw name="Close Browser" library="Browser">
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Closes the current browser.</doc>
+<msg timestamp="20250225 12:46:56.210" level="INFO">Closed browser</msg>
+<status status="PASS" starttime="20250225 12:46:56.190" endtime="20250225 12:46:56.210"/>
+</kw>
+<status status="PASS" starttime="20250225 12:46:54.277" endtime="20250225 12:46:56.210"/>
+</kw>
+<status status="PASS" starttime="20250225 12:46:54.275" endtime="20250225 12:46:56.210"/>
+</kw>
+<kw name="Open Books Application" library="common">
+<kw name="New Browser" library="Browser">
+<arg>browser=${BROWSER}</arg>
+<arg>headless=${HEADLESS}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Create a new playwright Browser with specified options.</doc>
+<msg timestamp="20250225 12:46:56.211" level="INFO">{"browser": "chromium", "headless": true, "chromiumSandbox": false, "devtools": false, "handleSIGHUP": true, "handleSIGINT": true, "handleSIGTERM": true, "slowMo": 0.0, "timeout": 30000.0, "tracesDir": "/Users/kallemakela/books-database-service/robot_results/browser/traces/temp/2a99d253-3996-41b9-a466-8a2713d1966d"}</msg>
+<msg timestamp="20250225 12:46:56.270" level="INFO">Successfully created browser with options: {"browser":"chromium","headless":true,"chromiumSandbox":false,"devtools":false,"handleSIGHUP":true,"handleSIGINT":true,"handleSIGTERM":true,"slowMo":0,"timeout":30000,"tracesDir":"/Users/kallemakela/books-database-service/robot_results/browser/traces/temp/2a99d253-3996-41b9-a466-8a2713d1966d"}</msg>
+<status status="PASS" starttime="20250225 12:46:56.210" endtime="20250225 12:46:56.270"/>
+</kw>
+<kw name="New Page" library="Browser">
+<arg>${BASE_URL}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Open a new Page.</doc>
+<msg timestamp="20250225 12:46:56.806" level="INFO">Successfully initialized new page object and opened url: http://localhost:8000</msg>
+<msg timestamp="20250225 12:46:56.806" level="INFO">No context was open. New context was automatically opened when this page is created.</msg>
+<status status="PASS" starttime="20250225 12:46:56.270" endtime="20250225 12:46:56.807"/>
+</kw>
+<kw name="Wait For Elements State" library="Browser">
+<arg>h1:has-text("Books Library")</arg>
+<arg>visible</arg>
+<arg>${TIMEOUT}</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<msg timestamp="20250225 12:46:56.829" level="INFO">Waited for Element with selector h1:has-text("Books Library") at state visible</msg>
+<status status="PASS" starttime="20250225 12:46:56.807" endtime="20250225 12:46:56.829"/>
+</kw>
+<status status="PASS" starttime="20250225 12:46:56.210" endtime="20250225 12:46:56.829"/>
+</kw>
+<status status="PASS" starttime="20250225 12:46:53.966" endtime="20250225 12:46:56.829"/>
+</kw>
+<test id="s1-s1-t1" name="User Can Open Books UI" line="15">
+<kw name="Given I Open The Books Application" library="common">
+<kw name="No Operation" library="BuiltIn">
+<doc>Does absolutely nothing.</doc>
+<status status="PASS" starttime="20250225 12:46:56.833" endtime="20250225 12:46:56.833"/>
+</kw>
+<status status="PASS" starttime="20250225 12:46:56.833" endtime="20250225 12:46:56.833"/>
+</kw>
+<kw name="Then I Should See The Books Library Title" library="common">
+<kw name="Wait For Elements State" library="Browser">
+<arg>h1:has-text("Books Library")</arg>
+<arg>visible</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<msg timestamp="20250225 12:46:56.837" level="INFO">Waited for Element with selector h1:has-text("Books Library") at state visible</msg>
+<status status="PASS" starttime="20250225 12:46:56.834" endtime="20250225 12:46:56.837"/>
+</kw>
+<status status="PASS" starttime="20250225 12:46:56.833" endtime="20250225 12:46:56.837"/>
+</kw>
+<kw name="And I Should See The Add Book Button" library="common">
+<kw name="Wait For Elements State" library="Browser">
+<arg>text=Add a New Book</arg>
+<arg>visible</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<msg timestamp="20250225 12:46:56.842" level="INFO">Waited for Element with selector text=Add a New Book at state visible</msg>
+<status status="PASS" starttime="20250225 12:46:56.837" endtime="20250225 12:46:56.842"/>
+</kw>
+<status status="PASS" starttime="20250225 12:46:56.837" endtime="20250225 12:46:56.842"/>
+</kw>
+<kw name="And I Should See The Books List Section" library="common">
+<kw name="Wait For Elements State" library="Browser">
+<arg>text=Your Books</arg>
+<arg>visible</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<msg timestamp="20250225 12:46:56.847" level="INFO">Waited for Element with selector text=Your Books at state visible</msg>
+<status status="PASS" starttime="20250225 12:46:56.842" endtime="20250225 12:46:56.847"/>
+</kw>
+<status status="PASS" starttime="20250225 12:46:56.842" endtime="20250225 12:46:56.847"/>
+</kw>
+<doc>Verify that the Books UI loads correctly</doc>
+<tag>browser</tag>
+<tag>smoke</tag>
+<tag>ui</tag>
+<status status="PASS" starttime="20250225 12:46:56.829" endtime="20250225 12:46:56.847"/>
+</test>
+<kw name="Teardown Test Environment" library="common" type="TEARDOWN">
+<kw name="Close Books Application" library="common">
+<kw name="Close Browser" library="Browser">
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Closes the current browser.</doc>
+<msg timestamp="20250225 12:46:56.862" level="INFO">Closed browser</msg>
+<status status="PASS" starttime="20250225 12:46:56.850" endtime="20250225 12:46:56.862"/>
+</kw>
+<status status="PASS" starttime="20250225 12:46:56.850" endtime="20250225 12:46:56.862"/>
+</kw>
+<kw name="Run Process" library="Process">
+<arg>docker compose down</arg>
+<arg>shell=True</arg>
+<doc>Runs a process and waits for it to complete.</doc>
+<msg timestamp="20250225 12:46:56.862" level="INFO">Starting process:
+docker compose down</msg>
+<msg timestamp="20250225 12:46:56.866" level="INFO">Waiting for process to complete.</msg>
+<msg timestamp="20250225 12:47:00.339" level="INFO">Process completed.</msg>
+<status status="PASS" starttime="20250225 12:46:56.862" endtime="20250225 12:47:00.339"/>
+</kw>
+<status status="PASS" starttime="20250225 12:46:56.850" endtime="20250225 12:47:00.339"/>
+</kw>
+<doc>UI Tests for Books Database Service</doc>
+<status status="PASS" starttime="20250225 12:46:53.916" endtime="20250225 12:47:00.339"/>
+</suite>
+<status status="PASS" starttime="20250225 12:46:53.909" endtime="20250225 12:47:00.348"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+<stat pass="1" fail="0" skip="0">browser</stat>
+<stat pass="1" fail="0" skip="0">smoke</stat>
+<stat pass="1" fail="0" skip="0">ui</stat>
+</tag>
+<suite>
+<stat pass="1" fail="0" skip="0" id="s1" name="Robot Tests">Robot Tests</stat>
+<stat pass="1" fail="0" skip="0" id="s1-s1" name="Books Ui">Robot Tests.Books Ui</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

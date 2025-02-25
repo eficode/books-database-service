@@ -1,0 +1,65 @@
+{"level":30,"time":"2025-02-25T10:46:54.459Z","pid":14408,"hostname":"Mac","msg":"Listening on 59748"}
+(node:14408) DeprecationWarning: Calling start() is no longer necessary. It can be safely omitted.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+{"level":30,"time":"2025-02-25T10:46:55.528Z","pid":14408,"hostname":"Mac","msg":"Start of node method newBrowser"}
+{"level":30,"time":"2025-02-25T10:46:55.627Z","pid":14408,"hostname":"Mac","msg":"Adding browser to stack: chromium, version: 133.0.6943.16"}
+{"level":30,"time":"2025-02-25T10:46:55.627Z","pid":14408,"hostname":"Mac","msg":"End of node method newBrowser"}
+{"level":30,"time":"2025-02-25T10:46:55.627Z","pid":14408,"hostname":"Mac","msg":"Adding 0 contexts to browser"}
+{"level":30,"time":"2025-02-25T10:46:55.631Z","pid":14408,"hostname":"Mac","msg":"Start of node method newPage"}
+{"level":30,"time":"2025-02-25T10:46:55.631Z","pid":14408,"hostname":"Mac","msg":"currentBrowser: [object Object]"}
+{"level":30,"time":"2025-02-25T10:46:55.634Z","pid":14408,"hostname":"Mac","msg":"Changed active context"}
+{"level":30,"time":"2025-02-25T10:46:55.683Z","pid":14408,"hostname":"Mac","msg":"Video path: undefined"}
+{"level":30,"time":"2025-02-25T10:46:55.683Z","pid":14408,"hostname":"Mac","msg":"Changed active page"}
+{"level":30,"time":"2025-02-25T10:46:56.161Z","pid":14408,"hostname":"Mac","msg":"End of node method newPage"}
+{"level":30,"time":"2025-02-25T10:46:56.166Z","pid":14408,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T10:46:56.166Z","pid":14408,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with h1:has-text(\"Books Library\") in page."}
+{"level":30,"time":"2025-02-25T10:46:56.189Z","pid":14408,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T10:46:56.191Z","pid":14408,"hostname":"Mac","msg":"Start of node method closeBrowser"}
+{"level":30,"time":"2025-02-25T10:46:56.193Z","pid":14408,"hostname":"Mac","msg":"Removed page=4693e822-6b2f-491b-8c86-e20def857e12 from context=3adc711f-45ef-4437-a30f-174fd4ec4198 page stack"}
+{"level":30,"time":"2025-02-25T10:46:56.209Z","pid":14408,"hostname":"Mac","msg":"End of node method closeBrowser"}
+{"level":30,"time":"2025-02-25T10:46:56.211Z","pid":14408,"hostname":"Mac","msg":"Start of node method newBrowser"}
+{"level":30,"time":"2025-02-25T10:46:56.269Z","pid":14408,"hostname":"Mac","msg":"Adding browser to stack: chromium, version: 133.0.6943.16"}
+{"level":30,"time":"2025-02-25T10:46:56.269Z","pid":14408,"hostname":"Mac","msg":"End of node method newBrowser"}
+{"level":30,"time":"2025-02-25T10:46:56.269Z","pid":14408,"hostname":"Mac","msg":"Adding 0 contexts to browser"}
+{"level":30,"time":"2025-02-25T10:46:56.271Z","pid":14408,"hostname":"Mac","msg":"Start of node method newPage"}
+{"level":30,"time":"2025-02-25T10:46:56.271Z","pid":14408,"hostname":"Mac","msg":"currentBrowser: [object Object]"}
+{"level":30,"time":"2025-02-25T10:46:56.272Z","pid":14408,"hostname":"Mac","msg":"Changed active context"}
+{"level":30,"time":"2025-02-25T10:46:56.315Z","pid":14408,"hostname":"Mac","msg":"Video path: undefined"}
+{"level":30,"time":"2025-02-25T10:46:56.315Z","pid":14408,"hostname":"Mac","msg":"Changed active page"}
+{"level":30,"time":"2025-02-25T10:46:56.804Z","pid":14408,"hostname":"Mac","msg":"End of node method newPage"}
+{"level":30,"time":"2025-02-25T10:46:56.809Z","pid":14408,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T10:46:56.809Z","pid":14408,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with h1:has-text(\"Books Library\") in page."}
+{"level":30,"time":"2025-02-25T10:46:56.828Z","pid":14408,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T10:46:56.830Z","pid":14408,"hostname":"Mac","msg":"Start of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T10:46:56.831Z","pid":14408,"hostname":"Mac","msg":"End of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T10:46:56.834Z","pid":14408,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T10:46:56.834Z","pid":14408,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with h1:has-text(\"Books Library\") in page."}
+{"level":30,"time":"2025-02-25T10:46:56.836Z","pid":14408,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T10:46:56.837Z","pid":14408,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T10:46:56.837Z","pid":14408,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with text=Add a New Book in page."}
+{"level":30,"time":"2025-02-25T10:46:56.841Z","pid":14408,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T10:46:56.843Z","pid":14408,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T10:46:56.843Z","pid":14408,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with text=Your Books in page."}
+{"level":30,"time":"2025-02-25T10:46:56.846Z","pid":14408,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T10:46:56.848Z","pid":14408,"hostname":"Mac","msg":"Start of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T10:46:56.849Z","pid":14408,"hostname":"Mac","msg":"End of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T10:46:56.850Z","pid":14408,"hostname":"Mac","msg":"Start of node method closeBrowser"}
+{"level":30,"time":"2025-02-25T10:46:56.851Z","pid":14408,"hostname":"Mac","msg":"Removed page=988b094b-7429-4e08-8fe4-78379aa2d63c from context=5b626171-1037-4233-9f8f-94f6a66c0a47 page stack"}
+{"level":30,"time":"2025-02-25T10:46:56.861Z","pid":14408,"hostname":"Mac","msg":"End of node method closeBrowser"}
+================= Original suppressed error =================
+Error: Browser has been closed.
+    at PlaywrightState.getActiveBrowser (/Users/kallemakela/books-database-service/.venv/lib/python3.13/site-packages/Browser/wrapper/index.js:12223:15)
+    at PlaywrightServer.getActiveBrowser (/Users/kallemakela/books-database-service/.venv/lib/python3.13/site-packages/Browser/wrapper/index.js:13119:59)
+    at PlaywrightServer.setTimeout (/Users/kallemakela/books-database-service/.venv/lib/python3.13/site-packages/Browser/wrapper/index.js:13367:57)
+    at Object.onReceiveHalfClose (/Users/kallemakela/books-database-service/.venv/lib/python3.13/site-packages/Browser/wrapper/node_modules/@grpc/grpc-js/build/src/server.js:1425:25)
+    at BaseServerInterceptingCall.maybePushNextMessage (/Users/kallemakela/books-database-service/.venv/lib/python3.13/site-packages/Browser/wrapper/node_modules/@grpc/grpc-js/build/src/server-interceptors.js:570:31)
+    at BaseServerInterceptingCall.handleEndEvent (/Users/kallemakela/books-database-service/.venv/lib/python3.13/site-packages/Browser/wrapper/node_modules/@grpc/grpc-js/build/src/server-interceptors.js:610:14)
+    at ServerHttp2Stream.<anonymous> (/Users/kallemakela/books-database-service/.venv/lib/python3.13/site-packages/Browser/wrapper/node_modules/@grpc/grpc-js/build/src/server-interceptors.js:377:18)
+    at ServerHttp2Stream.emit (node:events:519:35)
+    at endReadableNT (node:internal/streams/readable:1696:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+=============================================================
+{"level":30,"time":"2025-02-25T10:47:00.346Z","pid":14408,"hostname":"Mac","msg":"Start of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T10:47:00.346Z","pid":14408,"hostname":"Mac","msg":"End of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T10:47:00.368Z","pid":14408,"hostname":"Mac","msg":"Start of node method closeAllBrowsers"}
+{"level":30,"time":"2025-02-25T10:47:00.368Z","pid":14408,"hostname":"Mac","msg":"End of node method closeAllBrowsers"}
