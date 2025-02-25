@@ -1,51 +1,423 @@
-{"level":30,"time":"2025-02-25T10:46:54.459Z","pid":14408,"hostname":"Mac","msg":"Listening on 59748"}
-(node:14408) DeprecationWarning: Calling start() is no longer necessary. It can be safely omitted.
+{"level":30,"time":"2025-02-25T11:11:01.019Z","pid":23876,"hostname":"Mac","msg":"Listening on 64549"}
+(node:23876) DeprecationWarning: Calling start() is no longer necessary. It can be safely omitted.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-{"level":30,"time":"2025-02-25T10:46:55.528Z","pid":14408,"hostname":"Mac","msg":"Start of node method newBrowser"}
-{"level":30,"time":"2025-02-25T10:46:55.627Z","pid":14408,"hostname":"Mac","msg":"Adding browser to stack: chromium, version: 133.0.6943.16"}
-{"level":30,"time":"2025-02-25T10:46:55.627Z","pid":14408,"hostname":"Mac","msg":"End of node method newBrowser"}
-{"level":30,"time":"2025-02-25T10:46:55.627Z","pid":14408,"hostname":"Mac","msg":"Adding 0 contexts to browser"}
-{"level":30,"time":"2025-02-25T10:46:55.631Z","pid":14408,"hostname":"Mac","msg":"Start of node method newPage"}
-{"level":30,"time":"2025-02-25T10:46:55.631Z","pid":14408,"hostname":"Mac","msg":"currentBrowser: [object Object]"}
-{"level":30,"time":"2025-02-25T10:46:55.634Z","pid":14408,"hostname":"Mac","msg":"Changed active context"}
-{"level":30,"time":"2025-02-25T10:46:55.683Z","pid":14408,"hostname":"Mac","msg":"Video path: undefined"}
-{"level":30,"time":"2025-02-25T10:46:55.683Z","pid":14408,"hostname":"Mac","msg":"Changed active page"}
-{"level":30,"time":"2025-02-25T10:46:56.161Z","pid":14408,"hostname":"Mac","msg":"End of node method newPage"}
-{"level":30,"time":"2025-02-25T10:46:56.166Z","pid":14408,"hostname":"Mac","msg":"Start of node method waitForElementState"}
-{"level":30,"time":"2025-02-25T10:46:56.166Z","pid":14408,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with h1:has-text(\"Books Library\") in page."}
-{"level":30,"time":"2025-02-25T10:46:56.189Z","pid":14408,"hostname":"Mac","msg":"End of node method waitForElementState"}
-{"level":30,"time":"2025-02-25T10:46:56.191Z","pid":14408,"hostname":"Mac","msg":"Start of node method closeBrowser"}
-{"level":30,"time":"2025-02-25T10:46:56.193Z","pid":14408,"hostname":"Mac","msg":"Removed page=4693e822-6b2f-491b-8c86-e20def857e12 from context=3adc711f-45ef-4437-a30f-174fd4ec4198 page stack"}
-{"level":30,"time":"2025-02-25T10:46:56.209Z","pid":14408,"hostname":"Mac","msg":"End of node method closeBrowser"}
-{"level":30,"time":"2025-02-25T10:46:56.211Z","pid":14408,"hostname":"Mac","msg":"Start of node method newBrowser"}
-{"level":30,"time":"2025-02-25T10:46:56.269Z","pid":14408,"hostname":"Mac","msg":"Adding browser to stack: chromium, version: 133.0.6943.16"}
-{"level":30,"time":"2025-02-25T10:46:56.269Z","pid":14408,"hostname":"Mac","msg":"End of node method newBrowser"}
-{"level":30,"time":"2025-02-25T10:46:56.269Z","pid":14408,"hostname":"Mac","msg":"Adding 0 contexts to browser"}
-{"level":30,"time":"2025-02-25T10:46:56.271Z","pid":14408,"hostname":"Mac","msg":"Start of node method newPage"}
-{"level":30,"time":"2025-02-25T10:46:56.271Z","pid":14408,"hostname":"Mac","msg":"currentBrowser: [object Object]"}
-{"level":30,"time":"2025-02-25T10:46:56.272Z","pid":14408,"hostname":"Mac","msg":"Changed active context"}
-{"level":30,"time":"2025-02-25T10:46:56.315Z","pid":14408,"hostname":"Mac","msg":"Video path: undefined"}
-{"level":30,"time":"2025-02-25T10:46:56.315Z","pid":14408,"hostname":"Mac","msg":"Changed active page"}
-{"level":30,"time":"2025-02-25T10:46:56.804Z","pid":14408,"hostname":"Mac","msg":"End of node method newPage"}
-{"level":30,"time":"2025-02-25T10:46:56.809Z","pid":14408,"hostname":"Mac","msg":"Start of node method waitForElementState"}
-{"level":30,"time":"2025-02-25T10:46:56.809Z","pid":14408,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with h1:has-text(\"Books Library\") in page."}
-{"level":30,"time":"2025-02-25T10:46:56.828Z","pid":14408,"hostname":"Mac","msg":"End of node method waitForElementState"}
-{"level":30,"time":"2025-02-25T10:46:56.830Z","pid":14408,"hostname":"Mac","msg":"Start of node method getBrowserCatalog"}
-{"level":30,"time":"2025-02-25T10:46:56.831Z","pid":14408,"hostname":"Mac","msg":"End of node method getBrowserCatalog"}
-{"level":30,"time":"2025-02-25T10:46:56.834Z","pid":14408,"hostname":"Mac","msg":"Start of node method waitForElementState"}
-{"level":30,"time":"2025-02-25T10:46:56.834Z","pid":14408,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with h1:has-text(\"Books Library\") in page."}
-{"level":30,"time":"2025-02-25T10:46:56.836Z","pid":14408,"hostname":"Mac","msg":"End of node method waitForElementState"}
-{"level":30,"time":"2025-02-25T10:46:56.837Z","pid":14408,"hostname":"Mac","msg":"Start of node method waitForElementState"}
-{"level":30,"time":"2025-02-25T10:46:56.837Z","pid":14408,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with text=Add a New Book in page."}
-{"level":30,"time":"2025-02-25T10:46:56.841Z","pid":14408,"hostname":"Mac","msg":"End of node method waitForElementState"}
-{"level":30,"time":"2025-02-25T10:46:56.843Z","pid":14408,"hostname":"Mac","msg":"Start of node method waitForElementState"}
-{"level":30,"time":"2025-02-25T10:46:56.843Z","pid":14408,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with text=Your Books in page."}
-{"level":30,"time":"2025-02-25T10:46:56.846Z","pid":14408,"hostname":"Mac","msg":"End of node method waitForElementState"}
-{"level":30,"time":"2025-02-25T10:46:56.848Z","pid":14408,"hostname":"Mac","msg":"Start of node method getBrowserCatalog"}
-{"level":30,"time":"2025-02-25T10:46:56.849Z","pid":14408,"hostname":"Mac","msg":"End of node method getBrowserCatalog"}
-{"level":30,"time":"2025-02-25T10:46:56.850Z","pid":14408,"hostname":"Mac","msg":"Start of node method closeBrowser"}
-{"level":30,"time":"2025-02-25T10:46:56.851Z","pid":14408,"hostname":"Mac","msg":"Removed page=988b094b-7429-4e08-8fe4-78379aa2d63c from context=5b626171-1037-4233-9f8f-94f6a66c0a47 page stack"}
-{"level":30,"time":"2025-02-25T10:46:56.861Z","pid":14408,"hostname":"Mac","msg":"End of node method closeBrowser"}
+{"level":30,"time":"2025-02-25T11:11:02.106Z","pid":23876,"hostname":"Mac","msg":"Start of node method newBrowser"}
+{"level":30,"time":"2025-02-25T11:11:03.421Z","pid":23876,"hostname":"Mac","msg":"Adding browser to stack: chromium, version: 133.0.6943.16"}
+{"level":30,"time":"2025-02-25T11:11:03.421Z","pid":23876,"hostname":"Mac","msg":"End of node method newBrowser"}
+{"level":30,"time":"2025-02-25T11:11:03.421Z","pid":23876,"hostname":"Mac","msg":"Adding 0 contexts to browser"}
+{"level":30,"time":"2025-02-25T11:11:03.424Z","pid":23876,"hostname":"Mac","msg":"Start of node method newPage"}
+{"level":30,"time":"2025-02-25T11:11:03.424Z","pid":23876,"hostname":"Mac","msg":"currentBrowser: [object Object]"}
+{"level":30,"time":"2025-02-25T11:11:03.427Z","pid":23876,"hostname":"Mac","msg":"Changed active context"}
+{"level":30,"time":"2025-02-25T11:11:03.743Z","pid":23876,"hostname":"Mac","msg":"Video path: undefined"}
+{"level":30,"time":"2025-02-25T11:11:03.744Z","pid":23876,"hostname":"Mac","msg":"Changed active page"}
+{"level":30,"time":"2025-02-25T11:11:04.547Z","pid":23876,"hostname":"Mac","msg":"End of node method newPage"}
+{"level":30,"time":"2025-02-25T11:11:04.554Z","pid":23876,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:04.554Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with h1:has-text(\"Books Library\") in page."}
+{"level":30,"time":"2025-02-25T11:11:04.578Z","pid":23876,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:04.580Z","pid":23876,"hostname":"Mac","msg":"Start of node method closeBrowser"}
+{"level":30,"time":"2025-02-25T11:11:04.582Z","pid":23876,"hostname":"Mac","msg":"Removed page=54abe00b-28b4-4d55-bca6-51cc53d475ee from context=71f9cfdc-e9e3-4322-b270-2ae8b6def5c5 page stack"}
+{"level":30,"time":"2025-02-25T11:11:04.596Z","pid":23876,"hostname":"Mac","msg":"End of node method closeBrowser"}
+{"level":30,"time":"2025-02-25T11:11:04.598Z","pid":23876,"hostname":"Mac","msg":"Start of node method newBrowser"}
+{"level":30,"time":"2025-02-25T11:11:04.663Z","pid":23876,"hostname":"Mac","msg":"Adding browser to stack: chromium, version: 133.0.6943.16"}
+{"level":30,"time":"2025-02-25T11:11:04.664Z","pid":23876,"hostname":"Mac","msg":"End of node method newBrowser"}
+{"level":30,"time":"2025-02-25T11:11:04.664Z","pid":23876,"hostname":"Mac","msg":"Adding 0 contexts to browser"}
+{"level":30,"time":"2025-02-25T11:11:04.665Z","pid":23876,"hostname":"Mac","msg":"Start of node method newPage"}
+{"level":30,"time":"2025-02-25T11:11:04.665Z","pid":23876,"hostname":"Mac","msg":"currentBrowser: [object Object]"}
+{"level":30,"time":"2025-02-25T11:11:04.667Z","pid":23876,"hostname":"Mac","msg":"Changed active context"}
+{"level":30,"time":"2025-02-25T11:11:04.710Z","pid":23876,"hostname":"Mac","msg":"Video path: undefined"}
+{"level":30,"time":"2025-02-25T11:11:04.710Z","pid":23876,"hostname":"Mac","msg":"Changed active page"}
+{"level":30,"time":"2025-02-25T11:11:05.254Z","pid":23876,"hostname":"Mac","msg":"End of node method newPage"}
+{"level":30,"time":"2025-02-25T11:11:05.261Z","pid":23876,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:05.261Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with h1:has-text(\"Books Library\") in page."}
+{"level":30,"time":"2025-02-25T11:11:05.280Z","pid":23876,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:05.283Z","pid":23876,"hostname":"Mac","msg":"Start of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T11:11:05.284Z","pid":23876,"hostname":"Mac","msg":"End of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T11:11:05.286Z","pid":23876,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:05.286Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with h1:has-text(\"Books Library\") in page."}
+{"level":30,"time":"2025-02-25T11:11:05.289Z","pid":23876,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:05.290Z","pid":23876,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:05.290Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with text=Add a New Book in page."}
+{"level":30,"time":"2025-02-25T11:11:05.293Z","pid":23876,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:05.295Z","pid":23876,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:05.295Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with text=Your Books in page."}
+{"level":30,"time":"2025-02-25T11:11:05.296Z","pid":23876,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:05.299Z","pid":23876,"hostname":"Mac","msg":"Start of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T11:11:05.299Z","pid":23876,"hostname":"Mac","msg":"End of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T11:11:05.300Z","pid":23876,"hostname":"Mac","msg":"Start of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T11:11:05.300Z","pid":23876,"hostname":"Mac","msg":"End of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T11:11:05.303Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:05.303Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=title in page."}
+{"level":30,"time":"2025-02-25T11:11:05.320Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:05.322Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:05.322Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=author in page."}
+{"level":30,"time":"2025-02-25T11:11:05.324Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:05.325Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:05.325Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=pages in page."}
+{"level":30,"time":"2025-02-25T11:11:05.327Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:05.328Z","pid":23876,"hostname":"Mac","msg":"Start of node method selectOption"}
+{"level":30,"time":"2025-02-25T11:11:05.328Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=category in page."}
+{"level":30,"time":"2025-02-25T11:11:05.337Z","pid":23876,"hostname":"Mac","msg":"Option entries: 20"}
+{"level":30,"time":"2025-02-25T11:11:05.337Z","pid":23876,"hostname":"Mac","msg":"End of node method selectOption"}
+{"level":30,"time":"2025-02-25T11:11:05.337Z","pid":23876,"hostname":"Mac","msg":"Selected entries: 1"}
+{"level":30,"time":"2025-02-25T11:11:05.339Z","pid":23876,"hostname":"Mac","msg":"Start of node method click"}
+{"level":30,"time":"2025-02-25T11:11:05.339Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with button:has-text(\"Add Book\") in page."}
+{"level":30,"time":"2025-02-25T11:11:05.368Z","pid":23876,"hostname":"Mac","msg":"End of node method click"}
+{"level":30,"time":"2025-02-25T11:11:05.369Z","pid":23876,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:05.369Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with .notification.success in page."}
+{"level":30,"time":"2025-02-25T11:11:05.391Z","pid":23876,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:05.393Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:05.393Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=search-input in page."}
+{"level":30,"time":"2025-02-25T11:11:05.395Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:05.396Z","pid":23876,"hostname":"Mac","msg":"Start of node method click"}
+{"level":30,"time":"2025-02-25T11:11:05.396Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=search-btn in page."}
+{"level":30,"time":"2025-02-25T11:11:05.419Z","pid":23876,"hostname":"Mac","msg":"End of node method click"}
+{"level":30,"time":"2025-02-25T11:11:05.424Z","pid":23876,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:05.424Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with .book-card h3:has-text(\"Robot Test Book 65362391\") in page."}
+{"level":30,"time":"2025-02-25T11:11:05.709Z","pid":23876,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:05.713Z","pid":23876,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:05.713Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with .book-card:has(.book-title:has-text(\"Robot Test Book 65362391\")) p:has-text(\"by Test Author 65362391\") in page."}
+{"level":30,"time":"2025-02-25T11:11:05.717Z","pid":23876,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:05.721Z","pid":23876,"hostname":"Mac","msg":"Start of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T11:11:05.722Z","pid":23876,"hostname":"Mac","msg":"End of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T11:11:05.724Z","pid":23876,"hostname":"Mac","msg":"Start of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T11:11:05.725Z","pid":23876,"hostname":"Mac","msg":"End of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T11:11:05.729Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:05.729Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=title in page."}
+{"level":30,"time":"2025-02-25T11:11:05.733Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:05.735Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:05.735Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=author in page."}
+{"level":30,"time":"2025-02-25T11:11:05.738Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:05.739Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:05.739Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=pages in page."}
+{"level":30,"time":"2025-02-25T11:11:05.742Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:05.743Z","pid":23876,"hostname":"Mac","msg":"Start of node method selectOption"}
+{"level":30,"time":"2025-02-25T11:11:05.743Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=category in page."}
+{"level":30,"time":"2025-02-25T11:11:05.749Z","pid":23876,"hostname":"Mac","msg":"Option entries: 20"}
+{"level":30,"time":"2025-02-25T11:11:05.749Z","pid":23876,"hostname":"Mac","msg":"End of node method selectOption"}
+{"level":30,"time":"2025-02-25T11:11:05.749Z","pid":23876,"hostname":"Mac","msg":"Selected entries: 1"}
+{"level":30,"time":"2025-02-25T11:11:05.750Z","pid":23876,"hostname":"Mac","msg":"Start of node method click"}
+{"level":30,"time":"2025-02-25T11:11:05.750Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with button:has-text(\"Add Book\") in page."}
+{"level":30,"time":"2025-02-25T11:11:05.783Z","pid":23876,"hostname":"Mac","msg":"End of node method click"}
+{"level":30,"time":"2025-02-25T11:11:05.785Z","pid":23876,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:05.785Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with .notification.success in page."}
+{"level":30,"time":"2025-02-25T11:11:05.787Z","pid":23876,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:05.789Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:05.789Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=search-input in page."}
+{"level":30,"time":"2025-02-25T11:11:05.792Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:05.794Z","pid":23876,"hostname":"Mac","msg":"Start of node method click"}
+{"level":30,"time":"2025-02-25T11:11:05.794Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=search-btn in page."}
+{"level":30,"time":"2025-02-25T11:11:05.821Z","pid":23876,"hostname":"Mac","msg":"End of node method click"}
+{"level":30,"time":"2025-02-25T11:11:05.823Z","pid":23876,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:05.823Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with .book-card h3.book-title:has-text(\"Test Book 9246\") in page."}
+{"level":30,"time":"2025-02-25T11:11:05.824Z","pid":23876,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:05.825Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:05.825Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=search-input in page."}
+{"level":30,"time":"2025-02-25T11:11:05.827Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:05.828Z","pid":23876,"hostname":"Mac","msg":"Start of node method click"}
+{"level":30,"time":"2025-02-25T11:11:05.828Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=search-btn in page."}
+{"level":30,"time":"2025-02-25T11:11:05.850Z","pid":23876,"hostname":"Mac","msg":"End of node method click"}
+{"level":30,"time":"2025-02-25T11:11:05.851Z","pid":23876,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:05.851Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with text=No books found in page."}
+{"level":30,"time":"2025-02-25T11:11:05.852Z","pid":23876,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:05.853Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:05.853Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=search-input in page."}
+{"level":30,"time":"2025-02-25T11:11:05.856Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:05.856Z","pid":23876,"hostname":"Mac","msg":"Start of node method click"}
+{"level":30,"time":"2025-02-25T11:11:05.857Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=search-btn in page."}
+{"level":30,"time":"2025-02-25T11:11:05.886Z","pid":23876,"hostname":"Mac","msg":"End of node method click"}
+{"level":30,"time":"2025-02-25T11:11:05.888Z","pid":23876,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:05.888Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with css=.book-card >> nth=0 in page."}
+{"level":30,"time":"2025-02-25T11:11:05.889Z","pid":23876,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:05.890Z","pid":23876,"hostname":"Mac","msg":"Start of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T11:11:05.891Z","pid":23876,"hostname":"Mac","msg":"End of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T11:11:05.892Z","pid":23876,"hostname":"Mac","msg":"Start of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T11:11:05.892Z","pid":23876,"hostname":"Mac","msg":"End of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T11:11:05.893Z","pid":23876,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:05.893Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=category-filter in page."}
+{"level":30,"time":"2025-02-25T11:11:05.894Z","pid":23876,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:05.895Z","pid":23876,"hostname":"Mac","msg":"Start of node method selectOption"}
+{"level":30,"time":"2025-02-25T11:11:05.895Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=category-filter in page."}
+{"level":30,"time":"2025-02-25T11:11:05.900Z","pid":23876,"hostname":"Mac","msg":"Option entries: 21"}
+{"level":30,"time":"2025-02-25T11:11:05.900Z","pid":23876,"hostname":"Mac","msg":"End of node method selectOption"}
+{"level":30,"time":"2025-02-25T11:11:05.900Z","pid":23876,"hostname":"Mac","msg":"Selected entries: 1"}
+{"level":30,"time":"2025-02-25T11:11:06.908Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:06.908Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=title in page."}
+{"level":30,"time":"2025-02-25T11:11:06.917Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:06.920Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:06.920Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=author in page."}
+{"level":30,"time":"2025-02-25T11:11:06.924Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:06.926Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:06.926Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=pages in page."}
+{"level":30,"time":"2025-02-25T11:11:06.929Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:06.931Z","pid":23876,"hostname":"Mac","msg":"Start of node method selectOption"}
+{"level":30,"time":"2025-02-25T11:11:06.931Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=category in page."}
+{"level":30,"time":"2025-02-25T11:11:06.936Z","pid":23876,"hostname":"Mac","msg":"Option entries: 20"}
+{"level":30,"time":"2025-02-25T11:11:06.936Z","pid":23876,"hostname":"Mac","msg":"End of node method selectOption"}
+{"level":30,"time":"2025-02-25T11:11:06.936Z","pid":23876,"hostname":"Mac","msg":"Selected entries: 1"}
+{"level":30,"time":"2025-02-25T11:11:06.938Z","pid":23876,"hostname":"Mac","msg":"Start of node method click"}
+{"level":30,"time":"2025-02-25T11:11:06.938Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with button:has-text(\"Add Book\") in page."}
+{"level":30,"time":"2025-02-25T11:11:06.972Z","pid":23876,"hostname":"Mac","msg":"End of node method click"}
+{"level":30,"time":"2025-02-25T11:11:06.975Z","pid":23876,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:06.975Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with .notification.success in page."}
+{"level":30,"time":"2025-02-25T11:11:06.979Z","pid":23876,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:06.985Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:06.985Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=search-input in page."}
+{"level":30,"time":"2025-02-25T11:11:06.990Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:06.991Z","pid":23876,"hostname":"Mac","msg":"Start of node method click"}
+{"level":30,"time":"2025-02-25T11:11:06.991Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=search-btn in page."}
+{"level":30,"time":"2025-02-25T11:11:07.017Z","pid":23876,"hostname":"Mac","msg":"End of node method click"}
+{"level":30,"time":"2025-02-25T11:11:07.018Z","pid":23876,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:07.018Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with .book-card h3.book-title:has-text(\"TestFiction384328\") in page."}
+{"level":30,"time":"2025-02-25T11:11:07.301Z","pid":23876,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:07.307Z","pid":23876,"hostname":"Mac","msg":"Start of node method selectOption"}
+{"level":30,"time":"2025-02-25T11:11:07.307Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=category-filter in page."}
+{"level":30,"time":"2025-02-25T11:11:07.317Z","pid":23876,"hostname":"Mac","msg":"Option entries: 21"}
+{"level":30,"time":"2025-02-25T11:11:07.317Z","pid":23876,"hostname":"Mac","msg":"End of node method selectOption"}
+{"level":30,"time":"2025-02-25T11:11:07.317Z","pid":23876,"hostname":"Mac","msg":"Selected entries: 1"}
+{"level":30,"time":"2025-02-25T11:11:07.320Z","pid":23876,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:07.320Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=category-filter in page."}
+{"level":30,"time":"2025-02-25T11:11:07.321Z","pid":23876,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:07.324Z","pid":23876,"hostname":"Mac","msg":"Start of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T11:11:07.324Z","pid":23876,"hostname":"Mac","msg":"End of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T11:11:07.326Z","pid":23876,"hostname":"Mac","msg":"Start of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T11:11:07.327Z","pid":23876,"hostname":"Mac","msg":"End of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T11:11:07.330Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:07.330Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=title in page."}
+{"level":30,"time":"2025-02-25T11:11:07.332Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:07.334Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:07.334Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=author in page."}
+{"level":30,"time":"2025-02-25T11:11:07.336Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:07.337Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:07.337Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=pages in page."}
+{"level":30,"time":"2025-02-25T11:11:07.338Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:07.339Z","pid":23876,"hostname":"Mac","msg":"Start of node method selectOption"}
+{"level":30,"time":"2025-02-25T11:11:07.339Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=category in page."}
+{"level":30,"time":"2025-02-25T11:11:07.343Z","pid":23876,"hostname":"Mac","msg":"Option entries: 20"}
+{"level":30,"time":"2025-02-25T11:11:07.343Z","pid":23876,"hostname":"Mac","msg":"End of node method selectOption"}
+{"level":30,"time":"2025-02-25T11:11:07.343Z","pid":23876,"hostname":"Mac","msg":"Selected entries: 1"}
+{"level":30,"time":"2025-02-25T11:11:07.344Z","pid":23876,"hostname":"Mac","msg":"Start of node method click"}
+{"level":30,"time":"2025-02-25T11:11:07.344Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with button:has-text(\"Add Book\") in page."}
+{"level":30,"time":"2025-02-25T11:11:07.367Z","pid":23876,"hostname":"Mac","msg":"End of node method click"}
+{"level":30,"time":"2025-02-25T11:11:07.368Z","pid":23876,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:07.368Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with .notification.success in page."}
+{"level":30,"time":"2025-02-25T11:11:07.369Z","pid":23876,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:07.371Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:07.371Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=search-input in page."}
+{"level":30,"time":"2025-02-25T11:11:07.373Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:07.374Z","pid":23876,"hostname":"Mac","msg":"Start of node method click"}
+{"level":30,"time":"2025-02-25T11:11:07.374Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=search-btn in page."}
+{"level":30,"time":"2025-02-25T11:11:07.405Z","pid":23876,"hostname":"Mac","msg":"End of node method click"}
+{"level":30,"time":"2025-02-25T11:11:07.407Z","pid":23876,"hostname":"Mac","msg":"Start of node method selectOption"}
+{"level":30,"time":"2025-02-25T11:11:07.407Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=category-filter in page."}
+{"level":30,"time":"2025-02-25T11:11:07.416Z","pid":23876,"hostname":"Mac","msg":"Option entries: 21"}
+{"level":30,"time":"2025-02-25T11:11:07.416Z","pid":23876,"hostname":"Mac","msg":"End of node method selectOption"}
+{"level":30,"time":"2025-02-25T11:11:07.416Z","pid":23876,"hostname":"Mac","msg":"Selected entries: 1"}
+{"level":30,"time":"2025-02-25T11:11:07.418Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:07.418Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=search-input in page."}
+{"level":30,"time":"2025-02-25T11:11:07.422Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:07.423Z","pid":23876,"hostname":"Mac","msg":"Start of node method click"}
+{"level":30,"time":"2025-02-25T11:11:07.423Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=search-btn in page."}
+{"level":30,"time":"2025-02-25T11:11:07.450Z","pid":23876,"hostname":"Mac","msg":"End of node method click"}
+{"level":30,"time":"2025-02-25T11:11:07.452Z","pid":23876,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:07.452Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with .book-card h3.book-title:has-text(\"Editable Book 90158669\") in page."}
+{"level":30,"time":"2025-02-25T11:11:07.453Z","pid":23876,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:07.454Z","pid":23876,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:07.454Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with .book-card h3.book-title:has-text(\"Editable Book 90158669\") in page."}
+{"level":30,"time":"2025-02-25T11:11:07.455Z","pid":23876,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:08.461Z","pid":23876,"hostname":"Mac","msg":"Start of node method click"}
+{"level":30,"time":"2025-02-25T11:11:08.461Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with .book-card:has(h3.book-title:has-text(\"Editable Book 90158669\")) .edit-btn in page."}
+{"level":30,"time":"2025-02-25T11:11:08.486Z","pid":23876,"hostname":"Mac","msg":"End of node method click"}
+{"level":30,"time":"2025-02-25T11:11:08.489Z","pid":23876,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:08.489Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with .modal-content in page."}
+{"level":30,"time":"2025-02-25T11:11:08.491Z","pid":23876,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:08.493Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:08.493Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=edit-title in page."}
+{"level":30,"time":"2025-02-25T11:11:08.496Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:08.499Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:08.499Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=edit-author in page."}
+{"level":30,"time":"2025-02-25T11:11:08.502Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:08.508Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:08.508Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=edit-pages in page."}
+{"level":30,"time":"2025-02-25T11:11:08.511Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:08.513Z","pid":23876,"hostname":"Mac","msg":"Start of node method selectOption"}
+{"level":30,"time":"2025-02-25T11:11:08.513Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=edit-category in page."}
+{"level":30,"time":"2025-02-25T11:11:08.522Z","pid":23876,"hostname":"Mac","msg":"Option entries: 20"}
+{"level":30,"time":"2025-02-25T11:11:08.522Z","pid":23876,"hostname":"Mac","msg":"End of node method selectOption"}
+{"level":30,"time":"2025-02-25T11:11:08.522Z","pid":23876,"hostname":"Mac","msg":"Selected entries: 1"}
+{"level":30,"time":"2025-02-25T11:11:08.524Z","pid":23876,"hostname":"Mac","msg":"Start of node method click"}
+{"level":30,"time":"2025-02-25T11:11:08.524Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with .modal-content button[type=\"submit\"] in page."}
+{"level":30,"time":"2025-02-25T11:11:08.554Z","pid":23876,"hostname":"Mac","msg":"End of node method click"}
+{"level":30,"time":"2025-02-25T11:11:08.558Z","pid":23876,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:08.558Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with .notification.success in page."}
+{"level":30,"time":"2025-02-25T11:11:08.560Z","pid":23876,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:08.562Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:08.562Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=search-input in page."}
+{"level":30,"time":"2025-02-25T11:11:08.566Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:08.567Z","pid":23876,"hostname":"Mac","msg":"Start of node method click"}
+{"level":30,"time":"2025-02-25T11:11:08.567Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=search-btn in page."}
+{"level":30,"time":"2025-02-25T11:11:08.601Z","pid":23876,"hostname":"Mac","msg":"End of node method click"}
+{"level":30,"time":"2025-02-25T11:11:08.603Z","pid":23876,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:08.604Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with .book-card h3.book-title:has-text(\"Edited Book 90158669\") in page."}
+{"level":30,"time":"2025-02-25T11:11:08.885Z","pid":23876,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:08.888Z","pid":23876,"hostname":"Mac","msg":"Start of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T11:11:08.889Z","pid":23876,"hostname":"Mac","msg":"End of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T11:11:08.890Z","pid":23876,"hostname":"Mac","msg":"Start of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T11:11:08.891Z","pid":23876,"hostname":"Mac","msg":"End of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T11:11:08.894Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:08.894Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=title in page."}
+{"level":30,"time":"2025-02-25T11:11:08.897Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:08.899Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:08.899Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=author in page."}
+{"level":30,"time":"2025-02-25T11:11:08.901Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:08.903Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:08.903Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=pages in page."}
+{"level":30,"time":"2025-02-25T11:11:08.905Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:08.907Z","pid":23876,"hostname":"Mac","msg":"Start of node method selectOption"}
+{"level":30,"time":"2025-02-25T11:11:08.907Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=category in page."}
+{"level":30,"time":"2025-02-25T11:11:08.911Z","pid":23876,"hostname":"Mac","msg":"Option entries: 20"}
+{"level":30,"time":"2025-02-25T11:11:08.911Z","pid":23876,"hostname":"Mac","msg":"End of node method selectOption"}
+{"level":30,"time":"2025-02-25T11:11:08.911Z","pid":23876,"hostname":"Mac","msg":"Selected entries: 1"}
+{"level":30,"time":"2025-02-25T11:11:08.913Z","pid":23876,"hostname":"Mac","msg":"Start of node method click"}
+{"level":30,"time":"2025-02-25T11:11:08.913Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with button:has-text(\"Add Book\") in page."}
+{"level":30,"time":"2025-02-25T11:11:08.951Z","pid":23876,"hostname":"Mac","msg":"End of node method click"}
+{"level":30,"time":"2025-02-25T11:11:08.953Z","pid":23876,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:08.953Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with .notification.success in page."}
+{"level":30,"time":"2025-02-25T11:11:08.955Z","pid":23876,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:08.957Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:08.957Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=search-input in page."}
+{"level":30,"time":"2025-02-25T11:11:08.960Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:08.961Z","pid":23876,"hostname":"Mac","msg":"Start of node method click"}
+{"level":30,"time":"2025-02-25T11:11:08.961Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=search-btn in page."}
+{"level":30,"time":"2025-02-25T11:11:08.991Z","pid":23876,"hostname":"Mac","msg":"End of node method click"}
+{"level":30,"time":"2025-02-25T11:11:08.993Z","pid":23876,"hostname":"Mac","msg":"Start of node method selectOption"}
+{"level":30,"time":"2025-02-25T11:11:08.993Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=category-filter in page."}
+{"level":30,"time":"2025-02-25T11:11:09.003Z","pid":23876,"hostname":"Mac","msg":"Option entries: 21"}
+{"level":30,"time":"2025-02-25T11:11:09.003Z","pid":23876,"hostname":"Mac","msg":"End of node method selectOption"}
+{"level":30,"time":"2025-02-25T11:11:09.003Z","pid":23876,"hostname":"Mac","msg":"Selected entries: 1"}
+{"level":30,"time":"2025-02-25T11:11:09.006Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:09.006Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=search-input in page."}
+{"level":30,"time":"2025-02-25T11:11:09.011Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:09.013Z","pid":23876,"hostname":"Mac","msg":"Start of node method click"}
+{"level":30,"time":"2025-02-25T11:11:09.013Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=search-btn in page."}
+{"level":30,"time":"2025-02-25T11:11:09.051Z","pid":23876,"hostname":"Mac","msg":"End of node method click"}
+{"level":30,"time":"2025-02-25T11:11:09.053Z","pid":23876,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:09.053Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with .book-card h3.book-title:has-text(\"Deletable Book 44669553\") in page."}
+{"level":30,"time":"2025-02-25T11:11:09.054Z","pid":23876,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:09.056Z","pid":23876,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:09.056Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with .book-card h3.book-title:has-text(\"Deletable Book 44669553\") in page."}
+{"level":30,"time":"2025-02-25T11:11:09.057Z","pid":23876,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:09.058Z","pid":23876,"hostname":"Mac","msg":"Start of node method handleAlert"}
+{"level":30,"time":"2025-02-25T11:11:09.058Z","pid":23876,"hostname":"Mac","msg":"End of node method handleAlert"}
+{"level":30,"time":"2025-02-25T11:11:10.063Z","pid":23876,"hostname":"Mac","msg":"Start of node method click"}
+{"level":30,"time":"2025-02-25T11:11:10.063Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with .book-card:has(h3.book-title:has-text(\"Deletable Book 44669553\")) .delete-btn in page."}
+{"level":30,"time":"2025-02-25T11:11:10.085Z","pid":23876,"hostname":"Mac","msg":"Alert text: Are you sure you want to delete this book?"}
+{"level":30,"time":"2025-02-25T11:11:10.086Z","pid":23876,"hostname":"Mac","msg":"End of node method click"}
+{"level":30,"time":"2025-02-25T11:11:10.089Z","pid":23876,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:10.089Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with .notification.success in page."}
+{"level":30,"time":"2025-02-25T11:11:10.091Z","pid":23876,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:10.094Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:10.094Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=search-input in page."}
+{"level":30,"time":"2025-02-25T11:11:10.100Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:10.103Z","pid":23876,"hostname":"Mac","msg":"Start of node method click"}
+{"level":30,"time":"2025-02-25T11:11:10.103Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=search-btn in page."}
+{"level":30,"time":"2025-02-25T11:11:10.138Z","pid":23876,"hostname":"Mac","msg":"End of node method click"}
+{"level":30,"time":"2025-02-25T11:11:10.144Z","pid":23876,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:10.144Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with text=No books found in page."}
+{"level":30,"time":"2025-02-25T11:11:10.434Z","pid":23876,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:10.440Z","pid":23876,"hostname":"Mac","msg":"Start of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T11:11:10.441Z","pid":23876,"hostname":"Mac","msg":"End of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T11:11:10.444Z","pid":23876,"hostname":"Mac","msg":"Start of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T11:11:10.444Z","pid":23876,"hostname":"Mac","msg":"End of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T11:11:10.447Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:10.447Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=title in page."}
+{"level":30,"time":"2025-02-25T11:11:10.450Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:10.451Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:10.451Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=author in page."}
+{"level":30,"time":"2025-02-25T11:11:10.454Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:10.455Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:10.455Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=pages in page."}
+{"level":30,"time":"2025-02-25T11:11:10.458Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:10.459Z","pid":23876,"hostname":"Mac","msg":"Start of node method selectOption"}
+{"level":30,"time":"2025-02-25T11:11:10.459Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=category in page."}
+{"level":30,"time":"2025-02-25T11:11:10.464Z","pid":23876,"hostname":"Mac","msg":"Option entries: 20"}
+{"level":30,"time":"2025-02-25T11:11:10.464Z","pid":23876,"hostname":"Mac","msg":"End of node method selectOption"}
+{"level":30,"time":"2025-02-25T11:11:10.464Z","pid":23876,"hostname":"Mac","msg":"Selected entries: 1"}
+{"level":30,"time":"2025-02-25T11:11:10.465Z","pid":23876,"hostname":"Mac","msg":"Start of node method click"}
+{"level":30,"time":"2025-02-25T11:11:10.465Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with button:has-text(\"Add Book\") in page."}
+{"level":30,"time":"2025-02-25T11:11:10.500Z","pid":23876,"hostname":"Mac","msg":"End of node method click"}
+{"level":30,"time":"2025-02-25T11:11:10.502Z","pid":23876,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:10.502Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with .notification.success in page."}
+{"level":30,"time":"2025-02-25T11:11:10.503Z","pid":23876,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:10.505Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:10.505Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=title in page."}
+{"level":30,"time":"2025-02-25T11:11:10.507Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:10.509Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:10.509Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=author in page."}
+{"level":30,"time":"2025-02-25T11:11:10.511Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:10.512Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:10.512Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=pages in page."}
+{"level":30,"time":"2025-02-25T11:11:10.514Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:10.515Z","pid":23876,"hostname":"Mac","msg":"Start of node method selectOption"}
+{"level":30,"time":"2025-02-25T11:11:10.515Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=category in page."}
+{"level":30,"time":"2025-02-25T11:11:10.520Z","pid":23876,"hostname":"Mac","msg":"Option entries: 20"}
+{"level":30,"time":"2025-02-25T11:11:10.521Z","pid":23876,"hostname":"Mac","msg":"End of node method selectOption"}
+{"level":30,"time":"2025-02-25T11:11:10.521Z","pid":23876,"hostname":"Mac","msg":"Selected entries: 1"}
+{"level":30,"time":"2025-02-25T11:11:10.522Z","pid":23876,"hostname":"Mac","msg":"Start of node method click"}
+{"level":30,"time":"2025-02-25T11:11:10.522Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with button:has-text(\"Add Book\") in page."}
+{"level":30,"time":"2025-02-25T11:11:10.918Z","pid":23876,"hostname":"Mac","msg":"End of node method click"}
+{"level":30,"time":"2025-02-25T11:11:10.921Z","pid":23876,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:10.921Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with .notification.success in page."}
+{"level":30,"time":"2025-02-25T11:11:10.923Z","pid":23876,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:10.926Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:10.926Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=title in page."}
+{"level":30,"time":"2025-02-25T11:11:10.929Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:10.931Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:10.931Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=author in page."}
+{"level":30,"time":"2025-02-25T11:11:10.934Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:10.936Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:10.936Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=pages in page."}
+{"level":30,"time":"2025-02-25T11:11:10.939Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:10.941Z","pid":23876,"hostname":"Mac","msg":"Start of node method selectOption"}
+{"level":30,"time":"2025-02-25T11:11:10.941Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=category in page."}
+{"level":30,"time":"2025-02-25T11:11:10.946Z","pid":23876,"hostname":"Mac","msg":"Option entries: 20"}
+{"level":30,"time":"2025-02-25T11:11:10.946Z","pid":23876,"hostname":"Mac","msg":"End of node method selectOption"}
+{"level":30,"time":"2025-02-25T11:11:10.946Z","pid":23876,"hostname":"Mac","msg":"Selected entries: 1"}
+{"level":30,"time":"2025-02-25T11:11:10.948Z","pid":23876,"hostname":"Mac","msg":"Start of node method click"}
+{"level":30,"time":"2025-02-25T11:11:10.948Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with button:has-text(\"Add Book\") in page."}
+{"level":30,"time":"2025-02-25T11:11:10.984Z","pid":23876,"hostname":"Mac","msg":"End of node method click"}
+{"level":30,"time":"2025-02-25T11:11:10.986Z","pid":23876,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:10.986Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with .notification.success in page."}
+{"level":30,"time":"2025-02-25T11:11:10.987Z","pid":23876,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:10.990Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:10.990Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=search-input in page."}
+{"level":30,"time":"2025-02-25T11:11:10.993Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:10.995Z","pid":23876,"hostname":"Mac","msg":"Start of node method click"}
+{"level":30,"time":"2025-02-25T11:11:10.995Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=search-btn in page."}
+{"level":30,"time":"2025-02-25T11:11:11.023Z","pid":23876,"hostname":"Mac","msg":"End of node method click"}
+{"level":30,"time":"2025-02-25T11:11:11.024Z","pid":23876,"hostname":"Mac","msg":"Start of node method selectOption"}
+{"level":30,"time":"2025-02-25T11:11:11.024Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=category-filter in page."}
+{"level":30,"time":"2025-02-25T11:11:11.035Z","pid":23876,"hostname":"Mac","msg":"Option entries: 21"}
+{"level":30,"time":"2025-02-25T11:11:11.035Z","pid":23876,"hostname":"Mac","msg":"End of node method selectOption"}
+{"level":30,"time":"2025-02-25T11:11:11.035Z","pid":23876,"hostname":"Mac","msg":"Selected entries: 1"}
+{"level":30,"time":"2025-02-25T11:11:11.037Z","pid":23876,"hostname":"Mac","msg":"Start of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:11.037Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=search-input in page."}
+{"level":30,"time":"2025-02-25T11:11:11.040Z","pid":23876,"hostname":"Mac","msg":"End of node method fillText"}
+{"level":30,"time":"2025-02-25T11:11:11.042Z","pid":23876,"hostname":"Mac","msg":"Start of node method click"}
+{"level":30,"time":"2025-02-25T11:11:11.042Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=search-btn in page."}
+{"level":30,"time":"2025-02-25T11:11:11.070Z","pid":23876,"hostname":"Mac","msg":"End of node method click"}
+{"level":30,"time":"2025-02-25T11:11:11.073Z","pid":23876,"hostname":"Mac","msg":"Start of node method selectOption"}
+{"level":30,"time":"2025-02-25T11:11:11.073Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with id=sort-by in page."}
+{"level":30,"time":"2025-02-25T11:11:11.077Z","pid":23876,"hostname":"Mac","msg":"Option entries: 4"}
+{"level":30,"time":"2025-02-25T11:11:11.077Z","pid":23876,"hostname":"Mac","msg":"End of node method selectOption"}
+{"level":30,"time":"2025-02-25T11:11:11.077Z","pid":23876,"hostname":"Mac","msg":"Selected entries: 1"}
+{"level":30,"time":"2025-02-25T11:11:12.086Z","pid":23876,"hostname":"Mac","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:12.086Z","pid":23876,"hostname":"Mac","msg":"Strict mode is enabled, find Locator with .book-card h3.book-title:has-text(\"A Test Book Sort 98452174\") in page."}
+{"level":30,"time":"2025-02-25T11:11:12.091Z","pid":23876,"hostname":"Mac","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-02-25T11:11:12.095Z","pid":23876,"hostname":"Mac","msg":"Start of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T11:11:12.096Z","pid":23876,"hostname":"Mac","msg":"End of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T11:11:12.098Z","pid":23876,"hostname":"Mac","msg":"Start of node method closeBrowser"}
+{"level":30,"time":"2025-02-25T11:11:12.100Z","pid":23876,"hostname":"Mac","msg":"Removed page=bd293fad-fe8d-4536-a3f7-967dcb94ffd0 from context=c3b6b539-bd9c-4327-902e-5da88dacb9fe page stack"}
+{"level":30,"time":"2025-02-25T11:11:12.119Z","pid":23876,"hostname":"Mac","msg":"End of node method closeBrowser"}
 ================= Original suppressed error =================
 Error: Browser has been closed.
     at PlaywrightState.getActiveBrowser (/Users/kallemakela/books-database-service/.venv/lib/python3.13/site-packages/Browser/wrapper/index.js:12223:15)
@@ -59,7 +431,7 @@ Error: Browser has been closed.
     at endReadableNT (node:internal/streams/readable:1696:12)
     at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
 =============================================================
-{"level":30,"time":"2025-02-25T10:47:00.346Z","pid":14408,"hostname":"Mac","msg":"Start of node method getBrowserCatalog"}
-{"level":30,"time":"2025-02-25T10:47:00.346Z","pid":14408,"hostname":"Mac","msg":"End of node method getBrowserCatalog"}
-{"level":30,"time":"2025-02-25T10:47:00.368Z","pid":14408,"hostname":"Mac","msg":"Start of node method closeAllBrowsers"}
-{"level":30,"time":"2025-02-25T10:47:00.368Z","pid":14408,"hostname":"Mac","msg":"End of node method closeAllBrowsers"}
+{"level":30,"time":"2025-02-25T11:11:12.659Z","pid":23876,"hostname":"Mac","msg":"Start of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T11:11:12.659Z","pid":23876,"hostname":"Mac","msg":"End of node method getBrowserCatalog"}
+{"level":30,"time":"2025-02-25T11:11:12.684Z","pid":23876,"hostname":"Mac","msg":"Start of node method closeAllBrowsers"}
+{"level":30,"time":"2025-02-25T11:11:12.685Z","pid":23876,"hostname":"Mac","msg":"End of node method closeAllBrowsers"}

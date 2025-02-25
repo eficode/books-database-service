@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 6.1.1 (Python 3.13.2 on darwin)" generated="20250225 12:46:53.908" rpa="false" schemaversion="4">
+<robot generator="Robot 6.1.1 (Python 3.13.2 on darwin)" generated="20250225 13:11:00.239" rpa="false" schemaversion="4">
 <suite id="s1" name="Robot Tests" source="/Users/kallemakela/books-database-service/robot_tests">
 <suite id="s1-s1" name="Books Ui" source="/Users/kallemakela/books-database-service/robot_tests/books_ui.robot">
 <kw name="Setup Test Environment" library="common" type="SETUP">
@@ -7,11 +7,11 @@
 <arg>docker compose up -d</arg>
 <arg>shell=True</arg>
 <doc>Runs a process and waits for it to complete.</doc>
-<msg timestamp="20250225 12:46:53.967" level="INFO">Starting process:
+<msg timestamp="20250225 13:11:00.320" level="INFO">Starting process:
 docker compose up -d</msg>
-<msg timestamp="20250225 12:46:53.968" level="INFO">Waiting for process to complete.</msg>
-<msg timestamp="20250225 12:46:54.274" level="INFO">Process completed.</msg>
-<status status="PASS" starttime="20250225 12:46:53.967" endtime="20250225 12:46:54.275"/>
+<msg timestamp="20250225 13:11:00.322" level="INFO">Waiting for process to complete.</msg>
+<msg timestamp="20250225 13:11:00.753" level="INFO">Process completed.</msg>
+<status status="PASS" starttime="20250225 13:11:00.320" endtime="20250225 13:11:00.753"/>
 </kw>
 <kw name="Wait Until Keyword Succeeds" library="BuiltIn">
 <arg>${DOCKER_UP_TIMEOUT}</arg>
@@ -25,20 +25,20 @@ docker compose up -d</msg>
 <tag>BrowserControl</tag>
 <tag>Setter</tag>
 <doc>Create a new playwright Browser with specified options.</doc>
-<msg timestamp="20250225 12:46:54.278" level="INFO">{"browser": "chromium", "headless": true, "chromiumSandbox": false, "devtools": false, "handleSIGHUP": true, "handleSIGINT": true, "handleSIGTERM": true, "slowMo": 0.0, "timeout": 30000.0, "tracesDir": "/Users/kallemakela/books-database-service/robot_results/browser/traces/temp/60207e7d-a32c-495e-9a49-6051fcb8b474"}</msg>
-<msg timestamp="20250225 12:46:54.296" level="INFO">Starting Browser process /Users/kallemakela/books-database-service/.venv/lib/python3.13/site-packages/Browser/wrapper/index.js using port 59748</msg>
-<msg timestamp="20250225 12:46:54.297" level="INFO">Node startup parameters: ['node', '/Users/kallemakela/books-database-service/.venv/lib/python3.13/site-packages/Browser/wrapper/index.js', '59748']</msg>
-<msg timestamp="20250225 12:46:55.628" level="INFO">Successfully created browser with options: {"browser":"chromium","headless":true,"chromiumSandbox":false,"devtools":false,"handleSIGHUP":true,"handleSIGINT":true,"handleSIGTERM":true,"slowMo":0,"timeout":30000,"tracesDir":"/Users/kallemakela/books-database-service/robot_results/browser/traces/temp/60207e7d-a32c-495e-9a49-6051fcb8b474"}</msg>
-<status status="PASS" starttime="20250225 12:46:54.277" endtime="20250225 12:46:55.629"/>
+<msg timestamp="20250225 13:11:00.756" level="INFO">{"browser": "chromium", "headless": true, "chromiumSandbox": false, "devtools": false, "handleSIGHUP": true, "handleSIGINT": true, "handleSIGTERM": true, "slowMo": 0.0, "timeout": 30000.0, "tracesDir": "/Users/kallemakela/books-database-service/robot_results/browser/traces/temp/a2e09808-4e19-4848-82fc-b26061343de3"}</msg>
+<msg timestamp="20250225 13:11:00.775" level="INFO">Starting Browser process /Users/kallemakela/books-database-service/.venv/lib/python3.13/site-packages/Browser/wrapper/index.js using port 64549</msg>
+<msg timestamp="20250225 13:11:00.775" level="INFO">Node startup parameters: ['node', '/Users/kallemakela/books-database-service/.venv/lib/python3.13/site-packages/Browser/wrapper/index.js', '64549']</msg>
+<msg timestamp="20250225 13:11:03.422" level="INFO">Successfully created browser with options: {"browser":"chromium","headless":true,"chromiumSandbox":false,"devtools":false,"handleSIGHUP":true,"handleSIGINT":true,"handleSIGTERM":true,"slowMo":0,"timeout":30000,"tracesDir":"/Users/kallemakela/books-database-service/robot_results/browser/traces/temp/a2e09808-4e19-4848-82fc-b26061343de3"}</msg>
+<status status="PASS" starttime="20250225 13:11:00.755" endtime="20250225 13:11:03.423"/>
 </kw>
 <kw name="New Page" library="Browser">
 <arg>${BASE_URL}</arg>
 <tag>BrowserControl</tag>
 <tag>Setter</tag>
 <doc>Open a new Page.</doc>
-<msg timestamp="20250225 12:46:56.163" level="INFO">Successfully initialized new page object and opened url: http://localhost:8000</msg>
-<msg timestamp="20250225 12:46:56.163" level="INFO">No context was open. New context was automatically opened when this page is created.</msg>
-<status status="PASS" starttime="20250225 12:46:55.629" endtime="20250225 12:46:56.163"/>
+<msg timestamp="20250225 13:11:04.550" level="INFO">Successfully initialized new page object and opened url: http://localhost:8000</msg>
+<msg timestamp="20250225 13:11:04.550" level="INFO">No context was open. New context was automatically opened when this page is created.</msg>
+<status status="PASS" starttime="20250225 13:11:03.423" endtime="20250225 13:11:04.551"/>
 </kw>
 <kw name="Wait For Elements State" library="Browser">
 <arg>h1:has-text("Books Library")</arg>
@@ -47,19 +47,19 @@ docker compose up -d</msg>
 <tag>PageContent</tag>
 <tag>Wait</tag>
 <doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
-<msg timestamp="20250225 12:46:56.190" level="INFO">Waited for Element with selector h1:has-text("Books Library") at state visible</msg>
-<status status="PASS" starttime="20250225 12:46:56.164" endtime="20250225 12:46:56.190"/>
+<msg timestamp="20250225 13:11:04.579" level="INFO">Waited for Element with selector h1:has-text("Books Library") at state visible</msg>
+<status status="PASS" starttime="20250225 13:11:04.551" endtime="20250225 13:11:04.579"/>
 </kw>
 <kw name="Close Browser" library="Browser">
 <tag>BrowserControl</tag>
 <tag>Setter</tag>
 <doc>Closes the current browser.</doc>
-<msg timestamp="20250225 12:46:56.210" level="INFO">Closed browser</msg>
-<status status="PASS" starttime="20250225 12:46:56.190" endtime="20250225 12:46:56.210"/>
+<msg timestamp="20250225 13:11:04.597" level="INFO">Closed browser</msg>
+<status status="PASS" starttime="20250225 13:11:04.579" endtime="20250225 13:11:04.597"/>
 </kw>
-<status status="PASS" starttime="20250225 12:46:54.277" endtime="20250225 12:46:56.210"/>
+<status status="PASS" starttime="20250225 13:11:00.755" endtime="20250225 13:11:04.597"/>
 </kw>
-<status status="PASS" starttime="20250225 12:46:54.275" endtime="20250225 12:46:56.210"/>
+<status status="PASS" starttime="20250225 13:11:00.754" endtime="20250225 13:11:04.598"/>
 </kw>
 <kw name="Open Books Application" library="common">
 <kw name="New Browser" library="Browser">
@@ -68,18 +68,18 @@ docker compose up -d</msg>
 <tag>BrowserControl</tag>
 <tag>Setter</tag>
 <doc>Create a new playwright Browser with specified options.</doc>
-<msg timestamp="20250225 12:46:56.211" level="INFO">{"browser": "chromium", "headless": true, "chromiumSandbox": false, "devtools": false, "handleSIGHUP": true, "handleSIGINT": true, "handleSIGTERM": true, "slowMo": 0.0, "timeout": 30000.0, "tracesDir": "/Users/kallemakela/books-database-service/robot_results/browser/traces/temp/2a99d253-3996-41b9-a466-8a2713d1966d"}</msg>
-<msg timestamp="20250225 12:46:56.270" level="INFO">Successfully created browser with options: {"browser":"chromium","headless":true,"chromiumSandbox":false,"devtools":false,"handleSIGHUP":true,"handleSIGINT":true,"handleSIGTERM":true,"slowMo":0,"timeout":30000,"tracesDir":"/Users/kallemakela/books-database-service/robot_results/browser/traces/temp/2a99d253-3996-41b9-a466-8a2713d1966d"}</msg>
-<status status="PASS" starttime="20250225 12:46:56.210" endtime="20250225 12:46:56.270"/>
+<msg timestamp="20250225 13:11:04.598" level="INFO">{"browser": "chromium", "headless": true, "chromiumSandbox": false, "devtools": false, "handleSIGHUP": true, "handleSIGINT": true, "handleSIGTERM": true, "slowMo": 0.0, "timeout": 30000.0, "tracesDir": "/Users/kallemakela/books-database-service/robot_results/browser/traces/temp/a723ebde-a856-4389-b93b-b48943633018"}</msg>
+<msg timestamp="20250225 13:11:04.665" level="INFO">Successfully created browser with options: {"browser":"chromium","headless":true,"chromiumSandbox":false,"devtools":false,"handleSIGHUP":true,"handleSIGINT":true,"handleSIGTERM":true,"slowMo":0,"timeout":30000,"tracesDir":"/Users/kallemakela/books-database-service/robot_results/browser/traces/temp/a723ebde-a856-4389-b93b-b48943633018"}</msg>
+<status status="PASS" starttime="20250225 13:11:04.598" endtime="20250225 13:11:04.665"/>
 </kw>
 <kw name="New Page" library="Browser">
 <arg>${BASE_URL}</arg>
 <tag>BrowserControl</tag>
 <tag>Setter</tag>
 <doc>Open a new Page.</doc>
-<msg timestamp="20250225 12:46:56.806" level="INFO">Successfully initialized new page object and opened url: http://localhost:8000</msg>
-<msg timestamp="20250225 12:46:56.806" level="INFO">No context was open. New context was automatically opened when this page is created.</msg>
-<status status="PASS" starttime="20250225 12:46:56.270" endtime="20250225 12:46:56.807"/>
+<msg timestamp="20250225 13:11:05.257" level="INFO">Successfully initialized new page object and opened url: http://localhost:8000</msg>
+<msg timestamp="20250225 13:11:05.257" level="INFO">No context was open. New context was automatically opened when this page is created.</msg>
+<status status="PASS" starttime="20250225 13:11:04.665" endtime="20250225 13:11:05.258"/>
 </kw>
 <kw name="Wait For Elements State" library="Browser">
 <arg>h1:has-text("Books Library")</arg>
@@ -88,20 +88,20 @@ docker compose up -d</msg>
 <tag>PageContent</tag>
 <tag>Wait</tag>
 <doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
-<msg timestamp="20250225 12:46:56.829" level="INFO">Waited for Element with selector h1:has-text("Books Library") at state visible</msg>
-<status status="PASS" starttime="20250225 12:46:56.807" endtime="20250225 12:46:56.829"/>
+<msg timestamp="20250225 13:11:05.281" level="INFO">Waited for Element with selector h1:has-text("Books Library") at state visible</msg>
+<status status="PASS" starttime="20250225 13:11:05.258" endtime="20250225 13:11:05.282"/>
 </kw>
-<status status="PASS" starttime="20250225 12:46:56.210" endtime="20250225 12:46:56.829"/>
+<status status="PASS" starttime="20250225 13:11:04.598" endtime="20250225 13:11:05.282"/>
 </kw>
-<status status="PASS" starttime="20250225 12:46:53.966" endtime="20250225 12:46:56.829"/>
+<status status="PASS" starttime="20250225 13:11:00.319" endtime="20250225 13:11:05.282"/>
 </kw>
 <test id="s1-s1-t1" name="User Can Open Books UI" line="15">
 <kw name="Given I Open The Books Application" library="common">
 <kw name="No Operation" library="BuiltIn">
 <doc>Does absolutely nothing.</doc>
-<status status="PASS" starttime="20250225 12:46:56.833" endtime="20250225 12:46:56.833"/>
+<status status="PASS" starttime="20250225 13:11:05.286" endtime="20250225 13:11:05.286"/>
 </kw>
-<status status="PASS" starttime="20250225 12:46:56.833" endtime="20250225 12:46:56.833"/>
+<status status="PASS" starttime="20250225 13:11:05.286" endtime="20250225 13:11:05.286"/>
 </kw>
 <kw name="Then I Should See The Books Library Title" library="common">
 <kw name="Wait For Elements State" library="Browser">
@@ -110,10 +110,10 @@ docker compose up -d</msg>
 <tag>PageContent</tag>
 <tag>Wait</tag>
 <doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
-<msg timestamp="20250225 12:46:56.837" level="INFO">Waited for Element with selector h1:has-text("Books Library") at state visible</msg>
-<status status="PASS" starttime="20250225 12:46:56.834" endtime="20250225 12:46:56.837"/>
+<msg timestamp="20250225 13:11:05.290" level="INFO">Waited for Element with selector h1:has-text("Books Library") at state visible</msg>
+<status status="PASS" starttime="20250225 13:11:05.286" endtime="20250225 13:11:05.290"/>
 </kw>
-<status status="PASS" starttime="20250225 12:46:56.833" endtime="20250225 12:46:56.837"/>
+<status status="PASS" starttime="20250225 13:11:05.286" endtime="20250225 13:11:05.290"/>
 </kw>
 <kw name="And I Should See The Add Book Button" library="common">
 <kw name="Wait For Elements State" library="Browser">
@@ -122,10 +122,10 @@ docker compose up -d</msg>
 <tag>PageContent</tag>
 <tag>Wait</tag>
 <doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
-<msg timestamp="20250225 12:46:56.842" level="INFO">Waited for Element with selector text=Add a New Book at state visible</msg>
-<status status="PASS" starttime="20250225 12:46:56.837" endtime="20250225 12:46:56.842"/>
+<msg timestamp="20250225 13:11:05.294" level="INFO">Waited for Element with selector text=Add a New Book at state visible</msg>
+<status status="PASS" starttime="20250225 13:11:05.290" endtime="20250225 13:11:05.294"/>
 </kw>
-<status status="PASS" starttime="20250225 12:46:56.837" endtime="20250225 12:46:56.842"/>
+<status status="PASS" starttime="20250225 13:11:05.290" endtime="20250225 13:11:05.294"/>
 </kw>
 <kw name="And I Should See The Books List Section" library="common">
 <kw name="Wait For Elements State" library="Browser">
@@ -134,16 +134,1575 @@ docker compose up -d</msg>
 <tag>PageContent</tag>
 <tag>Wait</tag>
 <doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
-<msg timestamp="20250225 12:46:56.847" level="INFO">Waited for Element with selector text=Your Books at state visible</msg>
-<status status="PASS" starttime="20250225 12:46:56.842" endtime="20250225 12:46:56.847"/>
+<msg timestamp="20250225 13:11:05.297" level="INFO">Waited for Element with selector text=Your Books at state visible</msg>
+<status status="PASS" starttime="20250225 13:11:05.294" endtime="20250225 13:11:05.297"/>
 </kw>
-<status status="PASS" starttime="20250225 12:46:56.842" endtime="20250225 12:46:56.847"/>
+<status status="PASS" starttime="20250225 13:11:05.294" endtime="20250225 13:11:05.297"/>
 </kw>
 <doc>Verify that the Books UI loads correctly</doc>
 <tag>browser</tag>
 <tag>smoke</tag>
 <tag>ui</tag>
-<status status="PASS" starttime="20250225 12:46:56.829" endtime="20250225 12:46:56.847"/>
+<status status="PASS" starttime="20250225 13:11:05.282" endtime="20250225 13:11:05.297"/>
+</test>
+<test id="s1-s1-t2" name="User Can Add A New Book" line="24">
+<kw name="Generate Random String" library="String">
+<var>${random_suffix}</var>
+<arg>8</arg>
+<arg>[NUMBERS]</arg>
+<doc>Generates a string with a desired ``length`` from the given ``chars``.</doc>
+<msg timestamp="20250225 13:11:05.301" level="INFO">${random_suffix} = 65362391</msg>
+<status status="PASS" starttime="20250225 13:11:05.301" endtime="20250225 13:11:05.302"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${title}</var>
+<arg>Robot Test Book ${random_suffix}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20250225 13:11:05.302" level="INFO">${title} = Robot Test Book 65362391</msg>
+<status status="PASS" starttime="20250225 13:11:05.302" endtime="20250225 13:11:05.302"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${author}</var>
+<arg>Test Author ${random_suffix}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20250225 13:11:05.302" level="INFO">${author} = Test Author 65362391</msg>
+<status status="PASS" starttime="20250225 13:11:05.302" endtime="20250225 13:11:05.302"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${pages}</var>
+<arg>123</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20250225 13:11:05.302" level="INFO">${pages} = 123</msg>
+<status status="PASS" starttime="20250225 13:11:05.302" endtime="20250225 13:11:05.302"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${category}</var>
+<arg>Fiction</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20250225 13:11:05.302" level="INFO">${category} = Fiction</msg>
+<status status="PASS" starttime="20250225 13:11:05.302" endtime="20250225 13:11:05.302"/>
+</kw>
+<kw name="Given I Have Book Details To Add" library="common">
+<kw name="No Operation" library="BuiltIn">
+<doc>Does absolutely nothing.</doc>
+<status status="PASS" starttime="20250225 13:11:05.302" endtime="20250225 13:11:05.302"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:05.302" endtime="20250225 13:11:05.302"/>
+</kw>
+<kw name="When I Fill The Add Book Form" library="common">
+<arg>${title}</arg>
+<arg>${author}</arg>
+<arg>${pages}</arg>
+<arg>${category}</arg>
+<kw name="Fill Text" library="Browser">
+<arg>id=title</arg>
+<arg>${title}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:05.303" level="INFO">Fills the text 'Robot Test Book 65362391' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:05.302" endtime="20250225 13:11:05.321"/>
+</kw>
+<kw name="Fill Text" library="Browser">
+<arg>id=author</arg>
+<arg>${author}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:05.322" level="INFO">Fills the text 'Test Author 65362391' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:05.321" endtime="20250225 13:11:05.325"/>
+</kw>
+<kw name="Fill Text" library="Browser">
+<arg>id=pages</arg>
+<arg>${pages}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:05.325" level="INFO">Fills the text '123' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:05.325" endtime="20250225 13:11:05.328"/>
+</kw>
+<kw name="Select Options By" library="Browser">
+<arg>id=category</arg>
+<arg>text</arg>
+<arg>${category}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Selects options from select element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:05.328" level="INFO">Selects the option(s) Fiction by attribute SelectAttribute.label from element id=category.</msg>
+<status status="PASS" starttime="20250225 13:11:05.328" endtime="20250225 13:11:05.338"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:05.302" endtime="20250225 13:11:05.338"/>
+</kw>
+<kw name="And I Submit The Add Book Form" library="common">
+<kw name="Click" library="Browser">
+<arg>button:has-text("Add Book")</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:05.339" level="INFO">Clicks the element 'button:has-text("Add Book")'.</msg>
+<status status="PASS" starttime="20250225 13:11:05.339" endtime="20250225 13:11:05.369"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:05.339" endtime="20250225 13:11:05.369"/>
+</kw>
+<kw name="Then I Should See A Success Notification" library="common">
+<kw name="Wait For Elements State" library="Browser">
+<arg>.notification.success</arg>
+<arg>visible</arg>
+<arg>${TIMEOUT}</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<msg timestamp="20250225 13:11:05.392" level="INFO">Waited for Element with selector .notification.success at state visible</msg>
+<status status="PASS" starttime="20250225 13:11:05.369" endtime="20250225 13:11:05.392"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:05.369" endtime="20250225 13:11:05.392"/>
+</kw>
+<kw name="When I Search For Book By Title" library="common">
+<arg>${title}</arg>
+<kw name="Search For Book" library="common">
+<arg>${title}</arg>
+<kw name="Fill Text" library="Browser">
+<arg>id=search-input</arg>
+<arg>${search_text}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:05.393" level="INFO">Fills the text 'Robot Test Book 65362391' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:05.393" endtime="20250225 13:11:05.396"/>
+</kw>
+<kw name="Click" library="Browser">
+<arg>id=search-btn</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:05.396" level="INFO">Clicks the element 'id=search-btn'.</msg>
+<status status="PASS" starttime="20250225 13:11:05.396" endtime="20250225 13:11:05.421"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:05.393" endtime="20250225 13:11:05.421"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:05.392" endtime="20250225 13:11:05.421"/>
+</kw>
+<kw name="Then I Should See Book Details" library="common">
+<arg>${title}</arg>
+<arg>${author}</arg>
+<kw name="Wait For Elements State" library="Browser">
+<arg>.book-card h3:has-text("${title}")</arg>
+<arg>visible</arg>
+<arg>${TIMEOUT}</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<msg timestamp="20250225 13:11:05.711" level="INFO">Waited for Element with selector .book-card h3:has-text("Robot Test Book 65362391") at state visible</msg>
+<status status="PASS" starttime="20250225 13:11:05.422" endtime="20250225 13:11:05.711"/>
+</kw>
+<kw name="Wait For Elements State" library="Browser">
+<arg>.book-card:has(.book-title:has-text("${title}")) p:has-text("by ${author}")</arg>
+<arg>visible</arg>
+<arg>${TIMEOUT}</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<msg timestamp="20250225 13:11:05.718" level="INFO">Waited for Element with selector .book-card:has(.book-title:has-text("Robot Test Book 65362391")) p:has-text("by Test Author 65362391") at state visible</msg>
+<status status="PASS" starttime="20250225 13:11:05.711" endtime="20250225 13:11:05.718"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:05.421" endtime="20250225 13:11:05.718"/>
+</kw>
+<doc>Verify that user can add a new book</doc>
+<tag>browser</tag>
+<tag>crud</tag>
+<tag>ui</tag>
+<status status="PASS" starttime="20250225 13:11:05.300" endtime="20250225 13:11:05.718"/>
+</test>
+<test id="s1-s1-t3" name="User Can Search For Books" line="40">
+<kw name="Generate Random Book Data" library="common">
+<var>${title}</var>
+<var>${author}</var>
+<var>${pages}</var>
+<var>${category}</var>
+<kw name="Generate Random String" library="String">
+<var>${random_number}</var>
+<arg>4</arg>
+<arg>[NUMBERS]</arg>
+<doc>Generates a string with a desired ``length`` from the given ``chars``.</doc>
+<msg timestamp="20250225 13:11:05.727" level="INFO">${random_number} = 9246</msg>
+<status status="PASS" starttime="20250225 13:11:05.727" endtime="20250225 13:11:05.727"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${title}</var>
+<arg>Test Book ${random_number}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20250225 13:11:05.727" level="INFO">${title} = Test Book 9246</msg>
+<status status="PASS" starttime="20250225 13:11:05.727" endtime="20250225 13:11:05.727"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${author}</var>
+<arg>Test Author ${random_number}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20250225 13:11:05.727" level="INFO">${author} = Test Author 9246</msg>
+<status status="PASS" starttime="20250225 13:11:05.727" endtime="20250225 13:11:05.727"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${pages}</var>
+<arg>${random_number}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20250225 13:11:05.728" level="INFO">${pages} = 9246</msg>
+<status status="PASS" starttime="20250225 13:11:05.727" endtime="20250225 13:11:05.728"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${category}</var>
+<arg>Fiction</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20250225 13:11:05.728" level="INFO">${category} = Fiction</msg>
+<status status="PASS" starttime="20250225 13:11:05.728" endtime="20250225 13:11:05.728"/>
+</kw>
+<return>
+<value>${title}</value>
+<value>${author}</value>
+<value>${pages}</value>
+<value>${category}</value>
+<status status="PASS" starttime="20250225 13:11:05.728" endtime="20250225 13:11:05.728"/>
+</return>
+<msg timestamp="20250225 13:11:05.728" level="INFO">${title} = Test Book 9246</msg>
+<msg timestamp="20250225 13:11:05.728" level="INFO">${author} = Test Author 9246</msg>
+<msg timestamp="20250225 13:11:05.728" level="INFO">${pages} = 9246</msg>
+<msg timestamp="20250225 13:11:05.728" level="INFO">${category} = Fiction</msg>
+<status status="PASS" starttime="20250225 13:11:05.726" endtime="20250225 13:11:05.728"/>
+</kw>
+<kw name="Given I Have Created A Book" library="common">
+<arg>${title}</arg>
+<arg>${author}</arg>
+<arg>${pages}</arg>
+<arg>${category}</arg>
+<kw name="Add New Book" library="common">
+<arg>${title}</arg>
+<arg>${author}</arg>
+<arg>${pages}</arg>
+<arg>${category}</arg>
+<kw name="Fill Text" library="Browser">
+<arg>id=title</arg>
+<arg>${title}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:05.729" level="INFO">Fills the text 'Test Book 9246' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:05.729" endtime="20250225 13:11:05.734"/>
+</kw>
+<kw name="Fill Text" library="Browser">
+<arg>id=author</arg>
+<arg>${author}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:05.734" level="INFO">Fills the text 'Test Author 9246' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:05.734" endtime="20250225 13:11:05.739"/>
+</kw>
+<kw name="Fill Text" library="Browser">
+<arg>id=pages</arg>
+<arg>${pages}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:05.739" level="INFO">Fills the text '9246' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:05.739" endtime="20250225 13:11:05.742"/>
+</kw>
+<kw name="Select Options By" library="Browser">
+<arg>id=category</arg>
+<arg>text</arg>
+<arg>${category}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Selects options from select element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:05.743" level="INFO">Selects the option(s) Fiction by attribute SelectAttribute.label from element id=category.</msg>
+<status status="PASS" starttime="20250225 13:11:05.743" endtime="20250225 13:11:05.750"/>
+</kw>
+<kw name="Click" library="Browser">
+<arg>button:has-text("Add Book")</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:05.750" level="INFO">Clicks the element 'button:has-text("Add Book")'.</msg>
+<status status="PASS" starttime="20250225 13:11:05.750" endtime="20250225 13:11:05.785"/>
+</kw>
+<kw name="Wait For Elements State" library="Browser">
+<arg>.notification.success</arg>
+<arg>visible</arg>
+<arg>${TIMEOUT}</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<msg timestamp="20250225 13:11:05.788" level="INFO">Waited for Element with selector .notification.success at state visible</msg>
+<status status="PASS" starttime="20250225 13:11:05.785" endtime="20250225 13:11:05.788"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:05.729" endtime="20250225 13:11:05.788"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:05.728" endtime="20250225 13:11:05.788"/>
+</kw>
+<kw name="When I Search For Book By Title" library="common">
+<arg>${title}</arg>
+<kw name="Search For Book" library="common">
+<arg>${title}</arg>
+<kw name="Fill Text" library="Browser">
+<arg>id=search-input</arg>
+<arg>${search_text}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:05.789" level="INFO">Fills the text 'Test Book 9246' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:05.788" endtime="20250225 13:11:05.793"/>
+</kw>
+<kw name="Click" library="Browser">
+<arg>id=search-btn</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:05.794" level="INFO">Clicks the element 'id=search-btn'.</msg>
+<status status="PASS" starttime="20250225 13:11:05.793" endtime="20250225 13:11:05.822"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:05.788" endtime="20250225 13:11:05.822"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:05.788" endtime="20250225 13:11:05.822"/>
+</kw>
+<kw name="Then I Should See Book With Title" library="common">
+<arg>${title}</arg>
+<kw name="Book Should Exist" library="common">
+<arg>${title}</arg>
+<kw name="Wait For Elements State" library="Browser">
+<arg>.book-card h3.book-title:has-text("${title}")</arg>
+<arg>visible</arg>
+<arg>${TIMEOUT}</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<msg timestamp="20250225 13:11:05.825" level="INFO">Waited for Element with selector .book-card h3.book-title:has-text("Test Book 9246") at state visible</msg>
+<status status="PASS" starttime="20250225 13:11:05.822" endtime="20250225 13:11:05.825"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:05.822" endtime="20250225 13:11:05.825"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:05.822" endtime="20250225 13:11:05.825"/>
+</kw>
+<kw name="When I Search For Nonexistent Book" library="common">
+<kw name="Search For Book" library="common">
+<arg>NonExistentBookXYZ123</arg>
+<kw name="Fill Text" library="Browser">
+<arg>id=search-input</arg>
+<arg>${search_text}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:05.825" level="INFO">Fills the text 'NonExistentBookXYZ123' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:05.825" endtime="20250225 13:11:05.828"/>
+</kw>
+<kw name="Click" library="Browser">
+<arg>id=search-btn</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:05.828" level="INFO">Clicks the element 'id=search-btn'.</msg>
+<status status="PASS" starttime="20250225 13:11:05.828" endtime="20250225 13:11:05.850"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:05.825" endtime="20250225 13:11:05.851"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:05.825" endtime="20250225 13:11:05.851"/>
+</kw>
+<kw name="Then I Should See No Books Found Message" library="common">
+<kw name="Wait For Elements State" library="Browser">
+<arg>text=No books found</arg>
+<arg>visible</arg>
+<arg>timeout=5s</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<msg timestamp="20250225 13:11:05.853" level="INFO">Waited for Element with selector text=No books found at state visible</msg>
+<status status="PASS" starttime="20250225 13:11:05.851" endtime="20250225 13:11:05.853"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:05.851" endtime="20250225 13:11:05.853"/>
+</kw>
+<kw name="When I Clear The Search" library="common">
+<kw name="Fill Text" library="Browser">
+<arg>id=search-input</arg>
+<arg>${EMPTY}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:05.853" level="INFO">Fills the text '' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:05.853" endtime="20250225 13:11:05.856"/>
+</kw>
+<kw name="Click" library="Browser">
+<arg>id=search-btn</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:05.857" level="INFO">Clicks the element 'id=search-btn'.</msg>
+<status status="PASS" starttime="20250225 13:11:05.856" endtime="20250225 13:11:05.887"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:05.853" endtime="20250225 13:11:05.887"/>
+</kw>
+<kw name="Then I Should See All Books" library="common">
+<kw name="Wait For Elements State" library="Browser">
+<arg>css=.book-card &gt;&gt; nth=0</arg>
+<arg>visible</arg>
+<arg>${TIMEOUT}</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<msg timestamp="20250225 13:11:05.890" level="INFO">Waited for Element with selector css=.book-card &gt;&gt; nth=0 at state visible</msg>
+<status status="PASS" starttime="20250225 13:11:05.888" endtime="20250225 13:11:05.890"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:05.887" endtime="20250225 13:11:05.890"/>
+</kw>
+<doc>Verify that user can search for books</doc>
+<tag>browser</tag>
+<tag>search</tag>
+<tag>ui</tag>
+<status status="PASS" starttime="20250225 13:11:05.724" endtime="20250225 13:11:05.890"/>
+</test>
+<test id="s1-s1-t4" name="User Can Filter Books By Category" line="53">
+<kw name="Generate Random String" library="String">
+<var>${random_suffix}</var>
+<arg>6</arg>
+<arg>[NUMBERS]</arg>
+<doc>Generates a string with a desired ``length`` from the given ``chars``.</doc>
+<msg timestamp="20250225 13:11:05.893" level="INFO">${random_suffix} = 384328</msg>
+<status status="PASS" starttime="20250225 13:11:05.893" endtime="20250225 13:11:05.893"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${fiction_title}</var>
+<arg>TestFiction${random_suffix}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20250225 13:11:05.893" level="INFO">${fiction_title} = TestFiction384328</msg>
+<status status="PASS" starttime="20250225 13:11:05.893" endtime="20250225 13:11:05.893"/>
+</kw>
+<kw name="Given I Can See The Category Filter" library="common">
+<kw name="Wait For Elements State" library="Browser">
+<arg>id=category-filter</arg>
+<arg>visible</arg>
+<arg>${TIMEOUT}</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<msg timestamp="20250225 13:11:05.895" level="INFO">Waited for Element with selector id=category-filter at state visible</msg>
+<status status="PASS" starttime="20250225 13:11:05.893" endtime="20250225 13:11:05.895"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:05.893" endtime="20250225 13:11:05.895"/>
+</kw>
+<kw name="When I Select Fiction Category Filter" library="common">
+<kw name="Select Options By" library="Browser">
+<arg>id=category-filter</arg>
+<arg>text</arg>
+<arg>Fiction</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Selects options from select element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:05.895" level="INFO">Selects the option(s) Fiction by attribute SelectAttribute.label from element id=category-filter.</msg>
+<status status="PASS" starttime="20250225 13:11:05.895" endtime="20250225 13:11:05.901"/>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<arg>1s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<msg timestamp="20250225 13:11:06.902" level="INFO">Slept 1 second</msg>
+<status status="PASS" starttime="20250225 13:11:05.901" endtime="20250225 13:11:06.902"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:05.895" endtime="20250225 13:11:06.903"/>
+</kw>
+<kw name="And I Add A Fiction Book" library="common">
+<arg>${fiction_title}</arg>
+<kw name="Add New Book" library="common">
+<arg>${title}</arg>
+<arg>Fiction Author</arg>
+<arg>100</arg>
+<arg>Fiction</arg>
+<kw name="Fill Text" library="Browser">
+<arg>id=title</arg>
+<arg>${title}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:06.905" level="INFO">Fills the text 'TestFiction384328' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:06.905" endtime="20250225 13:11:06.918"/>
+</kw>
+<kw name="Fill Text" library="Browser">
+<arg>id=author</arg>
+<arg>${author}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:06.919" level="INFO">Fills the text 'Fiction Author' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:06.919" endtime="20250225 13:11:06.925"/>
+</kw>
+<kw name="Fill Text" library="Browser">
+<arg>id=pages</arg>
+<arg>${pages}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:06.925" level="INFO">Fills the text '100' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:06.925" endtime="20250225 13:11:06.930"/>
+</kw>
+<kw name="Select Options By" library="Browser">
+<arg>id=category</arg>
+<arg>text</arg>
+<arg>${category}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Selects options from select element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:06.930" level="INFO">Selects the option(s) Fiction by attribute SelectAttribute.label from element id=category.</msg>
+<status status="PASS" starttime="20250225 13:11:06.930" endtime="20250225 13:11:06.938"/>
+</kw>
+<kw name="Click" library="Browser">
+<arg>button:has-text("Add Book")</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:06.938" level="INFO">Clicks the element 'button:has-text("Add Book")'.</msg>
+<status status="PASS" starttime="20250225 13:11:06.938" endtime="20250225 13:11:06.974"/>
+</kw>
+<kw name="Wait For Elements State" library="Browser">
+<arg>.notification.success</arg>
+<arg>visible</arg>
+<arg>${TIMEOUT}</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<msg timestamp="20250225 13:11:06.981" level="INFO">Waited for Element with selector .notification.success at state visible</msg>
+<status status="PASS" starttime="20250225 13:11:06.974" endtime="20250225 13:11:06.981"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:06.904" endtime="20250225 13:11:06.981"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:06.903" endtime="20250225 13:11:06.981"/>
+</kw>
+<kw name="And I Search For Book By Title" library="common">
+<arg>${fiction_title}</arg>
+<kw name="Search For Book" library="common">
+<arg>${title}</arg>
+<kw name="Fill Text" library="Browser">
+<arg>id=search-input</arg>
+<arg>${search_text}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:06.982" level="INFO">Fills the text 'TestFiction384328' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:06.982" endtime="20250225 13:11:06.991"/>
+</kw>
+<kw name="Click" library="Browser">
+<arg>id=search-btn</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:06.991" level="INFO">Clicks the element 'id=search-btn'.</msg>
+<status status="PASS" starttime="20250225 13:11:06.991" endtime="20250225 13:11:07.018"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:06.981" endtime="20250225 13:11:07.018"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:06.981" endtime="20250225 13:11:07.018"/>
+</kw>
+<kw name="Then I Should See Book With Title" library="common">
+<arg>${fiction_title}</arg>
+<kw name="Book Should Exist" library="common">
+<arg>${title}</arg>
+<kw name="Wait For Elements State" library="Browser">
+<arg>.book-card h3.book-title:has-text("${title}")</arg>
+<arg>visible</arg>
+<arg>${TIMEOUT}</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<msg timestamp="20250225 13:11:07.303" level="INFO">Waited for Element with selector .book-card h3.book-title:has-text("TestFiction384328") at state visible</msg>
+<status status="PASS" starttime="20250225 13:11:07.018" endtime="20250225 13:11:07.304"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:07.018" endtime="20250225 13:11:07.304"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:07.018" endtime="20250225 13:11:07.304"/>
+</kw>
+<kw name="When I Reset The Category Filter" library="common">
+<kw name="Filter By Category" library="common">
+<arg>All Categories</arg>
+<kw name="Select Options By" library="Browser">
+<arg>id=category-filter</arg>
+<arg>text</arg>
+<arg>${category}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Selects options from select element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:07.305" level="INFO">Selects the option(s) All Categories by attribute SelectAttribute.label from element id=category-filter.</msg>
+<status status="PASS" starttime="20250225 13:11:07.305" endtime="20250225 13:11:07.318"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:07.305" endtime="20250225 13:11:07.318"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:07.304" endtime="20250225 13:11:07.318"/>
+</kw>
+<kw name="Then I Should See All Categories Option" library="common">
+<kw name="Wait For Elements State" library="Browser">
+<arg>id=category-filter</arg>
+<arg>visible</arg>
+<arg>${TIMEOUT}</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<msg timestamp="20250225 13:11:07.322" level="INFO">Waited for Element with selector id=category-filter at state visible</msg>
+<status status="PASS" starttime="20250225 13:11:07.319" endtime="20250225 13:11:07.322"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:07.319" endtime="20250225 13:11:07.322"/>
+</kw>
+<doc>Verify that user can filter books by category</doc>
+<tag>browser</tag>
+<tag>filter</tag>
+<tag>ui</tag>
+<status status="PASS" starttime="20250225 13:11:05.892" endtime="20250225 13:11:07.322"/>
+</test>
+<test id="s1-s1-t5" name="User Can Edit A Book" line="67">
+<kw name="Generate Random String" library="String">
+<var>${random_suffix}</var>
+<arg>8</arg>
+<arg>[NUMBERS]</arg>
+<doc>Generates a string with a desired ``length`` from the given ``chars``.</doc>
+<msg timestamp="20250225 13:11:07.328" level="INFO">${random_suffix} = 90158669</msg>
+<status status="PASS" starttime="20250225 13:11:07.328" endtime="20250225 13:11:07.328"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${original_title}</var>
+<arg>Editable Book ${random_suffix}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20250225 13:11:07.328" level="INFO">${original_title} = Editable Book 90158669</msg>
+<status status="PASS" starttime="20250225 13:11:07.328" endtime="20250225 13:11:07.328"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${original_author}</var>
+<arg>Original Author</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20250225 13:11:07.328" level="INFO">${original_author} = Original Author</msg>
+<status status="PASS" starttime="20250225 13:11:07.328" endtime="20250225 13:11:07.328"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${original_pages}</var>
+<arg>100</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20250225 13:11:07.329" level="INFO">${original_pages} = 100</msg>
+<status status="PASS" starttime="20250225 13:11:07.328" endtime="20250225 13:11:07.329"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${original_category}</var>
+<arg>Fiction</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20250225 13:11:07.329" level="INFO">${original_category} = Fiction</msg>
+<status status="PASS" starttime="20250225 13:11:07.329" endtime="20250225 13:11:07.329"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${new_title}</var>
+<arg>Edited Book ${random_suffix}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20250225 13:11:07.329" level="INFO">${new_title} = Edited Book 90158669</msg>
+<status status="PASS" starttime="20250225 13:11:07.329" endtime="20250225 13:11:07.329"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${new_author}</var>
+<arg>Edited Author</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20250225 13:11:07.329" level="INFO">${new_author} = Edited Author</msg>
+<status status="PASS" starttime="20250225 13:11:07.329" endtime="20250225 13:11:07.329"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${new_pages}</var>
+<arg>200</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20250225 13:11:07.329" level="INFO">${new_pages} = 200</msg>
+<status status="PASS" starttime="20250225 13:11:07.329" endtime="20250225 13:11:07.329"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${new_category}</var>
+<arg>Mystery</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20250225 13:11:07.329" level="INFO">${new_category} = Mystery</msg>
+<status status="PASS" starttime="20250225 13:11:07.329" endtime="20250225 13:11:07.329"/>
+</kw>
+<kw name="Given I Create A Book For Editing" library="common">
+<arg>${original_title}</arg>
+<arg>${original_author}</arg>
+<arg>${original_pages}</arg>
+<arg>${original_category}</arg>
+<kw name="Add New Book" library="common">
+<arg>${title}</arg>
+<arg>${author}</arg>
+<arg>${pages}</arg>
+<arg>${category}</arg>
+<kw name="Fill Text" library="Browser">
+<arg>id=title</arg>
+<arg>${title}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:07.330" level="INFO">Fills the text 'Editable Book 90158669' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:07.330" endtime="20250225 13:11:07.333"/>
+</kw>
+<kw name="Fill Text" library="Browser">
+<arg>id=author</arg>
+<arg>${author}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:07.334" level="INFO">Fills the text 'Original Author' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:07.333" endtime="20250225 13:11:07.337"/>
+</kw>
+<kw name="Fill Text" library="Browser">
+<arg>id=pages</arg>
+<arg>${pages}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:07.337" level="INFO">Fills the text '100' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:07.337" endtime="20250225 13:11:07.339"/>
+</kw>
+<kw name="Select Options By" library="Browser">
+<arg>id=category</arg>
+<arg>text</arg>
+<arg>${category}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Selects options from select element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:07.339" level="INFO">Selects the option(s) Fiction by attribute SelectAttribute.label from element id=category.</msg>
+<status status="PASS" starttime="20250225 13:11:07.339" endtime="20250225 13:11:07.344"/>
+</kw>
+<kw name="Click" library="Browser">
+<arg>button:has-text("Add Book")</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:07.344" level="INFO">Clicks the element 'button:has-text("Add Book")'.</msg>
+<status status="PASS" starttime="20250225 13:11:07.344" endtime="20250225 13:11:07.368"/>
+</kw>
+<kw name="Wait For Elements State" library="Browser">
+<arg>.notification.success</arg>
+<arg>visible</arg>
+<arg>${TIMEOUT}</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<msg timestamp="20250225 13:11:07.370" level="INFO">Waited for Element with selector .notification.success at state visible</msg>
+<status status="PASS" starttime="20250225 13:11:07.368" endtime="20250225 13:11:07.370"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:07.330" endtime="20250225 13:11:07.370"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:07.329" endtime="20250225 13:11:07.370"/>
+</kw>
+<kw name="When I Clear Filters And Search" library="common">
+<arg>${original_title}</arg>
+<kw name="Fill Text" library="Browser">
+<arg>id=search-input</arg>
+<arg>${EMPTY}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:07.371" level="INFO">Fills the text '' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:07.370" endtime="20250225 13:11:07.373"/>
+</kw>
+<kw name="Click" library="Browser">
+<arg>id=search-btn</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:07.374" level="INFO">Clicks the element 'id=search-btn'.</msg>
+<status status="PASS" starttime="20250225 13:11:07.373" endtime="20250225 13:11:07.406"/>
+</kw>
+<kw name="Filter By Category" library="common">
+<arg>All Categories</arg>
+<kw name="Select Options By" library="Browser">
+<arg>id=category-filter</arg>
+<arg>text</arg>
+<arg>${category}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Selects options from select element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:07.406" level="INFO">Selects the option(s) All Categories by attribute SelectAttribute.label from element id=category-filter.</msg>
+<status status="PASS" starttime="20250225 13:11:07.406" endtime="20250225 13:11:07.417"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:07.406" endtime="20250225 13:11:07.417"/>
+</kw>
+<kw name="Search For Book" library="common">
+<arg>${search_text}</arg>
+<kw name="Fill Text" library="Browser">
+<arg>id=search-input</arg>
+<arg>${search_text}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:07.418" level="INFO">Fills the text 'Editable Book 90158669' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:07.418" endtime="20250225 13:11:07.423"/>
+</kw>
+<kw name="Click" library="Browser">
+<arg>id=search-btn</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:07.423" level="INFO">Clicks the element 'id=search-btn'.</msg>
+<status status="PASS" starttime="20250225 13:11:07.423" endtime="20250225 13:11:07.451"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:07.418" endtime="20250225 13:11:07.451"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:07.370" endtime="20250225 13:11:07.451"/>
+</kw>
+<kw name="Then I Should See Book With Title" library="common">
+<arg>${original_title}</arg>
+<kw name="Book Should Exist" library="common">
+<arg>${title}</arg>
+<kw name="Wait For Elements State" library="Browser">
+<arg>.book-card h3.book-title:has-text("${title}")</arg>
+<arg>visible</arg>
+<arg>${TIMEOUT}</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<msg timestamp="20250225 13:11:07.453" level="INFO">Waited for Element with selector .book-card h3.book-title:has-text("Editable Book 90158669") at state visible</msg>
+<status status="PASS" starttime="20250225 13:11:07.451" endtime="20250225 13:11:07.454"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:07.451" endtime="20250225 13:11:07.454"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:07.451" endtime="20250225 13:11:07.454"/>
+</kw>
+<kw name="When I Edit The Book" library="common">
+<arg>${original_title}</arg>
+<arg>${new_title}</arg>
+<arg>${new_author}</arg>
+<arg>${new_pages}</arg>
+<arg>${new_category}</arg>
+<kw name="Edit Book" library="common">
+<arg>${original_title}</arg>
+<arg>${new_title}</arg>
+<arg>${new_author}</arg>
+<arg>${new_pages}</arg>
+<arg>${new_category}</arg>
+<kw name="Wait For Elements State" library="Browser">
+<arg>.book-card h3.book-title:has-text("${original_title}")</arg>
+<arg>visible</arg>
+<arg>${TIMEOUT}</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<msg timestamp="20250225 13:11:07.456" level="INFO">Waited for Element with selector .book-card h3.book-title:has-text("Editable Book 90158669") at state visible</msg>
+<status status="PASS" starttime="20250225 13:11:07.454" endtime="20250225 13:11:07.456"/>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<arg>1s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<msg timestamp="20250225 13:11:08.458" level="INFO">Slept 1 second</msg>
+<status status="PASS" starttime="20250225 13:11:07.456" endtime="20250225 13:11:08.458"/>
+</kw>
+<kw name="Click" library="Browser">
+<arg>.book-card:has(h3.book-title:has-text("${original_title}")) .edit-btn</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:08.459" level="INFO">Clicks the element '.book-card:has(h3.book-title:has-text("Editable Book 90158669")) .edit-btn'.</msg>
+<status status="PASS" starttime="20250225 13:11:08.459" endtime="20250225 13:11:08.487"/>
+</kw>
+<kw name="Wait For Elements State" library="Browser">
+<arg>.modal-content</arg>
+<arg>visible</arg>
+<arg>${TIMEOUT}</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<msg timestamp="20250225 13:11:08.492" level="INFO">Waited for Element with selector .modal-content at state visible</msg>
+<status status="PASS" starttime="20250225 13:11:08.488" endtime="20250225 13:11:08.492"/>
+</kw>
+<kw name="Fill Text" library="Browser">
+<arg>id=edit-title</arg>
+<arg>${new_title}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:08.493" level="INFO">Fills the text 'Edited Book 90158669' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:08.492" endtime="20250225 13:11:08.498"/>
+</kw>
+<kw name="Fill Text" library="Browser">
+<arg>id=edit-author</arg>
+<arg>${new_author}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:08.498" level="INFO">Fills the text 'Edited Author' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:08.498" endtime="20250225 13:11:08.503"/>
+</kw>
+<kw name="Fill Text" library="Browser">
+<arg>id=edit-pages</arg>
+<arg>${new_pages}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:08.504" level="INFO">Fills the text '200' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:08.503" endtime="20250225 13:11:08.512"/>
+</kw>
+<kw name="Select Options By" library="Browser">
+<arg>id=edit-category</arg>
+<arg>text</arg>
+<arg>${new_category}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Selects options from select element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:08.512" level="INFO">Selects the option(s) Mystery by attribute SelectAttribute.label from element id=edit-category.</msg>
+<status status="PASS" starttime="20250225 13:11:08.512" endtime="20250225 13:11:08.524"/>
+</kw>
+<kw name="Click" library="Browser">
+<arg>.modal-content button[type="submit"]</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:08.524" level="INFO">Clicks the element '.modal-content button[type="submit"]'.</msg>
+<status status="PASS" starttime="20250225 13:11:08.524" endtime="20250225 13:11:08.556"/>
+</kw>
+<kw name="Wait For Elements State" library="Browser">
+<arg>.notification.success</arg>
+<arg>visible</arg>
+<arg>${TIMEOUT}</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<msg timestamp="20250225 13:11:08.561" level="INFO">Waited for Element with selector .notification.success at state visible</msg>
+<status status="PASS" starttime="20250225 13:11:08.557" endtime="20250225 13:11:08.561"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:07.454" endtime="20250225 13:11:08.561"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:07.454" endtime="20250225 13:11:08.561"/>
+</kw>
+<kw name="And I Search For Book By Title" library="common">
+<arg>${new_title}</arg>
+<kw name="Search For Book" library="common">
+<arg>${title}</arg>
+<kw name="Fill Text" library="Browser">
+<arg>id=search-input</arg>
+<arg>${search_text}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:08.562" level="INFO">Fills the text 'Edited Book 90158669' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:08.562" endtime="20250225 13:11:08.567"/>
+</kw>
+<kw name="Click" library="Browser">
+<arg>id=search-btn</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:08.567" level="INFO">Clicks the element 'id=search-btn'.</msg>
+<status status="PASS" starttime="20250225 13:11:08.567" endtime="20250225 13:11:08.602"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:08.562" endtime="20250225 13:11:08.602"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:08.562" endtime="20250225 13:11:08.602"/>
+</kw>
+<kw name="Then I Should See Book With Title" library="common">
+<arg>${new_title}</arg>
+<kw name="Book Should Exist" library="common">
+<arg>${title}</arg>
+<kw name="Wait For Elements State" library="Browser">
+<arg>.book-card h3.book-title:has-text("${title}")</arg>
+<arg>visible</arg>
+<arg>${TIMEOUT}</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<msg timestamp="20250225 13:11:08.886" level="INFO">Waited for Element with selector .book-card h3.book-title:has-text("Edited Book 90158669") at state visible</msg>
+<status status="PASS" starttime="20250225 13:11:08.602" endtime="20250225 13:11:08.886"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:08.602" endtime="20250225 13:11:08.887"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:08.602" endtime="20250225 13:11:08.887"/>
+</kw>
+<doc>Verify that user can edit a book</doc>
+<tag>browser</tag>
+<tag>crud</tag>
+<tag>ui</tag>
+<status status="PASS" starttime="20250225 13:11:07.326" endtime="20250225 13:11:08.887"/>
+</test>
+<test id="s1-s1-t6" name="User Can Delete A Book" line="87">
+<kw name="Generate Random String" library="String">
+<var>${random_suffix}</var>
+<arg>8</arg>
+<arg>[NUMBERS]</arg>
+<doc>Generates a string with a desired ``length`` from the given ``chars``.</doc>
+<msg timestamp="20250225 13:11:08.892" level="INFO">${random_suffix} = 44669553</msg>
+<status status="PASS" starttime="20250225 13:11:08.892" endtime="20250225 13:11:08.892"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${title}</var>
+<arg>Deletable Book ${random_suffix}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20250225 13:11:08.892" level="INFO">${title} = Deletable Book 44669553</msg>
+<status status="PASS" starttime="20250225 13:11:08.892" endtime="20250225 13:11:08.893"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${author}</var>
+<arg>Delete Author</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20250225 13:11:08.893" level="INFO">${author} = Delete Author</msg>
+<status status="PASS" starttime="20250225 13:11:08.893" endtime="20250225 13:11:08.893"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${pages}</var>
+<arg>100</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20250225 13:11:08.893" level="INFO">${pages} = 100</msg>
+<status status="PASS" starttime="20250225 13:11:08.893" endtime="20250225 13:11:08.893"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${category}</var>
+<arg>Fiction</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20250225 13:11:08.893" level="INFO">${category} = Fiction</msg>
+<status status="PASS" starttime="20250225 13:11:08.893" endtime="20250225 13:11:08.893"/>
+</kw>
+<kw name="Given I Create A Book For Deletion" library="common">
+<arg>${title}</arg>
+<arg>${author}</arg>
+<arg>${pages}</arg>
+<arg>${category}</arg>
+<kw name="Add New Book" library="common">
+<arg>${title}</arg>
+<arg>${author}</arg>
+<arg>${pages}</arg>
+<arg>${category}</arg>
+<kw name="Fill Text" library="Browser">
+<arg>id=title</arg>
+<arg>${title}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:08.894" level="INFO">Fills the text 'Deletable Book 44669553' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:08.893" endtime="20250225 13:11:08.898"/>
+</kw>
+<kw name="Fill Text" library="Browser">
+<arg>id=author</arg>
+<arg>${author}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:08.898" level="INFO">Fills the text 'Delete Author' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:08.898" endtime="20250225 13:11:08.902"/>
+</kw>
+<kw name="Fill Text" library="Browser">
+<arg>id=pages</arg>
+<arg>${pages}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:08.902" level="INFO">Fills the text '100' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:08.902" endtime="20250225 13:11:08.906"/>
+</kw>
+<kw name="Select Options By" library="Browser">
+<arg>id=category</arg>
+<arg>text</arg>
+<arg>${category}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Selects options from select element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:08.906" level="INFO">Selects the option(s) Fiction by attribute SelectAttribute.label from element id=category.</msg>
+<status status="PASS" starttime="20250225 13:11:08.906" endtime="20250225 13:11:08.912"/>
+</kw>
+<kw name="Click" library="Browser">
+<arg>button:has-text("Add Book")</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:08.913" level="INFO">Clicks the element 'button:has-text("Add Book")'.</msg>
+<status status="PASS" starttime="20250225 13:11:08.912" endtime="20250225 13:11:08.952"/>
+</kw>
+<kw name="Wait For Elements State" library="Browser">
+<arg>.notification.success</arg>
+<arg>visible</arg>
+<arg>${TIMEOUT}</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<msg timestamp="20250225 13:11:08.955" level="INFO">Waited for Element with selector .notification.success at state visible</msg>
+<status status="PASS" starttime="20250225 13:11:08.952" endtime="20250225 13:11:08.955"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:08.893" endtime="20250225 13:11:08.955"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:08.893" endtime="20250225 13:11:08.956"/>
+</kw>
+<kw name="When I Clear Filters And Search" library="common">
+<arg>${title}</arg>
+<kw name="Fill Text" library="Browser">
+<arg>id=search-input</arg>
+<arg>${EMPTY}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:08.956" level="INFO">Fills the text '' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:08.956" endtime="20250225 13:11:08.961"/>
+</kw>
+<kw name="Click" library="Browser">
+<arg>id=search-btn</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:08.961" level="INFO">Clicks the element 'id=search-btn'.</msg>
+<status status="PASS" starttime="20250225 13:11:08.961" endtime="20250225 13:11:08.992"/>
+</kw>
+<kw name="Filter By Category" library="common">
+<arg>All Categories</arg>
+<kw name="Select Options By" library="Browser">
+<arg>id=category-filter</arg>
+<arg>text</arg>
+<arg>${category}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Selects options from select element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:08.993" level="INFO">Selects the option(s) All Categories by attribute SelectAttribute.label from element id=category-filter.</msg>
+<status status="PASS" starttime="20250225 13:11:08.993" endtime="20250225 13:11:09.005"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:08.992" endtime="20250225 13:11:09.005"/>
+</kw>
+<kw name="Search For Book" library="common">
+<arg>${search_text}</arg>
+<kw name="Fill Text" library="Browser">
+<arg>id=search-input</arg>
+<arg>${search_text}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:09.006" level="INFO">Fills the text 'Deletable Book 44669553' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:09.005" endtime="20250225 13:11:09.013"/>
+</kw>
+<kw name="Click" library="Browser">
+<arg>id=search-btn</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:09.013" level="INFO">Clicks the element 'id=search-btn'.</msg>
+<status status="PASS" starttime="20250225 13:11:09.013" endtime="20250225 13:11:09.052"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:09.005" endtime="20250225 13:11:09.052"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:08.956" endtime="20250225 13:11:09.052"/>
+</kw>
+<kw name="Then I Should See Book With Title" library="common">
+<arg>${title}</arg>
+<kw name="Book Should Exist" library="common">
+<arg>${title}</arg>
+<kw name="Wait For Elements State" library="Browser">
+<arg>.book-card h3.book-title:has-text("${title}")</arg>
+<arg>visible</arg>
+<arg>${TIMEOUT}</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<msg timestamp="20250225 13:11:09.055" level="INFO">Waited for Element with selector .book-card h3.book-title:has-text("Deletable Book 44669553") at state visible</msg>
+<status status="PASS" starttime="20250225 13:11:09.052" endtime="20250225 13:11:09.055"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:09.052" endtime="20250225 13:11:09.055"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:09.052" endtime="20250225 13:11:09.055"/>
+</kw>
+<kw name="When I Delete Book With Title" library="common">
+<arg>${title}</arg>
+<kw name="Delete Book" library="common">
+<arg>${title}</arg>
+<kw name="Wait For Elements State" library="Browser">
+<arg>.book-card h3.book-title:has-text("${title}")</arg>
+<arg>visible</arg>
+<arg>${TIMEOUT}</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<msg timestamp="20250225 13:11:09.057" level="INFO">Waited for Element with selector .book-card h3.book-title:has-text("Deletable Book 44669553") at state visible</msg>
+<status status="PASS" starttime="20250225 13:11:09.055" endtime="20250225 13:11:09.057"/>
+</kw>
+<kw name="Handle Future Dialogs" library="Browser">
+<arg>action=accept</arg>
+<tag>PageContent</tag>
+<doc>Handle next dialog on page with ``action``.</doc>
+<status status="PASS" starttime="20250225 13:11:09.057" endtime="20250225 13:11:09.059"/>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<arg>1s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<msg timestamp="20250225 13:11:10.061" level="INFO">Slept 1 second</msg>
+<status status="PASS" starttime="20250225 13:11:09.059" endtime="20250225 13:11:10.061"/>
+</kw>
+<kw name="Click" library="Browser">
+<arg>.book-card:has(h3.book-title:has-text("${title}")) .delete-btn</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:10.062" level="INFO">Clicks the element '.book-card:has(h3.book-title:has-text("Deletable Book 44669553")) .delete-btn'.</msg>
+<status status="PASS" starttime="20250225 13:11:10.062" endtime="20250225 13:11:10.088"/>
+</kw>
+<kw name="Wait For Elements State" library="Browser">
+<arg>.notification.success</arg>
+<arg>visible</arg>
+<arg>${TIMEOUT}</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<msg timestamp="20250225 13:11:10.091" level="INFO">Waited for Element with selector .notification.success at state visible</msg>
+<status status="PASS" starttime="20250225 13:11:10.088" endtime="20250225 13:11:10.092"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:09.055" endtime="20250225 13:11:10.092"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:09.055" endtime="20250225 13:11:10.092"/>
+</kw>
+<kw name="And I Search For Book By Title" library="common">
+<arg>${title}</arg>
+<kw name="Search For Book" library="common">
+<arg>${title}</arg>
+<kw name="Fill Text" library="Browser">
+<arg>id=search-input</arg>
+<arg>${search_text}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:10.092" level="INFO">Fills the text 'Deletable Book 44669553' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:10.092" endtime="20250225 13:11:10.102"/>
+</kw>
+<kw name="Click" library="Browser">
+<arg>id=search-btn</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:10.102" level="INFO">Clicks the element 'id=search-btn'.</msg>
+<status status="PASS" starttime="20250225 13:11:10.102" endtime="20250225 13:11:10.140"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:10.092" endtime="20250225 13:11:10.140"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:10.092" endtime="20250225 13:11:10.140"/>
+</kw>
+<kw name="Then I Should See No Books Found Message" library="common">
+<kw name="Wait For Elements State" library="Browser">
+<arg>text=No books found</arg>
+<arg>visible</arg>
+<arg>timeout=5s</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<msg timestamp="20250225 13:11:10.435" level="INFO">Waited for Element with selector text=No books found at state visible</msg>
+<status status="PASS" starttime="20250225 13:11:10.142" endtime="20250225 13:11:10.435"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:10.141" endtime="20250225 13:11:10.436"/>
+</kw>
+<doc>Verify that user can delete a book</doc>
+<tag>browser</tag>
+<tag>crud</tag>
+<tag>ui</tag>
+<status status="PASS" starttime="20250225 13:11:08.890" endtime="20250225 13:11:10.436"/>
+</test>
+<test id="s1-s1-t7" name="User Can Sort Books" line="103">
+<kw name="Generate Random String" library="String">
+<var>${random_suffix}</var>
+<arg>8</arg>
+<arg>[NUMBERS]</arg>
+<doc>Generates a string with a desired ``length`` from the given ``chars``.</doc>
+<msg timestamp="20250225 13:11:10.445" level="INFO">${random_suffix} = 98452174</msg>
+<status status="PASS" starttime="20250225 13:11:10.445" endtime="20250225 13:11:10.445"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${title_a}</var>
+<arg>A Test Book Sort ${random_suffix}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20250225 13:11:10.446" level="INFO">${title_a} = A Test Book Sort 98452174</msg>
+<status status="PASS" starttime="20250225 13:11:10.446" endtime="20250225 13:11:10.446"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${title_b}</var>
+<arg>B Test Book Sort ${random_suffix}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20250225 13:11:10.446" level="INFO">${title_b} = B Test Book Sort 98452174</msg>
+<status status="PASS" starttime="20250225 13:11:10.446" endtime="20250225 13:11:10.446"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${title_c}</var>
+<arg>C Test Book Sort ${random_suffix}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20250225 13:11:10.446" level="INFO">${title_c} = C Test Book Sort 98452174</msg>
+<status status="PASS" starttime="20250225 13:11:10.446" endtime="20250225 13:11:10.446"/>
+</kw>
+<kw name="Given I Create Multiple Books For Sorting" library="common">
+<arg>${title_a}</arg>
+<arg>${title_b}</arg>
+<arg>${title_c}</arg>
+<kw name="Add New Book" library="common">
+<arg>${title_a}</arg>
+<arg>Author 1</arg>
+<arg>100</arg>
+<arg>Fiction</arg>
+<kw name="Fill Text" library="Browser">
+<arg>id=title</arg>
+<arg>${title}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:10.446" level="INFO">Fills the text 'A Test Book Sort 98452174' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:10.446" endtime="20250225 13:11:10.451"/>
+</kw>
+<kw name="Fill Text" library="Browser">
+<arg>id=author</arg>
+<arg>${author}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:10.451" level="INFO">Fills the text 'Author 1' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:10.451" endtime="20250225 13:11:10.455"/>
+</kw>
+<kw name="Fill Text" library="Browser">
+<arg>id=pages</arg>
+<arg>${pages}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:10.455" level="INFO">Fills the text '100' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:10.455" endtime="20250225 13:11:10.459"/>
+</kw>
+<kw name="Select Options By" library="Browser">
+<arg>id=category</arg>
+<arg>text</arg>
+<arg>${category}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Selects options from select element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:10.459" level="INFO">Selects the option(s) Fiction by attribute SelectAttribute.label from element id=category.</msg>
+<status status="PASS" starttime="20250225 13:11:10.459" endtime="20250225 13:11:10.465"/>
+</kw>
+<kw name="Click" library="Browser">
+<arg>button:has-text("Add Book")</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:10.465" level="INFO">Clicks the element 'button:has-text("Add Book")'.</msg>
+<status status="PASS" starttime="20250225 13:11:10.465" endtime="20250225 13:11:10.501"/>
+</kw>
+<kw name="Wait For Elements State" library="Browser">
+<arg>.notification.success</arg>
+<arg>visible</arg>
+<arg>${TIMEOUT}</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<msg timestamp="20250225 13:11:10.504" level="INFO">Waited for Element with selector .notification.success at state visible</msg>
+<status status="PASS" starttime="20250225 13:11:10.502" endtime="20250225 13:11:10.504"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:10.446" endtime="20250225 13:11:10.504"/>
+</kw>
+<kw name="Add New Book" library="common">
+<arg>${title_b}</arg>
+<arg>Author 2</arg>
+<arg>200</arg>
+<arg>Science Fiction</arg>
+<kw name="Fill Text" library="Browser">
+<arg>id=title</arg>
+<arg>${title}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:10.505" level="INFO">Fills the text 'B Test Book Sort 98452174' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:10.505" endtime="20250225 13:11:10.508"/>
+</kw>
+<kw name="Fill Text" library="Browser">
+<arg>id=author</arg>
+<arg>${author}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:10.509" level="INFO">Fills the text 'Author 2' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:10.508" endtime="20250225 13:11:10.511"/>
+</kw>
+<kw name="Fill Text" library="Browser">
+<arg>id=pages</arg>
+<arg>${pages}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:10.512" level="INFO">Fills the text '200' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:10.512" endtime="20250225 13:11:10.515"/>
+</kw>
+<kw name="Select Options By" library="Browser">
+<arg>id=category</arg>
+<arg>text</arg>
+<arg>${category}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Selects options from select element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:10.515" level="INFO">Selects the option(s) Science Fiction by attribute SelectAttribute.label from element id=category.</msg>
+<status status="PASS" starttime="20250225 13:11:10.515" endtime="20250225 13:11:10.522"/>
+</kw>
+<kw name="Click" library="Browser">
+<arg>button:has-text("Add Book")</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:10.522" level="INFO">Clicks the element 'button:has-text("Add Book")'.</msg>
+<status status="PASS" starttime="20250225 13:11:10.522" endtime="20250225 13:11:10.919"/>
+</kw>
+<kw name="Wait For Elements State" library="Browser">
+<arg>.notification.success</arg>
+<arg>visible</arg>
+<arg>${TIMEOUT}</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<msg timestamp="20250225 13:11:10.925" level="INFO">Waited for Element with selector .notification.success at state visible</msg>
+<status status="PASS" starttime="20250225 13:11:10.920" endtime="20250225 13:11:10.925"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:10.504" endtime="20250225 13:11:10.925"/>
+</kw>
+<kw name="Add New Book" library="common">
+<arg>${title_c}</arg>
+<arg>Author 3</arg>
+<arg>300</arg>
+<arg>Mystery</arg>
+<kw name="Fill Text" library="Browser">
+<arg>id=title</arg>
+<arg>${title}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:10.925" level="INFO">Fills the text 'C Test Book Sort 98452174' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:10.925" endtime="20250225 13:11:10.930"/>
+</kw>
+<kw name="Fill Text" library="Browser">
+<arg>id=author</arg>
+<arg>${author}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:10.931" level="INFO">Fills the text 'Author 3' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:10.930" endtime="20250225 13:11:10.935"/>
+</kw>
+<kw name="Fill Text" library="Browser">
+<arg>id=pages</arg>
+<arg>${pages}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:10.935" level="INFO">Fills the text '300' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:10.935" endtime="20250225 13:11:10.940"/>
+</kw>
+<kw name="Select Options By" library="Browser">
+<arg>id=category</arg>
+<arg>text</arg>
+<arg>${category}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Selects options from select element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:10.941" level="INFO">Selects the option(s) Mystery by attribute SelectAttribute.label from element id=category.</msg>
+<status status="PASS" starttime="20250225 13:11:10.941" endtime="20250225 13:11:10.947"/>
+</kw>
+<kw name="Click" library="Browser">
+<arg>button:has-text("Add Book")</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:10.948" level="INFO">Clicks the element 'button:has-text("Add Book")'.</msg>
+<status status="PASS" starttime="20250225 13:11:10.948" endtime="20250225 13:11:10.985"/>
+</kw>
+<kw name="Wait For Elements State" library="Browser">
+<arg>.notification.success</arg>
+<arg>visible</arg>
+<arg>${TIMEOUT}</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<msg timestamp="20250225 13:11:10.988" level="INFO">Waited for Element with selector .notification.success at state visible</msg>
+<status status="PASS" starttime="20250225 13:11:10.985" endtime="20250225 13:11:10.989"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:10.925" endtime="20250225 13:11:10.989"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:10.446" endtime="20250225 13:11:10.989"/>
+</kw>
+<kw name="When I Filter And Search For Books" library="common">
+<arg>${random_suffix}</arg>
+<kw name="Fill Text" library="Browser">
+<arg>id=search-input</arg>
+<arg>${EMPTY}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:10.989" level="INFO">Fills the text '' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:10.989" endtime="20250225 13:11:10.994"/>
+</kw>
+<kw name="Click" library="Browser">
+<arg>id=search-btn</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:10.994" level="INFO">Clicks the element 'id=search-btn'.</msg>
+<status status="PASS" starttime="20250225 13:11:10.994" endtime="20250225 13:11:11.024"/>
+</kw>
+<kw name="Filter By Category" library="common">
+<arg>All Categories</arg>
+<kw name="Select Options By" library="Browser">
+<arg>id=category-filter</arg>
+<arg>text</arg>
+<arg>${category}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Selects options from select element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:11.024" level="INFO">Selects the option(s) All Categories by attribute SelectAttribute.label from element id=category-filter.</msg>
+<status status="PASS" starttime="20250225 13:11:11.024" endtime="20250225 13:11:11.036"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:11.024" endtime="20250225 13:11:11.036"/>
+</kw>
+<kw name="Search For Book" library="common">
+<arg>${search_text}</arg>
+<kw name="Fill Text" library="Browser">
+<arg>id=search-input</arg>
+<arg>${search_text}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Clears and fills the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:11.037" level="INFO">Fills the text '98452174' in the given field.</msg>
+<status status="PASS" starttime="20250225 13:11:11.037" endtime="20250225 13:11:11.041"/>
+</kw>
+<kw name="Click" library="Browser">
+<arg>id=search-btn</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:11.042" level="INFO">Clicks the element 'id=search-btn'.</msg>
+<status status="PASS" starttime="20250225 13:11:11.042" endtime="20250225 13:11:11.071"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:11.037" endtime="20250225 13:11:11.071"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:10.989" endtime="20250225 13:11:11.072"/>
+</kw>
+<kw name="And I Sort By Title Ascending" library="common">
+<kw name="Sort Books By" library="common">
+<arg>Title</arg>
+<kw name="Select Options By" library="Browser">
+<arg>id=sort-by</arg>
+<arg>text</arg>
+<arg>${sort_by}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Selects options from select element found by ``selector``.</doc>
+<msg timestamp="20250225 13:11:11.072" level="INFO">Selects the option(s) Title by attribute SelectAttribute.label from element id=sort-by.</msg>
+<status status="PASS" starttime="20250225 13:11:11.072" endtime="20250225 13:11:11.078"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:11.072" endtime="20250225 13:11:11.078"/>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<arg>1s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<msg timestamp="20250225 13:11:12.080" level="INFO">Slept 1 second</msg>
+<status status="PASS" starttime="20250225 13:11:11.078" endtime="20250225 13:11:12.080"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:11.072" endtime="20250225 13:11:12.081"/>
+</kw>
+<kw name="Then I Should See First Book With Title" library="common">
+<arg>${title_a}</arg>
+<kw name="Wait For Elements State" library="Browser">
+<arg>.book-card h3.book-title:has-text("${title}")</arg>
+<arg>visible</arg>
+<arg>${TIMEOUT}</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<msg timestamp="20250225 13:11:12.092" level="INFO">Waited for Element with selector .book-card h3.book-title:has-text("A Test Book Sort 98452174") at state visible</msg>
+<status status="PASS" starttime="20250225 13:11:12.083" endtime="20250225 13:11:12.092"/>
+</kw>
+<status status="PASS" starttime="20250225 13:11:12.081" endtime="20250225 13:11:12.092"/>
+</kw>
+<doc>Verify that user can sort books</doc>
+<tag>browser</tag>
+<tag>sort</tag>
+<tag>ui</tag>
+<status status="PASS" starttime="20250225 13:11:10.443" endtime="20250225 13:11:12.092"/>
 </test>
 <kw name="Teardown Test Environment" library="common" type="TEARDOWN">
 <kw name="Close Books Application" library="common">
@@ -151,40 +1710,44 @@ docker compose up -d</msg>
 <tag>BrowserControl</tag>
 <tag>Setter</tag>
 <doc>Closes the current browser.</doc>
-<msg timestamp="20250225 12:46:56.862" level="INFO">Closed browser</msg>
-<status status="PASS" starttime="20250225 12:46:56.850" endtime="20250225 12:46:56.862"/>
+<msg timestamp="20250225 13:11:12.120" level="INFO">Closed browser</msg>
+<status status="PASS" starttime="20250225 13:11:12.098" endtime="20250225 13:11:12.120"/>
 </kw>
-<status status="PASS" starttime="20250225 12:46:56.850" endtime="20250225 12:46:56.862"/>
+<status status="PASS" starttime="20250225 13:11:12.098" endtime="20250225 13:11:12.120"/>
 </kw>
 <kw name="Run Process" library="Process">
 <arg>docker compose down</arg>
 <arg>shell=True</arg>
 <doc>Runs a process and waits for it to complete.</doc>
-<msg timestamp="20250225 12:46:56.862" level="INFO">Starting process:
+<msg timestamp="20250225 13:11:12.120" level="INFO">Starting process:
 docker compose down</msg>
-<msg timestamp="20250225 12:46:56.866" level="INFO">Waiting for process to complete.</msg>
-<msg timestamp="20250225 12:47:00.339" level="INFO">Process completed.</msg>
-<status status="PASS" starttime="20250225 12:46:56.862" endtime="20250225 12:47:00.339"/>
+<msg timestamp="20250225 13:11:12.143" level="INFO">Waiting for process to complete.</msg>
+<msg timestamp="20250225 13:11:12.656" level="INFO">Process completed.</msg>
+<status status="PASS" starttime="20250225 13:11:12.120" endtime="20250225 13:11:12.656"/>
 </kw>
-<status status="PASS" starttime="20250225 12:46:56.850" endtime="20250225 12:47:00.339"/>
+<status status="PASS" starttime="20250225 13:11:12.097" endtime="20250225 13:11:12.656"/>
 </kw>
 <doc>UI Tests for Books Database Service</doc>
-<status status="PASS" starttime="20250225 12:46:53.916" endtime="20250225 12:47:00.339"/>
+<status status="PASS" starttime="20250225 13:11:00.247" endtime="20250225 13:11:12.657"/>
 </suite>
-<status status="PASS" starttime="20250225 12:46:53.909" endtime="20250225 12:47:00.348"/>
+<status status="PASS" starttime="20250225 13:11:00.239" endtime="20250225 13:11:12.660"/>
 </suite>
 <statistics>
 <total>
-<stat pass="1" fail="0" skip="0">All Tests</stat>
+<stat pass="7" fail="0" skip="0">All Tests</stat>
 </total>
 <tag>
-<stat pass="1" fail="0" skip="0">browser</stat>
+<stat pass="7" fail="0" skip="0">browser</stat>
+<stat pass="3" fail="0" skip="0">crud</stat>
+<stat pass="1" fail="0" skip="0">filter</stat>
+<stat pass="1" fail="0" skip="0">search</stat>
 <stat pass="1" fail="0" skip="0">smoke</stat>
-<stat pass="1" fail="0" skip="0">ui</stat>
+<stat pass="1" fail="0" skip="0">sort</stat>
+<stat pass="7" fail="0" skip="0">ui</stat>
 </tag>
 <suite>
-<stat pass="1" fail="0" skip="0" id="s1" name="Robot Tests">Robot Tests</stat>
-<stat pass="1" fail="0" skip="0" id="s1-s1" name="Books Ui">Robot Tests.Books Ui</stat>
+<stat pass="7" fail="0" skip="0" id="s1" name="Robot Tests">Robot Tests</stat>
+<stat pass="7" fail="0" skip="0" id="s1-s1" name="Books Ui">Robot Tests.Books Ui</stat>
 </suite>
 </statistics>
 <errors>
