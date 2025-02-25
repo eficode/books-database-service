@@ -136,6 +136,30 @@ h2 {
     gap: 0.5rem;
 }
 
+.favorite-filters {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.favorite-filters button {
+    padding: 0.5rem 1rem;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.favorite-filters button.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.favorite-filters button:hover:not(.active) {
+    background-color: #e9ecef;
+}
+
 .search-box {
     display: flex;
     align-items: center;
@@ -197,6 +221,7 @@ h2 {
     transition: var(--transition);
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 .book-card:hover {
@@ -235,7 +260,7 @@ h2 {
     gap: 0.5rem;
 }
 
-.edit-btn, .delete-btn {
+.edit-btn, .delete-btn, .favorite-btn {
     border: none;
     background-color: transparent;
     cursor: pointer;
@@ -252,7 +277,44 @@ h2 {
     color: #dc3545;
 }
 
-.edit-btn:hover, .delete-btn:hover {
+.favorite-btn {
+    color: #808080;
+}
+
+.favorite-btn.active {
+    color: #e25563;
+}
+
+.favorite-indicator {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #e25563;
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 0 var(--border-radius) 0 var(--border-radius);
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.favorite-indicator svg {
+    width: 12px;
+    height: 12px;
+    display: inline-block;
+    vertical-align: -0.125em;
+}
+
+.book-actions svg, .book-pages svg {
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+    vertical-align: -0.125em;
+}
+
+.edit-btn:hover, .delete-btn:hover, .favorite-btn:hover {
     background-color: rgba(0, 0, 0, 0.05);
 }
 

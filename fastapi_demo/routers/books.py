@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from typing import List
 from ..database import get_db
 from ..models import Book
-from ..dtos import BookCreate, BookInfo
+from ..dtos import BookCreate, BookInfo, BookFavorite
 
 router = APIRouter(
     prefix="/books",
@@ -72,3 +72,18 @@ def delete_book(book_id: int, db: Session = Depends(get_db)):
     db.delete(db_book)
     db.commit()
     return {"message": "Book deleted successfully"}
+
+
+@router.patch("/{book_id}/favorite", response_model=BookInfo,
+           summary="Toggle book favorite status",
+           description="This endpoint toggles the favorite status of a book with the provided ID",
+           response_description="The updated book's information")
+def toggle_favorite(book_id: int, favorite: BookFavorite, db: Session = Depends(get_db)):
+    db_book = db.query(Book).filter(Book.id == book_id).first()
+    if db_book is None:
+        raise HTTPException(status_code=404, detail="Book not found")
+    
+    db_book.favorite = favorite.favorite
+    db.commit()
+    db.refresh(db_book)
+    return BookInfo(**db_book.__dict__)

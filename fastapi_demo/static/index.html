@@ -6,6 +6,8 @@
     <title>Books Library</title>
     <link rel="stylesheet" href="/static/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Fallback for Font Awesome icons -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -91,6 +93,14 @@
                         <option value="Cookbooks">Cookbooks</option>
                         <option value="Philosophy">Philosophy</option>
                     </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label>Filter by Favorite:</label>
+                    <div class="favorite-filters">
+                        <button id="all-books-filter" class="active">All Books</button>
+                        <button id="favorite-filter">Favorites</button>
+                    </div>
                 </div>
                 
                 <div class="sort-group">

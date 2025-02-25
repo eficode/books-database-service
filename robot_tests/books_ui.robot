@@ -21,6 +21,24 @@ User Can Open Books UI
     And I Should See The Add Book Button
     And I Should See The Books List Section
 
+User Can Mark Books As Favorite And Filter Them
+    [Documentation]    Verify that user can mark books as favorite and filter them
+    [Tags]             favorite
+    ${random_suffix}=    Generate Random String    8    [NUMBERS]
+    ${title}=    Set Variable    Favorite Test Book ${random_suffix}
+    ${author}=    Set Variable    Favorite Author ${random_suffix}
+    ${pages}=    Set Variable    123
+    ${category}=    Set Variable    Fiction
+    
+    Given I Have Created A Book    ${title}    ${author}    ${pages}    ${category}
+    When I Search For Book By Title    ${title}
+    And I Mark Book As Favorite    ${title}
+    Then I Should See Book Marked As Favorite    ${title}
+    When I Filter Favorite Books
+    Then I Should See Book With Title    ${title}
+    When I Reset Favorite Filter
+    Then I Should See All Books
+
 User Can Add A New Book
     [Documentation]    Verify that user can add a new book
     [Tags]             crud

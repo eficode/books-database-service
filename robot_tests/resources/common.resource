@@ -150,6 +150,21 @@ I Should See First Book With Title
     [Arguments]    ${title}
     Wait For Elements State    .book-card h3.book-title:has-text("${title}")    visible    ${TIMEOUT}
 
+I Mark Book As Favorite
+    [Arguments]    ${title}
+    Wait For Elements State    .book-card h3.book-title:has-text("${title}")    visible    ${TIMEOUT}
+    Click    .book-card:has(h3.book-title:has-text("${title}")) .favorite-btn
+
+I Should See Book Marked As Favorite
+    [Arguments]    ${title}
+    Wait For Elements State    .book-card:has(h3.book-title:has-text("${title}")) .favorite-btn.active    visible    ${TIMEOUT}
+
+I Filter Favorite Books
+    Click    id=favorite-filter
+
+I Reset Favorite Filter
+    Click    id=all-books-filter
+
 Close Books Application
     Close Browser
 

@@ -78,7 +78,8 @@ def generate_books(db: Session, count: int = 100):
             title=title,
             author=author,
             pages=pages,
-            category=category
+            category=category,
+            favorite=random.random() < 0.2  # About 20% of books set as favorites
         )
         db.add(book)
     
