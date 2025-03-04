@@ -54,6 +54,9 @@ coverage.xml
 .pytest_cache/
 cover/
 
+# Robot results directory
+robot_results/
+
 # Translations
 *.mo
 *.pot
