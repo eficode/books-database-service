@@ -46,6 +46,6 @@ services:
         python scripts/migrate_db.py
         
         # Add sample data if database is empty
-        python -c 'import sqlite3; import os; db_path=\"/app/data/books.db\"; conn = sqlite3.connect(db_path); cursor = conn.cursor(); cursor.execute(\"SELECT COUNT(*) FROM books\"); count = cursor.fetchone()[0]; conn.close(); print(f\"Found {count} books\"); sys.exit(0 if count > 0 else 1)' || python scripts/generate_books.py
+        python -c 'import sqlite3; import os, sys; db_path=\"/app/data/books.db\"; conn = sqlite3.connect(db_path); cursor = conn.cursor(); cursor.execute(\"SELECT COUNT(*) FROM books\"); count = cursor.fetchone()[0]; conn.close(); print(f\"Found {count} books\"); sys.exit(0 if count > 0 else 1)' || python scripts/generate_books.py
       "
     restart: on-failure
