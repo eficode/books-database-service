@@ -1,78 +1,32 @@
-# FILEPATH: /Users/alexjantunen/dev/fast-api-demo/test_main.py
-from unittest.mock import MagicMock, patch
 from fastapi.testclient import TestClient
 from fastapi_demo.main import app
-from fastapi_demo.models import Book
-
-from fastapi import HTTPException
+from unittest.mock import patch
+import pytest
 
 client = TestClient(app)
 
-def test_create_book(mock_db_session):
-    response = client.post("/books/", json={
-        "title": "Test Book",
-        "author": "Test Author",
-        "pages": 100
-    })
+@patch('fastapi_demo.routers.books.get_db')
+def test_get_top_sold_books_network_issue(mock_get_db):
+    mock_get_db.side_effect = Exception("Network issue")
+    response = client.get("/top-sold-books/")
+    assert response.status_code == 500
+    assert response.json() == {"detail": "Data could not be loaded due to a network issue"}
 
-    assert response.status_code == 200
-    assert response.json().get("title") == "Test Book"
-    assert response.json().get("author") == "Test Author"
-    assert response.json().get("pages") == 100
+@patch('fastapi_demo.routers.books.get_db')
+def test_export_top_sold_books_server_error(mock_get_db):
+    mock_get_db.side_effect = Exception("Server error")
+    response = client.get("/top-sold-books/export/")
+    assert response.status_code == 500
+    assert response.json() == {"detail": "Export failed due to a server error"}
 
-def test_read_book_success(mock_db_session):
-    mock_db_session.query.return_value.filter.return_value.first.return_value = Book(id=1, title="Test Book", author="Test Author", pages=100)
-    response = client.get("/books/1")
-    assert response.status_code == 200
-    assert response.json().get("title") == "Test Book"
-    assert response.json().get("author") == "Test Author"
-    assert response.json().get("pages") == 100
+@patch('fastapi_demo.routers.books.get_db')
+def test_get_top_sold_books_invalid_date_range(mock_get_db):
+    response = client.get("/top-sold-books/?start_date=invalid-date&end_date=invalid-date")
+    assert response.status_code == 422
+    assert response.json() == {"detail": "Invalid date range"}
 
-def test_read_book_not_found(mock_db_session):
-    mock_db_session.query.return_value.filter.return_value.first.return_value = None
-    response = client.get("/books/1")
-    assert response.status_code == 404
-    assert response.json().get("detail") == "Book not found"
-
-
-def test_update_book_success(mock_db_session):
-    mock_db_session.query.return_value.filter.return_value.first.return_value = Book(id=1, title="Old Title", author="Old Author", pages=100)
-
-    response = client.put("/books/1", json={
-        "title": "New Title",
-        "author": "New Author",
-        "pages": 200
-    })
-
-    assert response.status_code == 200
-    assert response.json().get("title") == "New Title"
-    assert response.json().get("author") == "New Author"
-    assert response.json().get("pages") == 200
-
-def test_update_book_not_found(mock_db_session):
-    mock_db_session.query.return_value.filter.return_value.first.return_value = None
-
-    response = client.put("/books/1", json={
-        "title": "New Title",
-        "author": "New Author",
-        "pages": 200
-    })
-
-    assert response.status_code == 404
-    assert response.json().get("detail") == "Book not found"
-
-def test_delete_book_success(mock_db_session):
-    mock_db_session.query.return_value.filter.return_value.first.return_value = Book(id=1, title="Test Book", author="Test Author", pages=100)
-
-    response = client.delete("/books/1")
-
-    assert response.status_code == 200
-    assert response.json().get("message") == "Book deleted successfully"
-
-def test_delete_book_not_found(mock_db_session):
-    mock_db_session.query.return_value.filter.return_value.first.return_value = None
-
-    response = client.delete("/books/1")
-
-    assert response.status_code == 404
-    assert response.json().get("detail") == "Book not found"
+@patch('fastapi_demo.routers.books.get_db')
+def test_export_top_sold_books_invalid_date_range(mock_get_db):
+    response = client.get("/top-sold-books/export/?start_date=invalid-date&end_date=invalid-date")
+    assert response.status_code == 422
+    assert response.json() == {"detail": "Invalid date range"}
