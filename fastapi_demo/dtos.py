@@ -8,6 +8,7 @@ class BookCreate(BaseModel):
     pages: int
     category: str = "Fiction"
     favorite: bool = False
+    read: bool = False
 
 class BookInfo(BookCreate):
     id: Optional[int] = None
