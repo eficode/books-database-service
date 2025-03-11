@@ -15,3 +15,4 @@ class BookInfo(BookCreate):
 
 class BookFavorite(BaseModel):
     favorite: bool
+    read: bool
