@@ -3,4 +3,4 @@
 
 echo "Running flake8 linting..."
 poetry run flake8 fastapi_demo/ tests/ scripts/
-echo "Linting complete!"
+echo "Linting completed."
