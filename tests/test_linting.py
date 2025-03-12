@@ -1,5 +1,7 @@
 import subprocess
 
+import subprocess
+
 def test_linting():
     """Test to ensure the linting script runs without errors."""
     result = subprocess.run(["bash", "scripts/run_lint.sh"], capture_output=True, text=True)
