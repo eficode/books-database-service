@@ -13,4 +13,5 @@ class BookInfo(BookCreate):
     id: Optional[int] = None
 
 class BookFavorite(BaseModel):
+    book_id: int
     favorite: bool
