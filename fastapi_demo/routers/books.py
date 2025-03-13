@@ -74,12 +74,12 @@ def delete_book(book_id: int, db: Session = Depends(get_db)):
     return {"message": "Book deleted successfully"}
 
 
-@router.get("/liked", response_model=List[BookInfo],
+@router.get("/liked", response_model=dict,
          summary="Get liked books",
          description="This endpoint retrieves all books liked by the user with pagination",
          response_description="A list of liked books")
 def read_liked_books(skip: int = Query(0, description="Number of records to skip for pagination"),
-                     limit: int = Query(10, description="Maximum number of records to return"),
+                     limit: int = Query(1000, description="Maximum number of records to return"),
                      db: Session = Depends(get_db)):
     """
     Retrieve all books that have been marked as liked by the user with pagination.

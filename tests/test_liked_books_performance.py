@@ -20,3 +20,24 @@ def test_liked_books_performance(mock_db_session):
     assert response.status_code == 200
     assert len(response.json()) == 1000
     assert (end_time - start_time) < 2, "The response time exceeded 2 seconds"
+import time
+import pytest
+from fastapi.testclient import TestClient
+from fastapi_demo.main import app
+from fastapi_demo.models import Book
+
+client = TestClient(app)
+
+def test_liked_books_performance(mock_db_session):
+    # Mock 1000 liked books
+    mock_db_session.query.return_value.filter.return_value.offset.return_value.limit.return_value.all.return_value = [
+        Book(id=i, title=f"Book {i}", author=f"Author {i}", pages=100, favorite=True) for i in range(1000)
+    ]
+
+    start_time = time.time()
+    response = client.get("/books/liked?limit=1000")
+    end_time = time.time()
+
+    assert response.status_code == 200
+    assert len(response.json()["books"]) == 1000
+    assert (end_time - start_time) < 2, "Performance test failed: took longer than 2 seconds"
