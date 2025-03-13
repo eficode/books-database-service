@@ -65,19 +65,10 @@ def update_book(book_id: int, book: BookCreate, db: Session = Depends(get_db)):
 
 security = HTTPBasic()
 
-@router.delete("/{book_id}",
-             summary="Delete a single outdated test book",
-             description="This endpoint deletes a single outdated test book with the provided ID",
-             response_description="Confirmation message")
-def delete_book(book_id: int, confirmation: str = Body(..., description="Confirmation to delete the book"), 
-                credentials: HTTPBasicCredentials = Security(security), db: Session = Depends(get_db)):
-    if confirmation.lower() != "yes":
-        raise HTTPException(status_code=400, detail="Invalid confirmation")
-    if credentials.username != "admin" or credentials.password != "secret":
-        raise HTTPException(status_code=401, detail="Invalid credentials")
-    """
-    Delete a single outdated test book by ID.
-    """
+@router.delete("/{book_id}", summary="Delete a single outdated test book",
+               description="This endpoint deletes a single outdated test book with the provided ID",
+               response_description="Confirmation message")
+def delete_book(book_id: int, db: Session = Depends(get_db)):
     db_book = db.query(Book).filter(Book.id == book_id).first()
     if db_book is None:
         raise HTTPException(status_code=404, detail="Book not found")
@@ -90,13 +81,7 @@ def delete_book(book_id: int, confirmation: str = Body(..., description="Confirm
                description="This endpoint deletes multiple outdated test books with the provided IDs",
                response_description="Confirmation message")
 def bulk_delete_books(book_ids: List[int] = Body(..., description="List of book IDs to delete"),
-                      confirmation: str = Body(..., description="Confirmation to delete the books"),
                       db: Session = Depends(get_db)):
-    if confirmation.lower() != "yes":
-        raise HTTPException(status_code=400, detail="Invalid confirmation")
-    """
-    Bulk delete multiple outdated test books by IDs.
-    """
     books_to_delete = db.query(Book).filter(Book.id.in_(book_ids)).all()
     if len(books_to_delete) != len(book_ids):
         raise HTTPException(status_code=404, detail="One or more books not found")
