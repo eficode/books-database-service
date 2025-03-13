@@ -2,6 +2,7 @@
 from unittest.mock import MagicMock, patch
 from fastapi.testclient import TestClient
 from fastapi_demo.main import app
+import json
 from fastapi_demo.models import Book
 
 from fastapi import HTTPException
