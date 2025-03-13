@@ -65,3 +65,35 @@ def test_read_liked_books_empty(mock_db_session):
     assert response.status_code == 200
     liked_books_response = response.json()
     assert len(liked_books_response) == 0
+import pytest
+from fastapi.testclient import TestClient
+from fastapi_demo.main import app
+from fastapi_demo.models import Book
+
+client = TestClient(app)
+
+def test_read_liked_books_pagination(mock_db_session):
+    # Mock liked books
+    mock_db_session.query.return_value.filter.return_value.offset.return_value.limit.return_value.all.return_value = [
+        Book(id=1, title="Liked Book 1", author="Author 1", pages=100, favorite=True),
+        Book(id=2, title="Liked Book 2", author="Author 2", pages=150, favorite=True)
+    ]
+    mock_db_session.query.return_value.filter.return_value.count.return_value = 2
+
+    response = client.get("/books/liked?skip=0&limit=10")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["total_count"] == 2
+    assert len(data["books"]) == 2
+    assert data["books"][0]["title"] == "Liked Book 1"
+
+def test_read_liked_books_empty(mock_db_session):
+    # Mock no liked books
+    mock_db_session.query.return_value.filter.return_value.offset.return_value.limit.return_value.all.return_value = []
+    mock_db_session.query.return_value.filter.return_value.count.return_value = 0
+
+    response = client.get("/books/liked?skip=0&limit=10")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["total_count"] == 0
+    assert len(data["books"]) == 0

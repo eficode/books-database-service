@@ -84,8 +84,13 @@ def read_liked_books(skip: int = Query(0, description="Number of records to skip
     """
     Retrieve all books that have been marked as liked by the user with pagination.
     """
-    liked_books = db.query(Book).filter(Book.favorite == True).offset(skip).limit(limit).all()
-    return [BookInfo(**book.__dict__) for book in liked_books]
+    liked_books_query = db.query(Book).filter(Book.favorite == True)
+    total_count = liked_books_query.count()
+    liked_books = liked_books_query.offset(skip).limit(limit).all()
+    return {
+        "total_count": total_count,
+        "books": [BookInfo(**book.__dict__) for book in liked_books]
+    }
 
 @router.patch("/{book_id}/favorite", response_model=BookInfo,
               summary="Toggle book favorite status",
