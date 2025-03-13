@@ -97,3 +97,39 @@ def test_read_liked_books_empty(mock_db_session):
     data = response.json()
     assert data["total_count"] == 0
     assert len(data["books"]) == 0
+from fastapi.testclient import TestClient
+from fastapi_demo.main import app
+from fastapi_demo.models import Book
+import pytest
+
+client = TestClient(app)
+
+@pytest.fixture
+def mock_liked_books(mock_db_session):
+    # Mock liked books
+    liked_books = [
+        Book(id=1, title="Liked Book 1", author="Author 1", pages=100, favorite=True, cover_image="cover1.jpg"),
+        Book(id=2, title="Liked Book 2", author="Author 2", pages=150, favorite=True, cover_image="cover2.jpg")
+    ]
+    mock_db_session.query.return_value.filter.return_value.all.return_value = liked_books
+    return liked_books
+
+def test_read_liked_books(mock_liked_books, mock_db_session):
+    response = client.get("/books/liked")
+    assert response.status_code == 200
+    liked_books_response = response.json()
+    assert liked_books_response["total_count"] == len(mock_liked_books)
+    assert len(liked_books_response["books"]) == len(mock_liked_books)
+    for i, book in enumerate(mock_liked_books):
+        assert liked_books_response["books"][i]["title"] == book.title
+        assert liked_books_response["books"][i]["cover_image"] == book.cover_image
+
+def test_read_liked_books_empty(mock_db_session):
+    # Mock no liked books
+    mock_db_session.query.return_value.filter.return_value.all.return_value = []
+
+    response = client.get("/books/liked")
+    assert response.status_code == 200
+    liked_books_response = response.json()
+    assert liked_books_response["total_count"] == 0
+    assert len(liked_books_response["books"]) == 0
