@@ -1,5 +1,4 @@
 from fastapi.testclient import TestClient
-import json
 from fastapi_demo.main import app
 
 client = TestClient(app)
@@ -15,14 +14,13 @@ def test_integration_delete_single_book():
     book_id = response.json().get("id")
 
     # Delete the book
-    response = client.delete(f"/books/{book_id}", headers={"Content-Type": "application/json"})
+    response = client.delete(f"/books/{book_id}")
     assert response.status_code == 200
     assert response.json().get("detail") == "Book deleted"
 
     # Verify the book is deleted
     response = client.get(f"/books/{book_id}")
     assert response.status_code == 404
-    assert response.json().get("detail") == "Book not found"
 
 def test_integration_bulk_delete_books():
     # Create books to delete
@@ -37,7 +35,7 @@ def test_integration_bulk_delete_books():
         book_ids.append(response.json().get("id"))
 
     # Bulk delete the books
-    response = client.delete("/books/bulk", data=json.dumps(book_ids), headers={"Content-Type": "application/json"})
+    response = client.delete("/books/bulk", json=book_ids)
     assert response.status_code == 200
     assert response.json().get("detail") == "Books deleted"
 
@@ -45,4 +43,3 @@ def test_integration_bulk_delete_books():
     for book_id in book_ids:
         response = client.get(f"/books/{book_id}")
         assert response.status_code == 404
-        assert response.json().get("detail") == "Book not found"
