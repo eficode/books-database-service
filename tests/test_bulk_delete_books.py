@@ -14,7 +14,7 @@ def test_bulk_delete_books_success(mock_db_session):
         Book(id=2, title="Test Book 2", author="Test Author 2", pages=150)
     ]
 
-    response = client.delete("/books/bulk", data='[1, 2]')
+    response = client.delete("/books/bulk", data=json.dumps([1, 2]), headers={"Content-Type": "application/json"})
 
     assert response.status_code == 200
     assert response.json().get("detail") == "Books deleted"
