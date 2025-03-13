@@ -5,19 +5,18 @@ client = TestClient(app)
 
 def test_register_user():
     response = client.post("/auth/register", json={
-        "email": "test@example.com",
-        "password": "password",
-        "is_active": True,
-        "is_superuser": False,
-        "is_verified": False
+        "email": "testuser@example.com",
+        "password": "password123",
+        "first_name": "Test",
+        "last_name": "User"
     })
     assert response.status_code == 201
-    assert response.json()["email"] == "test@example.com"
+    assert response.json().get("email") == "testuser@example.com"
 
 def test_login_user():
     response = client.post("/auth/jwt/login", data={
-        "username": "test@example.com",
-        "password": "password"
+        "username": "testuser@example.com",
+        "password": "password123"
     })
     assert response.status_code == 200
     assert "access_token" in response.json()
