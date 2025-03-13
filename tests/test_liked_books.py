@@ -58,3 +58,10 @@ def test_read_liked_books_empty(mock_db_session):
     assert response.status_code == 200
     liked_books_response = response.json()
     assert len(liked_books_response) == 0
+    # Mock no liked books
+    mock_db_session.query.return_value.filter.return_value.all.return_value = []
+
+    response = client.get("/books/liked")
+    assert response.status_code == 200
+    liked_books_response = response.json()
+    assert len(liked_books_response) == 0
