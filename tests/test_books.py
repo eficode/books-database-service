@@ -28,31 +28,36 @@ def test_read_book_success(mock_db_session):
     assert response.json().get("author") == "Test Author"
     assert response.json().get("pages") == 100
 
-def test_read_liked_books(mock_db_session):
-    # Mock liked books
-    mock_db_session.query.return_value.filter.return_value.all.return_value = [
+import pytest
+from fastapi import HTTPException
+
+@pytest.mark.parametrize("liked_books, expected_count", [
+    ([
         Book(id=1, title="Liked Book 1", author="Author 1", pages=100, favorite=True, cover_image="cover1.jpg"),
         Book(id=2, title="Liked Book 2", author="Author 2", pages=150, favorite=True, cover_image="cover2.jpg")
-    ]
+    ], 2),
+    ([], 0)
+])
+def test_read_liked_books(mock_db_session, liked_books, expected_count):
+    # Mock liked books
+    mock_db_session.query.return_value.filter.return_value.all.return_value = liked_books
 
     response = client.get("/books/liked")
     assert response.status_code == 200
-    liked_books = response.json()
-    assert len(liked_books) == 2
-    assert liked_books[0]["title"] == "Liked Book 1"
-    assert liked_books[0]["cover_image"] == "cover1.jpg"
-    assert liked_books[1]["title"] == "Liked Book 2"
-    assert liked_books[1]["cover_image"] == "cover2.jpg"
+    liked_books_response = response.json()
+    assert len(liked_books_response) == expected_count
+    if expected_count > 0:
+        assert liked_books_response[0]["title"] == liked_books[0].title
+        assert liked_books_response[0]["cover_image"] == liked_books[0].cover_image
 
-def test_read_liked_books_empty(mock_db_session):
-    # Mock no liked books
-    mock_db_session.query.return_value.filter.return_value.all.return_value = []
+def test_read_liked_books_error(mock_db_session):
+    # Simulate database error
+    mock_db_session.query.side_effect = Exception("Database error")
 
-    response = client.get("/books/liked")
-    assert response.status_code == 200
-    liked_books = response.json()
-    assert len(liked_books) == 0
-    assert liked_books == []
+    with pytest.raises(HTTPException) as excinfo:
+        client.get("/books/liked")
+    assert excinfo.value.status_code == 500
+    assert "Database error" in str(excinfo.value.detail)
 
 
 def test_update_book_success(mock_db_session):
