@@ -87,16 +87,16 @@ def read_liked_books(skip: int = Query(0, description="Number of records to skip
     liked_books = db.query(Book).filter(Book.favorite == True).offset(skip).limit(limit).all()
     return [BookInfo(**book.__dict__) for book in liked_books]
 
-@router.post("/like", response_model=BookInfo,
-             summary="Like a book",
-             description="This endpoint allows a user to like a book",
-             response_description="The liked book's information")
-def like_book(favorite: BookFavorite, db: Session = Depends(get_db)):
-    db_book = db.query(Book).filter(Book.id == favorite.book_id).first()
+@router.patch("/{book_id}/favorite", response_model=BookInfo,
+              summary="Toggle book favorite status",
+              description="This endpoint allows a user to toggle the favorite status of a book",
+              response_description="The updated book's information")
+def toggle_favorite(book_id: int, favorite: BookFavorite, db: Session = Depends(get_db)):
+    db_book = db.query(Book).filter(Book.id == book_id).first()
     if db_book is None:
         raise HTTPException(status_code=404, detail="Book not found")
     
-    db_book.favorite = True
+    db_book.favorite = favorite.favorite
     db.commit()
     db.refresh(db_book)
     return BookInfo(**db_book.__dict__)

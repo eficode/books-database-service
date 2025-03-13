@@ -16,3 +16,4 @@ class BookInfo(BookCreate):
 class BookFavorite(BaseModel):
     book_id: int
     favorite: bool
+    favorite: bool
