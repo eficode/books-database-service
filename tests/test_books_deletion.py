@@ -36,7 +36,7 @@ def test_bulk_delete_books_success(mock_db_session):
         Book(id=2, title="Test Book 2", author="Test Author 2", pages=150)
     ]
 
-    response = client.delete("/books/bulk", json=[1, 2])
+    response = client.delete("/books/bulk", data='[1, 2]')
 
     assert response.status_code == 200
     assert response.json().get("detail") == "Books deleted"
@@ -49,7 +49,7 @@ def test_bulk_delete_books_not_found(mock_db_session):
         Book(id=1, title="Test Book 1", author="Test Author 1", pages=100)
     ]
 
-    response = client.delete("/books/bulk", json=[1, 2])
+    response = client.delete("/books/bulk", data='[1, 2]')
 
     assert response.status_code == 404
     assert response.json().get("detail") == "One or more books not found"

@@ -36,7 +36,7 @@ def test_integration_bulk_delete_books():
         book_ids.append(response.json().get("id"))
 
     # Bulk delete the books
-    response = client.delete("/books/bulk", json=book_ids)
+    response = client.delete("/books/bulk", data=str(book_ids))
     assert response.status_code == 200
     assert response.json().get("detail") == "Books deleted"
 
