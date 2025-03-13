@@ -15,7 +15,7 @@ def test_integration_delete_single_book():
     book_id = response.json().get("id")
 
     # Delete the book
-    response = client.delete(f"/books/{book_id}")
+    response = client.delete(f"/books/{book_id}", headers={"Content-Type": "application/json"})
     assert response.status_code == 200
     assert response.json().get("detail") == "Book deleted"
 
