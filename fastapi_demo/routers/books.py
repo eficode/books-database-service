@@ -81,9 +81,11 @@ def delete_book(book_id: int, db: Session = Depends(get_db)):
 def read_liked_books(db: Session = Depends(get_db)):
     liked_books = db.query(Book).filter(Book.favorite == True).all()
     return [BookInfo(**book.__dict__) for book in liked_books]
-           summary="Toggle book favorite status",
-           description="This endpoint toggles the favorite status of a book with the provided ID",
-           response_description="The updated book's information")
+
+@router.patch("/{book_id}/favorite", response_model=BookInfo,
+              summary="Toggle book favorite status",
+              description="This endpoint toggles the favorite status of a book with the provided ID",
+              response_description="The updated book's information")
 def toggle_favorite(book_id: int, favorite: BookFavorite, db: Session = Depends(get_db)):
     db_book = db.query(Book).filter(Book.id == book_id).first()
     if db_book is None:
