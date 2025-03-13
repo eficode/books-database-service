@@ -33,7 +33,7 @@ describe('LikedBooks.vue', () => {
 
         await wrapper.vm.$nextTick();
 
-        const noBooksMessage = wrapper.find('.no-books-message');
+        const noBooksMessage = wrapper.find('.no-liked-books');
         expect(noBooksMessage.exists()).toBe(true);
         expect(noBooksMessage.text()).toBe('You have not liked any books yet.');
     });
