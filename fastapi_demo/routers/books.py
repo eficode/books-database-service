@@ -93,9 +93,10 @@ def bulk_delete_books(book_ids: List[int] = Body(..., description="List of book 
         db.delete(book)
     db.commit()
     return {"detail": "Books deleted"}
-           summary="Toggle book favorite status",
-           description="This endpoint toggles the favorite status of a book with the provided ID",
-           response_description="The updated book's information")
+
+@router.patch("/{book_id}/favorite", summary="Toggle book favorite status",
+              description="This endpoint toggles the favorite status of a book with the provided ID",
+              response_description="The updated book's information")
 def toggle_favorite(book_id: int, favorite: BookFavorite, db: Session = Depends(get_db)):
     db_book = db.query(Book).filter(Book.id == book_id).first()
     if db_book is None:
