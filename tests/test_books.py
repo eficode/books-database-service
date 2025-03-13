@@ -98,6 +98,7 @@ def test_bulk_delete_books_not_found(mock_db_session):
 
     assert response.status_code == 404
     assert response.json().get("detail") == "One or more books not found"
+def test_delete_book_not_found(mock_db_session):
     """
     Test deletion of a non-existent book.
     """
