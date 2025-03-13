@@ -62,14 +62,20 @@ def test_update_book_not_found(mock_db_session):
     assert response.json().get("detail") == "Book not found"
 
 def test_delete_book_success(mock_db_session):
+    """
+    Test successful deletion of a single book.
+    """
     mock_db_session.query.return_value.filter.return_value.first.return_value = Book(id=1, title="Test Book", author="Test Author", pages=100)
 
     response = client.delete("/books/1")
 
     assert response.status_code == 200
-    assert response.json().get("message") == "Book deleted successfully"
+    assert response.json().get("detail") == "Book deleted"
 
 def test_delete_book_not_found(mock_db_session):
+    """
+    Test deletion of a non-existent book.
+    """
     mock_db_session.query.return_value.filter.return_value.first.return_value = None
 
     response = client.delete("/books/1")

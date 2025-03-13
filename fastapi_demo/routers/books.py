@@ -62,16 +62,19 @@ def update_book(book_id: int, book: BookCreate, db: Session = Depends(get_db)):
     return BookInfo(**db_book.__dict__)
 
 @router.delete("/{book_id}",
-             summary="Delete a book",
-             description="This endpoint deletes a book with the provided ID",
+             summary="Delete a single outdated test book",
+             description="This endpoint deletes a single outdated test book with the provided ID",
              response_description="Confirmation message")
 def delete_book(book_id: int, db: Session = Depends(get_db)):
+    """
+    Delete a single outdated test book by ID.
+    """
     db_book = db.query(Book).filter(Book.id == book_id).first()
     if db_book is None:
         raise HTTPException(status_code=404, detail="Book not found")
     db.delete(db_book)
     db.commit()
-    return {"message": "Book deleted successfully"}
+    return {"detail": "Book deleted"}
 
 
 @router.patch("/{book_id}/favorite", response_model=BookInfo,
