@@ -1,12 +1,13 @@
 <template>
+<template>
   <div class="liked-books">
     <h2>Liked Books</h2>
-    <div v-if="likedBooks.length === 0" class="no-liked-books">
-      <p>You have not liked any books yet.</p>
+    <div v-if="books.length === 0" class="no-books">
+      You have not liked any books yet.
     </div>
     <ul v-else>
-      <li v-for="book in likedBooks" :key="book.id" class="book-item">
-        <img :src="book.coverImage" alt="Book Cover" class="book-cover" />
+      <li v-for="book in books" :key="book.id" class="book-item">
+        <img :src="book.coverImage" alt="Cover Image" class="book-cover" />
         <div class="book-info">
           <h3>{{ book.title }}</h3>
           <p>by {{ book.author }}</p>
@@ -20,24 +21,19 @@
 export default {
   data() {
     return {
-      likedBooks: [],
+      books: [],
     };
   },
-  created() {
-    this.fetchLikedBooks();
-  },
-  methods: {
-    async fetchLikedBooks() {
-      try {
-        const response = await fetch('/books/liked');
-        if (!response.ok) {
-          throw new Error('Failed to fetch liked books');
-        }
-        this.likedBooks = await response.json();
-      } catch (error) {
-        console.error('Error fetching liked books:', error);
+  async created() {
+    try {
+      const response = await fetch('/books/liked');
+      if (!response.ok) {
+        throw new Error('Failed to fetch liked books');
       }
-    },
+      this.books = await response.json();
+    } catch (error) {
+      console.error('Error fetching liked books:', error);
+    }
   },
 };
 </script>
@@ -47,7 +43,7 @@ export default {
   padding: 1rem;
 }
 
-.no-liked-books {
+.no-books {
   text-align: center;
   color: #6c757d;
   font-style: italic;
