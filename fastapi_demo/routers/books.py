@@ -26,7 +26,7 @@ def read_books(db: Session = Depends(get_db)):
 def create_book(
     book: BookCreate = Body(..., description="The details of the book to be created", examples={"title": "Example Book", "author": "John Doe", "year": 2021}),
     db: Session = Depends(get_db)):
-    db_book = Book(**book.model_dump())
+    db_book = Book(**book.model_dump(), read=book.read)
     db.add(db_book)
     db.commit()
     db.refresh(db_book)
@@ -56,6 +56,8 @@ def update_book(book_id: int, book: BookCreate, db: Session = Depends(get_db)):
     if db_book is None:
         raise HTTPException(status_code=404, detail="Book not found")
     for key, value in book.model_dump().items():
+        if key == "read":
+            continue
         setattr(db_book, key, value)
     db.commit()
     db.refresh(db_book)

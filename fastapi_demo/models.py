@@ -11,3 +11,4 @@ class Book(Base):
     pages = Column(Integer)
     category = Column(String, index=True, default="Fiction")
     favorite = Column(Boolean, default=False, index=True)
+    read = Column(Boolean, default=False, index=True)
