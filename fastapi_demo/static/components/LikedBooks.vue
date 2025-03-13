@@ -2,7 +2,10 @@
 <template>
   <div class="liked-books">
     <h2>Liked Books</h2>
-    <div v-if="likedBooks.length > 0" class="books-list">
+    <div v-if="likedBooks.length === 0" class="no-liked-books">
+      <p>You have not liked any books yet.</p>
+    </div>
+    <div v-else class="books-list">
       <div v-for="book in likedBooks" :key="book.id" class="book-item">
         <img :src="book.cover_image" alt="Cover Image" class="book-cover" />
         <div class="book-info">
@@ -10,9 +13,6 @@
           <p>by {{ book.author }}</p>
         </div>
       </div>
-    </div>
-    <div v-else class="no-liked-books">
-      <p>You have not liked any books yet.</p>
     </div>
   </div>
 </template>
@@ -48,6 +48,12 @@ export default {
   padding: 1rem;
 }
 
+.no-liked-books {
+  text-align: center;
+  color: #6c757d;
+  font-style: italic;
+}
+
 .books-list {
   display: flex;
   flex-wrap: wrap;
@@ -73,9 +79,13 @@ export default {
   margin-top: 0.5rem;
 }
 
-.no-liked-books {
-  text-align: center;
+.book-info h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+}
+
+.book-info p {
   color: #6c757d;
-  font-style: italic;
+  font-size: 0.9rem;
 }
 </style>
