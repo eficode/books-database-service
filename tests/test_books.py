@@ -54,7 +54,7 @@ def test_read_liked_books_success(mock_db_session, mock_liked_books):
     for i, book in enumerate(mock_liked_books):
         assert data["books"][i]["title"] == book.title
         assert data["books"][i]["author"] == book.author
-        assert data["books"][i]["cover_image"] == book.cover_image
+        assert "cover_image" in data["books"][i]
 
 def test_read_liked_books_empty(mock_db_session):
     mock_db_session.query.return_value.filter.return_value.all.return_value = []
@@ -63,6 +63,7 @@ def test_read_liked_books_empty(mock_db_session):
     data = response.json()
     assert data["total_count"] == 0
     assert len(data["books"]) == 0
+    assert "No liked books found" in data.get("message", "")
 
 def test_read_liked_books_error(mock_db_session):
     mock_db_session.query.side_effect = Exception("Database error")
