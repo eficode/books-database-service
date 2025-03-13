@@ -68,9 +68,7 @@ security = HTTPBasic()
 @router.delete("/{book_id}", summary="Delete a single outdated test book",
                description="This endpoint deletes a single outdated test book with the provided ID",
                response_description="Confirmation message")
-def delete_book(book_id: int, db: Session = Depends(get_db), confirmation: str = Body(..., description="Confirmation to delete the book")):
-    if confirmation.lower() != "confirm":
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid confirmation")
+def delete_book(book_id: int, db: Session = Depends(get_db)):
     """
     Delete a single book by ID.
     """
@@ -85,10 +83,8 @@ def delete_book(book_id: int, db: Session = Depends(get_db), confirmation: str =
 @router.delete("/bulk", summary="Bulk delete multiple outdated test books",
                description="This endpoint deletes multiple outdated test books with the provided IDs",
                response_description="Confirmation message")
-def bulk_delete_books(book_ids: List[int] = Body(..., description="List of book IDs to delete"), confirmation: str = Body(..., description="Confirmation to delete the books"),
+def bulk_delete_books(book_ids: List[int] = Body(..., description="List of book IDs to delete"),
                       db: Session = Depends(get_db)):
-    if confirmation.lower() != "confirm":
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid confirmation")
     books_to_delete = db.query(Book).filter(Book.id.in_(book_ids)).all()
     if not books_to_delete:
         raise HTTPException(status_code=404, detail="No books found to delete")
