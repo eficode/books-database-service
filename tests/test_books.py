@@ -72,7 +72,32 @@ def test_delete_book_success(mock_db_session):
     assert response.status_code == 200
     assert response.json().get("detail") == "Book deleted"
 
-def test_delete_book_not_found(mock_db_session):
+def test_bulk_delete_books_success(mock_db_session):
+    """
+    Test successful bulk deletion of multiple books.
+    """
+    mock_db_session.query.return_value.filter.return_value.all.return_value = [
+        Book(id=1, title="Test Book 1", author="Test Author 1", pages=100),
+        Book(id=2, title="Test Book 2", author="Test Author 2", pages=150)
+    ]
+
+    response = client.delete("/books/bulk", json=[1, 2])
+
+    assert response.status_code == 200
+    assert response.json().get("detail") == "Books deleted"
+
+def test_bulk_delete_books_not_found(mock_db_session):
+    """
+    Test bulk deletion with one or more non-existent books.
+    """
+    mock_db_session.query.return_value.filter.return_value.all.return_value = [
+        Book(id=1, title="Test Book 1", author="Test Author 1", pages=100)
+    ]
+
+    response = client.delete("/books/bulk", json=[1, 2])
+
+    assert response.status_code == 404
+    assert response.json().get("detail") == "One or more books not found"
     """
     Test deletion of a non-existent book.
     """

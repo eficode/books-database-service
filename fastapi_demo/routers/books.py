@@ -4,6 +4,7 @@ from typing import List
 from ..database import get_db
 from ..models import Book
 from ..dtos import BookCreate, BookInfo, BookFavorite
+from pydantic import BaseModel
 
 router = APIRouter(
     prefix="/books",
@@ -77,7 +78,21 @@ def delete_book(book_id: int, db: Session = Depends(get_db)):
     return {"detail": "Book deleted"}
 
 
-@router.patch("/{book_id}/favorite", response_model=BookInfo,
+@router.delete("/bulk", summary="Bulk delete multiple outdated test books",
+               description="This endpoint deletes multiple outdated test books with the provided IDs",
+               response_description="Confirmation message")
+def bulk_delete_books(book_ids: List[int] = Body(..., description="List of book IDs to delete"),
+                      db: Session = Depends(get_db)):
+    """
+    Bulk delete multiple outdated test books by IDs.
+    """
+    books_to_delete = db.query(Book).filter(Book.id.in_(book_ids)).all()
+    if len(books_to_delete) != len(book_ids):
+        raise HTTPException(status_code=404, detail="One or more books not found")
+    for book in books_to_delete:
+        db.delete(book)
+    db.commit()
+    return {"detail": "Books deleted"}
            summary="Toggle book favorite status",
            description="This endpoint toggles the favorite status of a book with the provided ID",
            response_description="The updated book's information")
