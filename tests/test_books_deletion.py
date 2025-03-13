@@ -1,6 +1,7 @@
 from fastapi.testclient import TestClient
 from fastapi_demo.main import app
 from fastapi_demo.models import Book
+import json
 from unittest.mock import MagicMock
 
 client = TestClient(app)
