@@ -36,7 +36,7 @@ def mock_liked_books(mock_db_session):
     assert liked_books[0]["title"] == "Liked Book 1"
     assert liked_books[1]["title"] == "Liked Book 2"
 
-def test_read_liked_books(mock_liked_books):
+def test_read_liked_books(mock_liked_books, mock_db_session):
     response = client.get("/books/liked")
     assert response.status_code == 200
     liked_books_response = response.json()
