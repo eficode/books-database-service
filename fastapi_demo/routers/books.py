@@ -79,6 +79,9 @@ def delete_book(book_id: int, db: Session = Depends(get_db)):
          description="This endpoint retrieves all books liked by the user",
          response_description="A list of liked books")
 def read_liked_books(db: Session = Depends(get_db)):
+    """
+    Retrieve all books that have been marked as liked by the user.
+    """
     liked_books = db.query(Book).filter(Book.favorite == True).all()
     return [BookInfo(**book.__dict__) for book in liked_books]
 
