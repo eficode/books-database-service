@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Depends, HTTPException, Body, Path
+from fastapi import APIRouter, Depends, HTTPException, Body, Path, Security
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from sqlalchemy.orm import Session
 from typing import List
 from ..database import get_db
@@ -62,11 +63,18 @@ def update_book(book_id: int, book: BookCreate, db: Session = Depends(get_db)):
     db.refresh(db_book)
     return BookInfo(**db_book.__dict__)
 
+security = HTTPBasic()
+
 @router.delete("/{book_id}",
              summary="Delete a single outdated test book",
              description="This endpoint deletes a single outdated test book with the provided ID",
              response_description="Confirmation message")
-def delete_book(book_id: int, db: Session = Depends(get_db)):
+def delete_book(book_id: int, confirmation: str = Body(..., description="Confirmation to delete the book"), 
+                credentials: HTTPBasicCredentials = Security(security), db: Session = Depends(get_db)):
+    if confirmation.lower() != "yes":
+        raise HTTPException(status_code=400, detail="Invalid confirmation")
+    if credentials.username != "admin" or credentials.password != "secret":
+        raise HTTPException(status_code=401, detail="Invalid credentials")
     """
     Delete a single outdated test book by ID.
     """
@@ -82,7 +90,10 @@ def delete_book(book_id: int, db: Session = Depends(get_db)):
                description="This endpoint deletes multiple outdated test books with the provided IDs",
                response_description="Confirmation message")
 def bulk_delete_books(book_ids: List[int] = Body(..., description="List of book IDs to delete"),
+                      confirmation: str = Body(..., description="Confirmation to delete the books"),
                       db: Session = Depends(get_db)):
+    if confirmation.lower() != "yes":
+        raise HTTPException(status_code=400, detail="Invalid confirmation")
     """
     Bulk delete multiple outdated test books by IDs.
     """
