@@ -31,8 +31,8 @@ def test_read_book_success(mock_db_session):
 def test_read_liked_books(mock_db_session):
     # Mock liked books
     mock_db_session.query.return_value.filter.return_value.all.return_value = [
-        Book(id=1, title="Liked Book 1", author="Author 1", pages=100, favorite=True),
-        Book(id=2, title="Liked Book 2", author="Author 2", pages=150, favorite=True)
+        Book(id=1, title="Liked Book 1", author="Author 1", pages=100, favorite=True, cover_image="cover1.jpg"),
+        Book(id=2, title="Liked Book 2", author="Author 2", pages=150, favorite=True, cover_image="cover2.jpg")
     ]
 
     response = client.get("/books/liked")
@@ -40,7 +40,9 @@ def test_read_liked_books(mock_db_session):
     liked_books = response.json()
     assert len(liked_books) == 2
     assert liked_books[0]["title"] == "Liked Book 1"
+    assert liked_books[0]["cover_image"] == "cover1.jpg"
     assert liked_books[1]["title"] == "Liked Book 2"
+    assert liked_books[1]["cover_image"] == "cover2.jpg"
 
 def test_read_liked_books_empty(mock_db_session):
     # Mock no liked books
@@ -50,6 +52,7 @@ def test_read_liked_books_empty(mock_db_session):
     assert response.status_code == 200
     liked_books = response.json()
     assert len(liked_books) == 0
+    assert liked_books == []
 
 
 def test_update_book_success(mock_db_session):
