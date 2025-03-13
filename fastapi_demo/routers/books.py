@@ -69,6 +69,9 @@ security = HTTPBasic()
                description="This endpoint deletes a single outdated test book with the provided ID",
                response_description="Confirmation message")
 def delete_book(book_id: int, db: Session = Depends(get_db)):
+    """
+    Delete a single book by ID.
+    """
     db_book = db.query(Book).filter(Book.id == book_id).first()
     if db_book is None:
         raise HTTPException(status_code=404, detail="Book not found")
