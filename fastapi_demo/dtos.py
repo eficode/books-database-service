@@ -11,6 +11,7 @@ class BookCreate(BaseModel):
 
 class BookInfo(BookCreate):
     id: Optional[int] = None
+    cover_image: Optional[str] = None  # Assuming cover image URL is stored in the database
 
 class BookFavorite(BaseModel):
     book_id: int
