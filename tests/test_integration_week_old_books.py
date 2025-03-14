@@ -2,8 +2,7 @@ from datetime import datetime, timedelta
 from fastapi.testclient import TestClient
 from fastapi_demo.main import app
 from fastapi_demo.models import Book
-from fastapi_demo.database import get_db
-from sqlalchemy.orm import Session
+import pytest
 
 client = TestClient(app)
 
@@ -12,7 +11,9 @@ def test_create_and_get_week_old_books(mock_db_session):
     response = client.post("/books/", json={
         "title": "Today's Book",
         "author": "Author Today",
-        "pages": 150
+        "pages": 150,
+        "category": "Fiction",
+        "favorite": False
     })
     assert response.status_code == 200
 
@@ -26,7 +27,7 @@ def test_create_and_get_week_old_books(mock_db_session):
     # Retrieve books that are a week old
     response = client.get("/books/week-old")
     assert response.status_code == 200
-    assert len(response.json()) > 0
+    assert len(response.json()) == 1
     assert response.json()[0].get("title") == "Today's Book"
 
 def test_get_week_old_books_not_found(mock_db_session):
