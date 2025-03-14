@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import func
 from .database import get_db
 from .models import Book
-from .dtos import BookInfo
+from .dtos import BookInfo, BookCreate
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from .database import Base, engine
@@ -24,6 +24,14 @@ Base.metadata.create_all(bind=engine)
 
 # Add routers
 app.include_router(books)
+
+@app.post("/books/", response_model=BookInfo)
+def create_book(book: BookCreate, db: Session = Depends(get_db)):
+    db_book = Book(**book.model_dump(), added_date=datetime.now().date())
+    db.add(db_book)
+    db.commit()
+    db.refresh(db_book)
+    return BookInfo(**db_book.__dict__)
 
 @app.get("/books/week-old", response_model=List[BookInfo])
 def get_week_old_books(db: Session = Depends(get_db)):
