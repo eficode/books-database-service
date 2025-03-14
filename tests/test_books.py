@@ -1,7 +1,10 @@
 # FILEPATH: /Users/alexjantunen/dev/fast-api-demo/test_main.py
 from unittest.mock import MagicMock, patch
 from fastapi.testclient import TestClient
+import pytest
 from datetime import datetime, timedelta
+from fastapi_demo.models import Book
+from fastapi_demo.dtos import BookInfo
 from fastapi_demo.main import app
 from fastapi_demo.models import Book
 from datetime import datetime, timedelta
@@ -72,16 +75,21 @@ def test_delete_book_success(mock_db_session):
     assert response.status_code == 200
     assert response.json().get("message") == "Book deleted successfully"
 
-def test_get_week_old_books_success(mock_db_session):
-    # Simulate books added exactly a week ago
-    one_week_ago = datetime.now() - timedelta(days=7)
-    mock_db_session.query.return_value.filter.return_value.all.return_value = [
-        Book(id=1, title="Week Old Book", author="Author", pages=123, added_date=one_week_ago.date())
-    ]
+@pytest.mark.parametrize("books, expected_status, expected_length", [
+    ([
+        Book(id=1, title="Week Old Book", author="Author", pages=123, added_date=(datetime.now() - timedelta(days=7)).date())
+    ], 200, 1),
+    ([], 404, 0)
+])
+def test_get_week_old_books(mock_db_session, books, expected_status, expected_length):
+    mock_db_session.query.return_value.filter.return_value.all.return_value = books
     response = client.get("/books/week-old")
-    assert response.status_code == 200
-    assert len(response.json()) == 1
-    assert response.json()[0].get("title") == "Week Old Book"
-    assert response.json()[0].get("author") == "Author"
-    assert response.json()[0].get("pages") == 123
-    assert response.json()[0].get("added_date") == one_week_ago.date().isoformat()
+    assert response.status_code == expected_status
+    assert len(response.json()) == expected_length
+    if expected_status == 200:
+        assert response.json()[0].get("title") == "Week Old Book"
+        assert response.json()[0].get("author") == "Author"
+        assert response.json()[0].get("pages") == 123
+        assert response.json()[0].get("added_date") == (datetime.now() - timedelta(days=7)).date().isoformat()
+    else:
+        assert response.json().get("detail") == "No books found that are a week old"
