@@ -1,6 +1,6 @@
 from datetime import datetime
 from .database import Base
-from sqlalchemy import Column, Integer, String, Boolean, Date
+from sqlalchemy import Column, Integer, String, Boolean, Date, func
 
 
 class Book(Base):
@@ -12,4 +12,4 @@ class Book(Base):
     pages = Column(Integer)
     category = Column(String, index=True, default="Fiction")
     favorite = Column(Boolean, default=False, index=True)
-    added_date = Column(Date, default=datetime.utcnow)
+    added_date = Column(Date, default=func.now())

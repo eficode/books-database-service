@@ -4,6 +4,7 @@ from fastapi.testclient import TestClient
 from datetime import datetime, timedelta
 from fastapi_demo.main import app
 from fastapi_demo.models import Book
+from datetime import datetime, timedelta
 from fastapi_demo.models import Book
 
 from fastapi import HTTPException
@@ -71,15 +72,16 @@ def test_delete_book_success(mock_db_session):
     assert response.status_code == 200
     assert response.json().get("message") == "Book deleted successfully"
 
-def test_get_week_old_books_not_found(mock_db_session):
-    # Simulate no books added exactly a week ago
-    mock_db_session.query.return_value.filter.return_value.all.return_value = []
+def test_get_week_old_books_success(mock_db_session):
+    # Simulate books added exactly a week ago
+    one_week_ago = datetime.now() - timedelta(days=7)
+    mock_db_session.query.return_value.filter.return_value.all.return_value = [
+        Book(id=1, title="Week Old Book", author="Author", pages=123, added_date=one_week_ago.date())
+    ]
     response = client.get("/books/week-old")
-    assert response.status_code == 404
-    assert response.json().get("detail") == "No books found that are a week old"
-    mock_db_session.query.return_value.filter.return_value.first.return_value = None
-
-    response = client.delete("/books/1")
-
-    assert response.status_code == 404
-    assert response.json().get("detail") == "Book not found"
+    assert response.status_code == 200
+    assert len(response.json()) == 1
+    assert response.json()[0].get("title") == "Week Old Book"
+    assert response.json()[0].get("author") == "Author"
+    assert response.json()[0].get("pages") == 123
+    assert response.json()[0].get("added_date") == one_week_ago.date().isoformat()

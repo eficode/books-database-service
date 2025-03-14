@@ -9,6 +9,8 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from .database import Base, engine
 from .routers.books import router as books
+from fastapi_demo.dtos import BookInfo
+from typing import List
 
 app = FastAPI(
     title="Books Library API",
@@ -29,7 +31,13 @@ def get_week_old_books(db: Session = Depends(get_db)):
     if not books:
         raise HTTPException(status_code=404, detail="No books found that are a week old")
     return [BookInfo(**book.__dict__) for book in books]
-app.mount("/static", StaticFiles(directory="fastapi_demo/static"), name="static")
+@app.get("/books/week-old", response_model=List[BookInfo])
+def get_week_old_books(db: Session = Depends(get_db)):
+    one_week_ago = datetime.now() - timedelta(days=7)
+    books = db.query(Book).filter(Book.added_date == one_week_ago.date()).all()
+    if not books:
+        raise HTTPException(status_code=404, detail="No books found that are a week old")
+    return [BookInfo(**book.__dict__) for book in books]
 
 # Serve index.html at root
 @app.get("/", include_in_schema=False)
