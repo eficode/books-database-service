@@ -28,7 +28,7 @@ app.include_router(books)
 @app.get("/books/week-old", response_model=List[BookInfo])
 def get_week_old_books(db: Session = Depends(get_db)):
     one_week_ago = datetime.now() - timedelta(days=7)
-    books = db.query(Book).filter(func.date(Book.added_date) == one_week_ago.date()).all()
+    books = db.query(Book).filter(Book.added_date == one_week_ago.date()).all()
     if not books:
         raise HTTPException(status_code=404, detail="No books found that are a week old")
     return [BookInfo(**book.__dict__) for book in books]

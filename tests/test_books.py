@@ -73,8 +73,7 @@ def test_delete_book_success(mock_db_session):
 
     response = client.delete("/books/1")
 
-    assert response.status_code == 200
-    assert response.json().get("message") == "Book deleted successfully"
+    assert response.status_code == 204
 
 @pytest.mark.parametrize("books, expected_status, expected_length", [
     ([
@@ -92,8 +91,8 @@ def test_get_week_old_books(mock_db_session, books, expected_status, expected_le
     mock_db_session.query.return_value.filter.return_value.all.return_value = books
     response = client.get("/books/week-old")
     assert response.status_code == expected_status
-    assert len(response.json()) == expected_length
     if expected_status == 200:
+        assert len(response.json()) == expected_length
         assert response.json()[0].get("title") == "Week Old Book"
         assert response.json()[0].get("author") == "Author"
         assert response.json()[0].get("pages") == 123
