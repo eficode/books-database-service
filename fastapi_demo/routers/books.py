@@ -1,14 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Body, Path
-from sqlalchemy.orm import Session
-from typing import List
-from ..database import get_db
-from ..models import Book
-from ..dtos import BookCreate, BookInfo, BookFavorite
-
-router = APIRouter(
-    prefix="/books",
-    tags=["books"]
-)
+from datetime import datetime, timedelta
 
 @router.get("/", response_model=List[BookInfo],
          summary="Get all books",
@@ -26,7 +16,7 @@ def read_books(db: Session = Depends(get_db)):
 def create_book(
     book: BookCreate = Body(..., description="The details of the book to be created", examples={"title": "Example Book", "author": "John Doe", "year": 2021}),
     db: Session = Depends(get_db)):
-    db_book = Book(**book.model_dump())
+    db_book = Book(**book.model_dump(), added_date=datetime.utcnow().date())
     db.add(db_book)
     db.commit()
     db.refresh(db_book)
@@ -61,17 +51,16 @@ def update_book(book_id: int, book: BookCreate, db: Session = Depends(get_db)):
     db.refresh(db_book)
     return BookInfo(**db_book.__dict__)
 
-@router.delete("/{book_id}",
-             summary="Delete a book",
-             description="This endpoint deletes a book with the provided ID",
-             response_description="Confirmation message")
-def delete_book(book_id: int, db: Session = Depends(get_db)):
-    db_book = db.query(Book).filter(Book.id == book_id).first()
-    if db_book is None:
-        raise HTTPException(status_code=404, detail="Book not found")
-    db.delete(db_book)
-    db.commit()
-    return {"message": "Book deleted successfully"}
+@router.get("/week-old", response_model=List[BookInfo],
+         summary="Get books that are a week old",
+         description="This endpoint retrieves books that were added exactly a week ago",
+         response_description="A list of books that are a week old")
+def get_week_old_books(db: Session = Depends(get_db)):
+    one_week_ago = datetime.utcnow().date() - timedelta(days=7)
+    books = db.query(Book).filter(Book.added_date == one_week_ago).all()
+    if not books:
+        raise HTTPException(status_code=404, detail="No books found that are a week old")
+    return [BookInfo(**book.__dict__) for book in books]
 
 
 @router.patch("/{book_id}/favorite", response_model=BookInfo,
