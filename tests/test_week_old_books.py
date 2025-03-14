@@ -1,10 +1,14 @@
 from datetime import datetime, timedelta
-from unittest.mock import MagicMock
 from fastapi.testclient import TestClient
 from fastapi_demo.main import app
 from fastapi_demo.models import Book
+import pytest
 
 client = TestClient(app)
+
+@pytest.fixture
+def mock_db_session(mocker):
+    return mocker.patch('fastapi_demo.database.SessionLocal')
 
 def test_get_week_old_books_success(mock_db_session):
     # Prepare mock data
@@ -16,7 +20,7 @@ def test_get_week_old_books_success(mock_db_session):
     response = client.get("/books/week-old")
     assert response.status_code == 200
     assert len(response.json()) == 1
-    assert response.json()[0]["title"] == "Week Old Book"
+    assert response.json()[0].get("title") == "Week Old Book"
 
 def test_get_week_old_books_not_found(mock_db_session):
     # No books found
