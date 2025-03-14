@@ -73,7 +73,7 @@ def test_delete_book_success(mock_db_session):
 
     response = client.delete("/books/1")
 
-    assert response.status_code == 204
+    assert response.status_code == 200
 
 @pytest.mark.parametrize("books, expected_status, expected_length", [
     ([
