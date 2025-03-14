@@ -4,6 +4,7 @@ from fastapi.testclient import TestClient
 import pytest
 from datetime import datetime, timedelta
 from fastapi_demo.models import Book
+from sqlalchemy import func
 from fastapi_demo.dtos import BookInfo
 from fastapi_demo.main import app
 from fastapi_demo.models import Book
@@ -79,6 +80,12 @@ def test_delete_book_success(mock_db_session):
     ([
         Book(id=1, title="Week Old Book", author="Author", pages=123, added_date=(datetime.now() - timedelta(days=7)).date())
     ], 200, 1),
+    ([
+        Book(id=2, title="Older Book", author="Author", pages=123, added_date=(datetime.now() - timedelta(days=8)).date())
+    ], 404, 0),
+    ([
+        Book(id=3, title="Newer Book", author="Author", pages=123, added_date=(datetime.now() - timedelta(days=6)).date())
+    ], 404, 0),
     ([], 404, 0)
 ])
 def test_get_week_old_books(mock_db_session, books, expected_status, expected_length):
