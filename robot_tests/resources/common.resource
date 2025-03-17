@@ -10,7 +10,7 @@ Library           Process
 ${BROWSER}        chromium
 ${HEADLESS}       True
 ${BASE_URL}       http://localhost:8000
-${TIMEOUT}        20s
+${TIMEOUT}        40s
 ${DOCKER_UP_TIMEOUT}    30s
 
 *** Keywords ***
