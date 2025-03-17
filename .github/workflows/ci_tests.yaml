@@ -54,6 +54,10 @@ jobs:
           node -v
           npm -v
 
+      - name: Rfbrowser installation
+        run: |
+          poetry run rfbrowser init
+
       - name: Run API Tests
         run: |
           poetry run pip install pytest-html
@@ -67,14 +71,6 @@ jobs:
       - name: Verify Playwright installation
         run: |
           playwright --version
-
-      - name: Initialize Browser Library
-        run: |
-          if [ ! -d "$(poetry env info --path)/lib/python3.12/site-packages/Browser/wrapper/node_modules/playwright" ]; then
-            echo "Playwright node_modules missing, reinstalling..."
-            npx playwright install chromium
-          fi
-          poetry run python -m Browser.entry init --with-deps || cat "$(find /home/runner/.cache/pypoetry/virtualenvs -name 'install.log' 2>/dev/null)"
 
       - name: Run Robot Framework Tests
         run: |
