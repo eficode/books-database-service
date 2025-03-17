@@ -36,17 +36,13 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Ensure npm and Playwright dependencies are installed
-        run: |
-          pip install playwright
-          playwright install
-          playwright install-deps
-
       - name: Install Playwright Dependencies
         run: |
           pip install playwright
           playwright install
           playwright install-deps
+          npm install -g playwright
+          npx playwright install chromium
 
       - name: Start services with Docker Compose
         run: |
@@ -74,6 +70,10 @@ jobs:
 
       - name: Initialize Browser Library
         run: |
+          if [ ! -d "$(poetry env info --path)/lib/python3.12/site-packages/Browser/wrapper/node_modules/playwright" ]; then
+            echo "Playwright node_modules missing, reinstalling..."
+            npx playwright install chromium
+          fi
           poetry run python -m Browser.entry init --with-deps || cat "$(find /home/runner/.cache/pypoetry/virtualenvs -name 'install.log' 2>/dev/null)"
 
       - name: Run Robot Framework Tests
