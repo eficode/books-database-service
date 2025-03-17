@@ -1,6 +1,6 @@
 *** Settings ***
 Documentation     Common resources for Books Database UI tests
-Library           Browser
+Library           Browser  timeout=15s
 Library           DateTime
 Library           String
 Library           Collections
