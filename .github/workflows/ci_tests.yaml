@@ -45,7 +45,7 @@ jobs:
       - name: Start services with Docker Compose
         run: |
           docker compose up -d --build
-          sleep 10 # Odotetaan palvelujen käynnistymistä
+          sleep 10
 
       - name: Verify Node.js and npm installation
         run: |
@@ -58,16 +58,21 @@ jobs:
           mkdir -p api_test_results
           poetry run pytest --maxfail=3 --disable-warnings --junitxml=api_test_results/results.xml --html=api_test_results/report.html
 
-      - name: Install Playwright Dependencies
+      - name: Install Playwright and dependencies
         run: |
           pip install playwright
-          npm install -g playwright # Tämä asentaa Playwrightin ensin
+          npm install -g playwright
           npx playwright install chromium
+          npx playwright install-deps
+
+      - name: Verify Playwright installation
+        run: |
+          playwright --version
 
       - name: Initialize Browser Library
         run: |
-          poetry run python -m Browser.entry init --with-deps || cat /home/runner/.cache/pypoetry/virtualenvs/*/lib/python3.12/site-packages/Browser/wrapper/node_modules/playwright/install.log
-
+          poetry run python -m Browser.entry init --with-deps || cat "$(find /home/runner/.cache/pypoetry/virtualenvs -name 'install.log' 2>/dev/null)"
+ 
       - name: Run Robot Framework Tests
         run: |
           poetry run robot --outputdir robot_results robot_tests/
