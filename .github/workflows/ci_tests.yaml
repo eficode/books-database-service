@@ -1,0 +1,80 @@
+name: Run Robot Framework Tests and API Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Poetry (1.5.1)
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 - --version 1.5.1
+          echo "export PATH=$HOME/.local/bin:$PATH" >> ~/.bashrc
+          source ~/.bashrc
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          echo "Poetry version: $(poetry --version)"
+
+      - name: Install Dependencies
+        run: |
+          poetry install
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install Playwright Dependencies
+        run: |
+          pip install playwright
+          playwright install
+          playwright install-deps
+
+      - name: Start services with Docker Compose
+        run: |
+          docker compose up -d --build
+          sleep 10 # Odotetaan palvelujen käynnistymistä
+
+      - name: Verify Node.js and npm installation
+        run: |
+          node -v
+          npm -v
+
+      - name: Run API Tests
+        run: |
+          poetry run pip install pytest-html
+          mkdir -p api_test_results
+          poetry run pytest --maxfail=3 --disable-warnings --junitxml=api_test_results/results.xml --html=api_test_results/report.html
+
+      - name: Initialize Browser Library
+        run: |
+          poetry run python -m Browser.entry init --with-deps
+
+      - name: Run Robot Framework Tests
+        run: |
+          poetry run robot --outputdir robot_results robot_tests/
+
+      - name: Upload Robot Framework Reports
+        if: env.ACTIONS_RUNTIME_TOKEN != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: robot-results
+          path: robot_results/
+
+      - name: Upload API Test Reports
+        if: env.ACTIONS_RUNTIME_TOKEN != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-test-results
+          path: api_test_results/
