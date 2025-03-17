@@ -77,14 +77,14 @@ jobs:
           poetry run robot --outputdir robot_results robot_tests/
 
       - name: Upload Robot Framework Reports
-        if: env.ACTIONS_RUNTIME_TOKEN != ''
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: robot-results
           path: robot_results/
 
       - name: Upload API Test Reports
-        if: env.ACTIONS_RUNTIME_TOKEN != ''
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: api-test-results
