@@ -8,6 +8,9 @@ readme = "README.md"
 
 [tool.poetry.scripts]
 dev-server = "server:main"
+docker-build = "docker-compose build"
+docker-up = "docker-compose up"
+docker-down = "docker-compose down"
 
 [tool.poetry.dependencies]
 python = "^3.12"

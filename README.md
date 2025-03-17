@@ -16,15 +16,21 @@ A modern web application for managing a books database with a beautiful UI and A
 
 The easiest way to run the application is using Docker Compose:
 
-1. Make sure you have Docker and Docker Compose installed
-2. Clone this repository
-3. Run the following command in the project directory:
+1. Make sure you have Docker and Docker Compose installed.
+2. Clone this repository.
+3. Build the Docker images:
 
 ```bash
-docker-compose up -d
+docker-compose build
 ```
 
-The application will be available at http://localhost:8000
+4. Run the application:
+
+```bash
+docker-compose up
+```
+
+The application will be available at http://localhost:8000.
 
 To stop the application:
 

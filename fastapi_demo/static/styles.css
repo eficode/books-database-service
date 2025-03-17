@@ -10,6 +10,57 @@
     --transition: all 0.3s ease;
 }
 
+.comments-section {
+    background-color: var(--card-color);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    box-shadow: var(--box-shadow);
+    margin-top: 2rem;
+}
+
+.comments-section h2 {
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+}
+
+#comments-list {
+    margin-bottom: 1.5rem;
+}
+
+#comments-list .comment {
+    padding: 1rem;
+    border-bottom: 1px solid #ddd;
+}
+
+#comments-list .comment:last-child {
+    border-bottom: none;
+}
+
+#comment-form {
+    display: flex;
+    flex-direction: column;
+}
+
+#comment-form .form-group {
+    margin-bottom: 1rem;
+}
+
+#comment-form textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: var(--transition);
+    resize: vertical;
+}
+
+#comment-form textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.2);
+}
+
 * {
     margin: 0;
     padding: 0;

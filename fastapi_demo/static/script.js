@@ -13,7 +13,62 @@ const shownCountEl = document.getElementById('shown-count');
 const totalCountEl = document.getElementById('total-count');
 const loadMoreBtn = document.getElementById('load-more');
 
-// API Base URL
+const COMMENTS_API_URL = '/books';
+
+// Fetch comments for a book
+async function fetchComments(bookId) {
+    try {
+        const response = await fetch(`${COMMENTS_API_URL}/${bookId}/comments`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch comments');
+        }
+        const comments = await response.json();
+        displayComments(comments);
+    } catch (error) {
+        console.error('Error fetching comments:', error);
+        showNotification('Error fetching comments', 'error');
+    }
+}
+
+// Display comments in the UI
+function displayComments(comments) {
+    const commentsList = document.getElementById('comments-list');
+    commentsList.innerHTML = '';
+    comments.forEach(comment => {
+        const commentElement = document.createElement('div');
+        commentElement.classList.add('comment');
+        commentElement.textContent = comment.content;
+        commentsList.appendChild(commentElement);
+    });
+}
+
+// Add a new comment
+async function addComment(e) {
+    e.preventDefault();
+    const content = document.getElementById('comment-content').value.trim();
+    if (!content) {
+        showNotification('Comment cannot be empty', 'error');
+        return;
+    }
+    try {
+        const response = await fetch(`${COMMENTS_API_URL}/1/comments`, { // Assuming bookId is 1 for demo
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ content })
+        });
+        if (!response.ok) {
+            throw new Error('Failed to add comment');
+        }
+        const comment = await response.json();
+        fetchComments(1); // Refresh comments
+        showNotification('Comment added successfully!', 'success');
+    } catch (error) {
+        showNotification('Error adding comment', 'error');
+    }
+}
+
+document.getElementById('comment-form').addEventListener('submit', addComment);
+document.addEventListener('DOMContentLoaded', () => fetchComments(1)); // Load comments for bookId 1 on page load
 const API_URL = '/books';
 
 // App State

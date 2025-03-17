@@ -2,8 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException, Body, Path
 from sqlalchemy.orm import Session
 from typing import List
 from ..database import get_db
-from ..models import Book
-from ..dtos import BookCreate, BookInfo, BookFavorite
+from ..models import Book, Comment
+from ..dtos import BookCreate, BookInfo, BookFavorite, CommentCreate, CommentInfo
 
 router = APIRouter(
     prefix="/books",
@@ -73,6 +73,27 @@ def delete_book(book_id: int, db: Session = Depends(get_db)):
     db.commit()
     return {"message": "Book deleted successfully"}
 
+
+@router.get("/{book_id}/comments", response_model=List[CommentInfo],
+           summary="Get comments for a book",
+           description="This endpoint retrieves comments for a specific book",
+           response_description="A list of comments for the book")
+def get_comments_for_book(book_id: int, db: Session = Depends(get_db)):
+    comments = db.query(Comment).filter(Comment.book_id == book_id).limit(1000).all()
+    return [CommentInfo(**comment.__dict__) for comment in comments]
+
+@router.post("/{book_id}/comments", response_model=CommentInfo,
+           summary="Add a comment to a book",
+           description="This endpoint allows a user to add a comment to a book",
+           response_description="The created comment's information")
+def add_comment(book_id: int, comment: CommentCreate, db: Session = Depends(get_db)):
+    if not comment.content.strip():
+        raise HTTPException(status_code=400, detail="Comment cannot be empty")
+    db_comment = Comment(book_id=book_id, **comment.model_dump())
+    db.add(db_comment)
+    db.commit()
+    db.refresh(db_comment)
+    return CommentInfo(**db_comment.__dict__)
 
 @router.patch("/{book_id}/favorite", response_model=BookInfo,
            summary="Toggle book favorite status",
