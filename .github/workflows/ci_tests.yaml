@@ -58,9 +58,15 @@ jobs:
           mkdir -p api_test_results
           poetry run pytest --maxfail=3 --disable-warnings --junitxml=api_test_results/results.xml --html=api_test_results/report.html
 
+      - name: Install Playwright Dependencies
+        run: |
+          pip install playwright
+          npm install -g playwright # Tämä asentaa Playwrightin ensin
+          npx playwright install chromium
+
       - name: Initialize Browser Library
         run: |
-          poetry run python -m Browser.entry init --with-deps
+          poetry run python -m Browser.entry init --with-deps || cat /home/runner/.cache/pypoetry/virtualenvs/*/lib/python3.12/site-packages/Browser/wrapper/node_modules/playwright/install.log
 
       - name: Run Robot Framework Tests
         run: |
