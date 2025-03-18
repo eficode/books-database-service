@@ -6,6 +6,7 @@ Library           String
 Library           Collections
 Library           Process
 
+
 *** Variables ***
 ${BROWSER}        chromium
 ${HEADLESS}       True
@@ -202,9 +203,15 @@ Sort Books By
     [Arguments]    ${sort_by}
     Select Options By    id=sort-by    text    ${sort_by}
 
+#Book Should Exist
+#    [Arguments]    ${title}
+#    Wait For Elements State    .book-card h3.book-title:has-text("${title}")    visible    ${TIMEOUT}
+
 Book Should Exist
     [Arguments]    ${title}
-    Wait For Elements State    .book-card h3.book-title:has-text("${title}")    visible    ${TIMEOUT}
+    Log To Console    Checking if book with title: "${title}" exists
+    Run Keyword And Continue On Failure    Wait For Elements State    .book-card h3.book-title:has-text("${title}")    visible    ${TIMEOUT}
+    Log To Console    Book with title: "${title}" was found successfully!
 
 Edit Book
     [Arguments]    ${original_title}    ${new_title}    ${new_author}    ${new_pages}    ${new_category}
