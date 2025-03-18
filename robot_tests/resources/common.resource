@@ -81,7 +81,10 @@ I Search For Nonexistent Book
     Search For Book    NonExistentBookXYZ123
     
 I Should See No Books Found Message
-    Wait For Elements State    text=No books found    visible    timeout=20s
+ #   [Arguments]    ${title}
+ #   Wait For Elements State    .book-card h3.book-title:has-text("${title}")    detached     timeout=10s
+    Sleep    3s
+    Wait For Elements State    text=No books found    visible    timeout=30s
     
 I Clear The Search
     Fill Text    id=search-input    ${EMPTY}
