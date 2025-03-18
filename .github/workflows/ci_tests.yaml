@@ -57,11 +57,11 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'fs'
+          input: '.'
           ignore-unfixed: true
           exit-code: 1
           severity: 'HIGH,CRITICAL'
           format: 'table'
-          path: '.'
 
       - name: Verify Node.js and npm installation
         run: |
