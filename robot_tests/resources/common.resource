@@ -210,11 +210,19 @@ Sort Books By
 #    [Arguments]    ${title}
 #    Wait For Elements State    .book-card h3.book-title:has-text("${title}")    visible    ${TIMEOUT}
 
+#Book Should Exist
+#    [Arguments]    ${title}
+#    Log To Console    Checking if book with title: "${title}" exists
+#   Run Keyword And Continue On Failure    Wait For Elements State    .book-card h3.book-title:has-text("${title}")    visible    ${TIMEOUT}
+#    Log To Console    Book with title: "${title}" was found successfully!
+
 Book Should Exist
-    [Arguments]    ${title}
-    Log To Console    Checking if book with title: "${title}" exists
-    Run Keyword And Continue On Failure    Wait For Elements State    .book-card h3.book-title:has-text("${title}")    visible    ${TIMEOUT}
-    Log To Console    Book with title: "${title}" was found successfully!
+    [Arguments]    ${book_title}
+    Log To Console    Checking if book with title: "${book_title}" exists
+    Sleep    3s
+    Wait Until Keyword Succeeds    3x    10s    Run Keywords
+    ...    Wait For Elements State    .book-card h3.book-title:has-text("${book_title}")    visible    10s
+    ...    AND    Log To Console    Book with title: "${book_title}" was found successfully!
 
 Edit Book
     [Arguments]    ${original_title}    ${new_title}    ${new_author}    ${new_pages}    ${new_category}
