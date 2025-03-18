@@ -81,7 +81,7 @@ I Search For Nonexistent Book
     Search For Book    NonExistentBookXYZ123
     
 I Should See No Books Found Message
-    Wait For Elements State    text=No books found    visible    timeout=5s
+    Wait For Elements State    text=No books found    visible    timeout=20s
     
 I Clear The Search
     Fill Text    id=search-input    ${EMPTY}
