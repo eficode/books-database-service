@@ -1,5 +1,5 @@
 from .database import Base
-from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy import Column, Integer, String, Boolean, Date
 
 
 class Book(Base):
@@ -11,3 +11,4 @@ class Book(Base):
     pages = Column(Integer)
     category = Column(String, index=True, default="Fiction")
     favorite = Column(Boolean, default=False, index=True)
+    published_date = Column(Date)

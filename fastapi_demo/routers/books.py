@@ -1,6 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, Body, Path
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import OperationalError
 from typing import List
+from datetime import datetime, timedelta
 from ..database import get_db
 from ..models import Book
 from ..dtos import BookCreate, BookInfo, BookFavorite
@@ -9,24 +11,49 @@ router = APIRouter(
     prefix="/books",
     tags=["books"]
 )
+@router.get("/year-old", response_model=List[BookInfo],
+         summary="Get books that are a year old",
+         description="This endpoint retrieves books that were published exactly one year ago",
+         response_description="A list of books that are a year old")
+def get_books_year_old(db: Session = Depends(get_db)):
+    """
+    Retrieve books that were published exactly one year ago.
+    
+    Args:
+        db (Session): The database session dependency.
 
-@router.get("/", response_model=List[BookInfo],
-         summary="Get all books",
-         description="This endpoint retrieves all books from the database",
-         response_description="A list of all books")
-def read_books(db: Session = Depends(get_db)):
-    books = db.query(Book).all()
+    Returns:
+        List[BookInfo]: A list of books that are a year old.
+
+    Raises:
+        HTTPException: If no books are found that are a year old.
+    """
+    one_year_ago = datetime.now() - timedelta(days=365)
+    try:
+        try:
+            books = db.query(Book).filter(Book.published_date == one_year_ago.date()).all()
+        except OperationalError:
+            raise HTTPException(status_code=500, detail="Database connection error")
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=str(e))
+    except OperationalError:
+        raise HTTPException(status_code=500, detail="Database connection failed")
+    except Exception:
+        raise HTTPException(status_code=500, detail="Query failed due to an unexpected error")
+    
+    if not books:
+        raise HTTPException(status_code=404, detail="No books found that are a year old")
     return [BookInfo(**book.__dict__) for book in books]
 
 
 @router.post("/", response_model=BookInfo, 
           summary="Create a new book", 
-          description="This endpoint creates a new book with the provided details and returns the book information",
+          description="This endpoint creates a new book with the provided details and returns the book's information",
           response_description="The created book's information")
 def create_book(
-    book: BookCreate = Body(..., description="The details of the book to be created", examples={"title": "Example Book", "author": "John Doe", "year": 2021}),
+    book: BookCreate = Body(..., description="The details of the book to be created", examples={"title": {"summary": "A book title", "value": "Example Book"}}),
     db: Session = Depends(get_db)):
-    db_book = Book(**book.model_dump())
+    db_book = Book(**book.dict())
     db.add(db_book)
     db.commit()
     db.refresh(db_book)
@@ -72,6 +99,7 @@ def delete_book(book_id: int, db: Session = Depends(get_db)):
     db.delete(db_book)
     db.commit()
     return {"message": "Book deleted successfully"}
+
 
 
 @router.patch("/{book_id}/favorite", response_model=BookInfo,

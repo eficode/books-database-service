@@ -81,6 +81,29 @@ The application will be available at http://localhost:8000
 
 The API documentation is available at http://localhost:8000/docs when the server is running.
 
+### Retrieve Books That Are a Year Old
+
+- **Endpoint**: `GET /books/year-old`
+- **Response**:
+  - **200 OK**: Returns a list of books that were published exactly one year ago.
+    ```json
+    [
+      {
+        "id": "integer",
+        "title": "string",
+        "author": "string",
+        "pages": "integer",
+        "published_date": "string"
+      }
+    ]
+    ```
+  - **404 Not Found**: No books found that are a year old.
+    ```json
+    {
+      "detail": "No books found that are a year old"
+    }
+    ```
+
 ## Running Tests
 
 ### API Tests
