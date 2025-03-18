@@ -49,6 +49,17 @@ jobs:
           docker compose up -d --build
           sleep 10
 
+      # 🛡️ Trivy-tietoturvatarkistus (löytää haavoittuvuudet koodista)
+      - name: Run Security Scan with Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          ignore-unfixed: true
+          exit-code: 1
+          severity: 'HIGH,CRITICAL'
+          format: 'table'
+          path: '.'
+
       - name: Verify Node.js and npm installation
         run: |
           node -v
