@@ -1,16 +1,16 @@
 from pydantic import BaseModel
-from typing import Optional
+from datetime import datetime
 
+class CommentCreate(BaseModel):
+    comment: str
 
-class BookCreate(BaseModel):
-    title: str
-    author: str
-    pages: int
-    category: str = "Fiction"
-    favorite: bool = False
+class CommentInfo(BaseModel):
+    id: int
+    book_id: int
+    user_id: int
+    comment: str
+    created_at: datetime
+    updated_at: datetime
 
-class BookInfo(BookCreate):
-    id: Optional[int] = None
-
-class BookFavorite(BaseModel):
-    favorite: bool
+    class Config:
+        orm_mode = True
