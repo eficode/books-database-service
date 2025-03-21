@@ -1,16 +1,25 @@
-from pydantic import BaseModel
-from typing import Optional
-
+from pydantic import BaseModel, EmailStr
 
 class BookCreate(BaseModel):
     title: str
     author: str
     pages: int
-    category: str = "Fiction"
-    favorite: bool = False
 
 class BookInfo(BookCreate):
-    id: Optional[int] = None
+    id: int
+
+    class Config:
+        orm_mode = True
 
 class BookFavorite(BaseModel):
     favorite: bool
+
+class SubscriptionCreate(BaseModel):
+    email: EmailStr
+
+class SubscriptionInfo(SubscriptionCreate):
+    id: int
+    confirmed: bool
+
+    class Config:
+        orm_mode = True
