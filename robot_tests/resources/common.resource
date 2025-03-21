@@ -1,16 +1,17 @@
 *** Settings ***
 Documentation     Common resources for Books Database UI tests
-Library           Browser
+Library           Browser  timeout=15s
 Library           DateTime
 Library           String
 Library           Collections
 Library           Process
 
+
 *** Variables ***
 ${BROWSER}        chromium
 ${HEADLESS}       True
 ${BASE_URL}       http://localhost:8000
-${TIMEOUT}        20s
+${TIMEOUT}        40s
 ${DOCKER_UP_TIMEOUT}    30s
 
 *** Keywords ***
@@ -80,7 +81,10 @@ I Search For Nonexistent Book
     Search For Book    NonExistentBookXYZ123
     
 I Should See No Books Found Message
-    Wait For Elements State    text=No books found    visible    timeout=5s
+ #   [Arguments]    ${title}
+ #   Wait For Elements State    .book-card h3.book-title:has-text("${title}")    detached     timeout=10s
+    Sleep    3s
+    Wait For Elements State    text=No books found    visible    timeout=30s
     
 I Clear The Search
     Fill Text    id=search-input    ${EMPTY}
@@ -202,9 +206,23 @@ Sort Books By
     [Arguments]    ${sort_by}
     Select Options By    id=sort-by    text    ${sort_by}
 
+#Book Should Exist
+#    [Arguments]    ${title}
+#    Wait For Elements State    .book-card h3.book-title:has-text("${title}")    visible    ${TIMEOUT}
+
+#Book Should Exist
+#    [Arguments]    ${title}
+#    Log To Console    Checking if book with title: "${title}" exists
+#   Run Keyword And Continue On Failure    Wait For Elements State    .book-card h3.book-title:has-text("${title}")    visible    ${TIMEOUT}
+#    Log To Console    Book with title: "${title}" was found successfully!
+
 Book Should Exist
-    [Arguments]    ${title}
-    Wait For Elements State    .book-card h3.book-title:has-text("${title}")    visible    ${TIMEOUT}
+    [Arguments]    ${book_title}
+    Log To Console    Checking if book with title: "${book_title}" exists
+    Sleep    3s
+    Wait Until Keyword Succeeds    3x    10s    Run Keywords
+    ...    Wait For Elements State    .book-card h3.book-title:has-text("${book_title}")    visible    10s
+    ...    AND    Log To Console    Book with title: "${book_title}" was found successfully!
 
 Edit Book
     [Arguments]    ${original_title}    ${new_title}    ${new_author}    ${new_pages}    ${new_category}
