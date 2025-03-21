@@ -54,6 +54,7 @@ jobs:
           sleep 10
 
       - name: Run Security Scan with Trivy
+        if: ${{ !env.ACT }}  # Tämä estää ajon, jos käytät ACTia
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'fs'
