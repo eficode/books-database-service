@@ -5,8 +5,8 @@ class BookInfo(BaseModel):
     title: str
     author: str
     pages: int
-    color: str  # New field
-    type: str  # New field
+    color: str
+    type: str
 
     class Config:
         orm_mode = True
