@@ -1,16 +1,18 @@
 from pydantic import BaseModel
-from typing import Optional
 
+class GiftOrderCreate(BaseModel):
+    book_id: int
+    recipient_name: str
+    recipient_address: str
+    recipient_contact: str
 
-class BookCreate(BaseModel):
-    title: str
-    author: str
-    pages: int
-    category: str = "Fiction"
-    favorite: bool = False
+class GiftOrderInfo(BaseModel):
+    id: int
+    book_id: int
+    recipient_name: str
+    recipient_address: str
+    recipient_contact: str
+    status: str
 
-class BookInfo(BookCreate):
-    id: Optional[int] = None
-
-class BookFavorite(BaseModel):
-    favorite: bool
+    class Config:
+        orm_mode = True
