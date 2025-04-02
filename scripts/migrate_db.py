@@ -11,6 +11,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 from fastapi_demo.database import engine, SQLALCHEMY_DATABASE_URL
 
+
 def migrate_database():
     """Add the category column to the books table if it doesn't exist"""
     # Extract database path from SQLALCHEMY_DATABASE_URL
@@ -20,24 +21,24 @@ def migrate_database():
         db_path = match.group(1)
     else:
         db_path = 'test.db'
-        
+
     print(f"Migrating database at: {db_path}")
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
-    
+
     # Check if the column exists
     cursor.execute("PRAGMA table_info(books)")
     columns = cursor.fetchall()
     column_names = [column[1] for column in columns]
-    
-    if 'category' not in column_names:
-        print("Adding 'category' column to books table...")
-        cursor.execute("ALTER TABLE books ADD COLUMN category TEXT DEFAULT 'Fiction'")
+
+    if 'category_id' not in column_names:
+        print("Adding 'category_id' column to books table...")
+        cursor.execute("ALTER TABLE books ADD COLUMN category_id INTEGER REFERENCES categories(id)")
         conn.commit()
         print("Column added successfully.")
     else:
-        print("Column 'category' already exists.")
-        
+        print("Column 'category_id' already exists.")
+
     # Add favorite column if it doesn't exist
     if 'favorite' not in column_names:
         print("Adding 'favorite' column to books table...")
@@ -46,8 +47,9 @@ def migrate_database():
         print("Favorite column added successfully.")
     else:
         print("Column 'favorite' already exists.")
-    
+
     conn.close()
+
 
 if __name__ == "__main__":
     migrate_database()
