@@ -1,7 +1,9 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends, HTTPException
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
-from .database import Base, engine
+from sqlalchemy.orm import Session
+from .database import Base, engine, get_db
+from .models import Product
 from .routers.books import router as books
 
 app = FastAPI(
@@ -23,3 +25,22 @@ app.mount("/static", StaticFiles(directory="fastapi_demo/static"), name="static"
 @app.get("/", include_in_schema=False)
 async def root():
     return FileResponse("fastapi_demo/static/index.html")
+
+@app.post("/order-immediately/{product_id}")
+def order_immediately(product_id: int, db: Session = Depends(get_db)):
+    # Validate product_id
+    product = db.query(Product).filter(Product.id == product_id).first()
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+
+    # Add product to cart (assuming a function add_to_cart exists)
+    try:
+        add_to_cart(product_id)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Failed to add product to cart")
+
+    # Redirect to checkout page
+    return {
+        "message": "Product added to cart and redirected to checkout",
+        "checkout_url": "https://example.com/checkout"
+    }
