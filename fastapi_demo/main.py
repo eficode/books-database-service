@@ -3,6 +3,8 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from .database import Base, engine
 from .routers.books import router as books
+from .routers.favorites import router as favorites
+from .routers.cart import router as cart
 
 app = FastAPI(
     title="Books Library API",
@@ -15,6 +17,8 @@ Base.metadata.create_all(bind=engine)
 
 # Add routers
 app.include_router(books)
+app.include_router(favorites)
+app.include_router(cart)
 
 # Mount static files
 app.mount("/static", StaticFiles(directory="fastapi_demo/static"), name="static")
