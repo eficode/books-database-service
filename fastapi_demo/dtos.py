@@ -1,16 +1,13 @@
 from pydantic import BaseModel
 from typing import Optional
+from datetime import datetime
 
+class GiftCreate(BaseModel):
+    book_id: int
+    recipient_name: str
+    recipient_address: str
+    personal_message: Optional[str] = None
 
-class BookCreate(BaseModel):
-    title: str
-    author: str
-    pages: int
-    category: str = "Fiction"
-    favorite: bool = False
-
-class BookInfo(BookCreate):
-    id: Optional[int] = None
-
-class BookFavorite(BaseModel):
-    favorite: bool
+class GiftInfo(GiftCreate):
+    id: int
+    estimated_delivery_date: datetime
