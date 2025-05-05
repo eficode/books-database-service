@@ -1,16 +1,13 @@
 from pydantic import BaseModel
-from typing import Optional
 
+class OrderCreate(BaseModel):
+    customer_id: int
+    book_id: int
+    boosted_delivery: bool
 
-class BookCreate(BaseModel):
-    title: str
-    author: str
-    pages: int
-    category: str = "Fiction"
-    favorite: bool = False
-
-class BookInfo(BookCreate):
-    id: Optional[int] = None
-
-class BookFavorite(BaseModel):
-    favorite: bool
+class OrderInfo(BaseModel):
+    order_id: int
+    customer_id: int
+    book_id: int
+    status: str
+    estimated_delivery_time: str
