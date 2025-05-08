@@ -45,7 +45,7 @@ def purchase_gift(
                 "status": new_purchase.status
             }
         )
-    except Exception:
+    except Exception as e:
         pass
 
     return PurchaseGiftResponse(
