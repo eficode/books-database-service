@@ -1,16 +1,29 @@
-from pydantic import BaseModel
-from typing import Optional
+from pydantic import BaseModel, Field, validator
+from typing import Optional, Dict
 
+class Address(BaseModel):
+    street: str
+    city: str
+    state: str
+    zip_code: str
+    country: str
 
-class BookCreate(BaseModel):
-    title: str
-    author: str
-    pages: int
-    category: str = "Fiction"
-    favorite: bool = False
+class GiftCreate(BaseModel):
+    book_id: int
+    mother_address: Optional[Address] = None
+    personal_message: Optional[str] = None
 
-class BookInfo(BookCreate):
-    id: Optional[int] = None
+    @validator('mother_address')
+    def check_mother_address(cls, v):
+        if v is None:
+            raise ValueError('Mother\'s shipping address is required')
+        return v
 
-class BookFavorite(BaseModel):
-    favorite: bool
+class GiftInfo(BaseModel):
+    id: int
+    book_id: int
+    mother_address: Dict[str, str]
+    personal_message: Optional[str]
+    status: str
+    created_at: str
+    updated_at: str
