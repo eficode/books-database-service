@@ -1,16 +1,11 @@
 from pydantic import BaseModel
-from typing import Optional
 
+class SubscriptionOptIn(BaseModel):
+    user_id: int
 
-class BookCreate(BaseModel):
-    title: str
-    author: str
-    pages: int
-    category: str = "Fiction"
-    favorite: bool = False
+class DeliverySchedule(BaseModel):
+    user_id: int
 
-class BookInfo(BookCreate):
-    id: Optional[int] = None
-
-class BookFavorite(BaseModel):
-    favorite: bool
+class ManageSubscription(BaseModel):
+    user_id: int
+    action: str
