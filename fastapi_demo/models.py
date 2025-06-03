@@ -1,7 +1,6 @@
 from .database import Base
 from sqlalchemy import Column, Integer, String, Boolean
 
-
 class Book(Base):
     __tablename__ = "books"
 
@@ -11,3 +10,4 @@ class Book(Base):
     pages = Column(Integer)
     category = Column(String, index=True, default="Fiction")
     favorite = Column(Boolean, default=False, index=True)
+    cover_url = Column(String, nullable=True)  # New column for cover image URL
