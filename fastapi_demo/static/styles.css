@@ -2,9 +2,10 @@
     --primary-color: #4a6fa5;
     --secondary-color: #166088;
     --accent-color: #2b9348;
-    --background-color: #f8f9fa;
+    --background-color: #ffffff;
     --card-color: #ffffff;
-    --text-color: #343a40;
+    --text-color: #000000;
+    --border-color: #cccccc;
     --border-radius: 8px;
     --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     --transition: all 0.3s ease;
@@ -31,7 +32,9 @@ body {
 
 header {
     margin-bottom: 2rem;
-    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 header h1 {
@@ -42,6 +45,62 @@ header h1 {
 
 header h1 i {
     margin-right: 0.5rem;
+}
+
+.header-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.dashboard-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border: 2px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.dashboard-link:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+.basket-btn {
+    position: relative;
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: var(--transition);
+}
+
+.basket-btn:hover {
+    background: #237a3a;
+}
+
+.basket-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #e74c3c;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: bold;
 }
 
 h2 {
@@ -72,11 +131,12 @@ h2 {
 .form-group select {
     width: 100%;
     padding: 0.75rem;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
     font-size: 1rem;
     transition: var(--transition);
-    background-color: white;
+    background-color: var(--card-color);
+    color: var(--text-color);
 }
 
 .form-group input:focus,
@@ -143,11 +203,12 @@ h2 {
 
 .favorite-filters button {
     padding: 0.5rem 1rem;
-    background-color: #f8f9fa;
-    border: 1px solid #ddd;
+    background-color: var(--card-color);
+    border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
     cursor: pointer;
     transition: var(--transition);
+    color: var(--text-color);
 }
 
 .favorite-filters button.active {
@@ -157,7 +218,7 @@ h2 {
 }
 
 .favorite-filters button:hover:not(.active) {
-    background-color: #e9ecef;
+    background-color: #e0e0e0;
 }
 
 .search-box {
@@ -168,10 +229,12 @@ h2 {
 .search-box input {
     flex: 1;
     padding: 0.75rem;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     border-radius: var(--border-radius) 0 0 var(--border-radius);
     font-size: 1rem;
     transition: var(--transition);
+    background-color: var(--card-color);
+    color: var(--text-color);
 }
 
 .search-box button {
@@ -185,7 +248,7 @@ h2 {
 
 #sort-direction {
     background-color: transparent;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
     width: 36px;
     height: 36px;
@@ -194,10 +257,11 @@ h2 {
     justify-content: center;
     cursor: pointer;
     transition: var(--transition);
+    color: var(--text-color);
 }
 
 #sort-direction:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 .results-info {
@@ -214,7 +278,7 @@ h2 {
 
 .book-card {
     background-color: var(--card-color);
-    border: 1px solid #eee;
+    border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
     padding: 1.5rem;
     box-shadow: var(--box-shadow);
@@ -247,7 +311,7 @@ h2 {
 }
 
 .book-category {
-    background-color: #f8f9fa;
+    background-color: #f0f0f0;
     display: inline-block;
     padding: 0.25rem 0.5rem;
     border-radius: 20px;
@@ -260,7 +324,7 @@ h2 {
     gap: 0.5rem;
 }
 
-.edit-btn, .delete-btn, .favorite-btn {
+.edit-btn, .delete-btn, .favorite-btn, .buy-btn {
     border: none;
     background-color: transparent;
     cursor: pointer;
@@ -283,6 +347,10 @@ h2 {
 
 .favorite-btn.active {
     color: #e25563;
+}
+
+.buy-btn {
+    color: #28a745;
 }
 
 .favorite-indicator {
@@ -314,8 +382,8 @@ h2 {
     vertical-align: -0.125em;
 }
 
-.edit-btn:hover, .delete-btn:hover, .favorite-btn:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+.edit-btn:hover, .delete-btn:hover, .favorite-btn:hover, .buy-btn:hover {
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 /* Modal Styles */
@@ -391,4 +459,168 @@ h2 {
     .filter-group, .sort-group {
         flex-wrap: wrap;
     }
+}
+
+/* Book card price display */
+.book-price {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--accent-color);
+    margin: 0.5rem 0;
+}
+
+/* Add to basket button */
+.add-to-basket-btn {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 0.5rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 1rem;
+}
+
+.add-to-basket-btn:hover {
+    background: #237a3a;
+}
+
+/* Basket modal styles */
+.basket-modal .modal-content {
+    max-width: 600px;
+}
+
+.basket-items {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+}
+
+.basket-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: #f8f8f8;
+    border-radius: var(--border-radius);
+    margin-bottom: 0.5rem;
+}
+
+.basket-item-info {
+    flex: 1;
+}
+
+.basket-item-title {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.basket-item-author {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.basket-item-quantity {
+    margin: 0 1rem;
+    font-weight: bold;
+}
+
+.basket-item-price {
+    font-weight: bold;
+    color: var(--accent-color);
+    min-width: 80px;
+    text-align: right;
+}
+
+.basket-item-remove {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    margin-left: 0.5rem;
+}
+
+.basket-item-remove:hover {
+    background: #c0392b;
+}
+
+.basket-total {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: right;
+    padding: 1rem;
+    border-top: 2px solid var(--border-color);
+    margin-bottom: 1rem;
+}
+
+.basket-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #5a6268;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--secondary-color);
+}
+
+/* Purchase modal styles */
+.purchase-modal .modal-content {
+    max-width: 500px;
+    text-align: center;
+}
+
+.purchase-success {
+    margin: 2rem 0;
+}
+
+.purchase-success i {
+    font-size: 4rem;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+}
+
+.purchase-success p {
+    font-size: 1.25rem;
+    color: var(--text-color);
+}
+
+.purchase-summary {
+    background: #f8f8f8;
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+.purchase-summary .total {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--accent-color);
+    text-align: right;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 2px solid var(--border-color);
+}
+
+.no-items {
+    text-align: center;
+    color: #6c757d;
+    font-style: italic;
+    padding: 2rem;
 }

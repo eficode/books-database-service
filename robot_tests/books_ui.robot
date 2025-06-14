@@ -131,3 +131,42 @@ User Can Sort Books
     And I Sort By Title Ascending
     Then I Should See First Book With Title    ${title_a}
 
+User buys Books
+    [Documentation]    Feature for user to be able to buy books
+    [Tags]             buy
+    
+    ${random_suffix}=    Generate Random String    8    [NUMBERS]
+    ${book1_title}=    Set Variable    Buyable Book 1 ${random_suffix}
+    ${book2_title}=    Set Variable    Buyable Book 2 ${random_suffix}
+    ${book1_author}=    Set Variable    Author One
+    ${book2_author}=    Set Variable    Author Two
+    
+    # Create test books
+    Given I Create A Book For Purchase    ${book1_title}    ${book1_author}    150    Fiction    12.99
+    And I Create A Book For Purchase    ${book2_title}    ${book2_author}    200    Mystery    15.99
+    
+    # Add books to shopping basket
+    When I Add Book To Shopping Basket    ${book1_title}
+    And I Add Book To Shopping Basket    ${book2_title}
+    Then I Should See Shopping Basket With Count    2
+    
+    # Proceed to purchase
+    When I Click On Shopping Basket
+    Then I Should See Shopping Basket Summary
+    And I Should See Book In Basket    ${book1_title}    12.99
+    And I Should See Book In Basket    ${book2_title}    15.99
+    And I Should See Total Price    28.98
+    
+    # Complete purchase
+    When I Click Buy Now Button
+    Then I Should See Purchase Confirmation
+    And I Should See Purchase Summary With Total    28.98
+    And Shopping Basket Should Be Empty
+
+Shopping Basket Icon Should Be Yellow
+    [Documentation]    Verify that the shopping basket icon is displayed in yellow color
+    [Tags]             ui    basket
+    
+    Given I Open The Books Application
+    Then The Shopping Basket Icon Should Be Yellow    
+

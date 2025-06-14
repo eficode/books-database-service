@@ -35,6 +35,10 @@ def migrate_database():
         cursor.execute("ALTER TABLE books ADD COLUMN category TEXT DEFAULT 'Fiction'")
         conn.commit()
         print("Column added successfully.")
+        # Refresh column names
+        cursor.execute("PRAGMA table_info(books)")
+        columns = cursor.fetchall()
+        column_names = [column[1] for column in columns]
     else:
         print("Column 'category' already exists.")
         
@@ -44,8 +48,21 @@ def migrate_database():
         cursor.execute("ALTER TABLE books ADD COLUMN favorite BOOLEAN DEFAULT 0")
         conn.commit()
         print("Favorite column added successfully.")
+        # Refresh column names
+        cursor.execute("PRAGMA table_info(books)")
+        columns = cursor.fetchall()
+        column_names = [column[1] for column in columns]
     else:
         print("Column 'favorite' already exists.")
+    
+    # Add price column if it doesn't exist
+    if 'price' not in column_names:
+        print("Adding 'price' column to books table...")
+        cursor.execute("ALTER TABLE books ADD COLUMN price REAL DEFAULT 9.99")
+        conn.commit()
+        print("Price column added successfully.")
+    else:
+        print("Column 'price' already exists.")
     
     conn.close()
 

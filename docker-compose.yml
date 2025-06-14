@@ -14,7 +14,7 @@ services:
       - DATABASE_URL=sqlite:///data/books.db
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:8000/books/ || exit 1"]
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 -O /dev/null http://localhost:8000/books/ || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3

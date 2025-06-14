@@ -74,12 +74,21 @@ def generate_books(db: Session, count: int = 100):
         pages = random.randint(100, 1000)
         category = random.choice(categories)
         
+        # Generate price based on category and pages
+        base_price = random.uniform(5.99, 29.99)
+        if category in ["Biography", "History", "Science", "Philosophy"]:
+            base_price *= 1.2  # Non-fiction tends to be more expensive
+        if pages > 600:
+            base_price *= 1.1  # Longer books cost more
+        price = round(base_price, 2)
+        
         book = Book(
             title=title,
             author=author,
             pages=pages,
             category=category,
-            favorite=random.random() < 0.2  # About 20% of books set as favorites
+            favorite=random.random() < 0.2,  # About 20% of books set as favorites
+            price=price
         )
         db.add(book)
     

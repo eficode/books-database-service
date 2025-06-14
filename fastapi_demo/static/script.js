@@ -13,8 +13,54 @@ const shownCountEl = document.getElementById('shown-count');
 const totalCountEl = document.getElementById('total-count');
 const loadMoreBtn = document.getElementById('load-more');
 
-// API Base URL
-const API_URL = '/books';
+// Simple console log without overriding fetch
+console.log('Books app initialized');
+
+// API Base URL - use absolute path to avoid any browser path issues
+const API_URL = window.location.origin + '/books';
+
+// Cross-browser compatibility flag
+const IS_BRAVE = navigator.brave?.isBrave?.() || navigator.userAgent.includes('Brave') || false;
+console.log('Browser detection - Brave:', IS_BRAVE);
+
+// Cross-browser XHR function instead of fetch API for maximum compatibility
+function xhrRequest(url, method, data) {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open(method, url, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.setRequestHeader('Accept', 'application/json');
+        
+        xhr.onload = function() {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                try {
+                    const response = JSON.parse(xhr.responseText);
+                    resolve(response);
+                } catch (e) {
+                    resolve(xhr.responseText);
+                }
+            } else {
+                reject({
+                    status: xhr.status,
+                    statusText: xhr.statusText
+                });
+            }
+        };
+        
+        xhr.onerror = function() {
+            reject({
+                status: xhr.status,
+                statusText: 'Network Error'
+            });
+        };
+        
+        if (data) {
+            xhr.send(JSON.stringify(data));
+        } else {
+            xhr.send();
+        }
+    });
+}
 
 // App State
 const state = {
@@ -37,7 +83,11 @@ const state = {
 };
 
 // Event Listeners
-document.addEventListener('DOMContentLoaded', fetchBooks);
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('Page loaded, URL:', window.location.href);
+    fetchBooks();
+    initializeBasket();
+});
 bookForm.addEventListener('submit', addBook);
 editForm.addEventListener('submit', updateBook);
 closeModalBtn.addEventListener('click', closeModal);
@@ -46,6 +96,15 @@ window.addEventListener('click', (e) => {
         closeModal();
     }
 });
+
+// Debug: Monitor URL changes
+let lastUrl = window.location.href;
+setInterval(() => {
+    if (lastUrl !== window.location.href) {
+        console.log('URL changed from', lastUrl, 'to', window.location.href);
+        lastUrl = window.location.href;
+    }
+}, 500);
 
 // Favorite filter buttons
 const allBooksFilter = document.getElementById('all-books-filter');
@@ -157,22 +216,48 @@ function applyFiltersAndSort() {
     displayBooks(state.filteredBooks);
 }
 
-// Fetch all books from API
+// Simplified fetch books function with XHR for maximum browser compatibility
 async function fetchBooks() {
+    console.log('Fetching books from API...');
+    
     try {
-        const response = await fetch(API_URL);
-        
-        if (!response.ok) {
-            throw new Error('Failed to fetch books');
+        // Clear any existing books display first
+        const booksList = document.getElementById('books-list');
+        if (booksList) {
+            while (booksList.firstChild) {
+                booksList.removeChild(booksList.firstChild);
+            }
+            
+            // Add loading indicator
+            const loading = document.createElement('p');
+            loading.textContent = 'Loading books...';
+            loading.className = 'loading-indicator';
+            booksList.appendChild(loading);
         }
         
-        state.books = await response.json();
+        // Use our XHR function instead of fetch
+        let books = [];
+        try {
+            books = await xhrRequest(API_URL, 'GET');
+            console.log('Received books from API:', books.length);
+        } catch (error) {
+            console.error('API error:', error);
+            books = [];
+        }
         
-        // Add sample books if no books exist
+        // Ensure books is an array
+        if (!Array.isArray(books)) {
+            console.error('Books is not an array, using empty array instead');
+            books = [];
+        }
+        
+        // Store in state
+        state.books = books;
+        
+        // Add sample books if needed
         if (state.books.length === 0) {
-            console.log('No books found, adding sample books...');
+            console.log('No books found, adding sample books');
             
-            // Add sample books
             const sampleBooks = [
                 { title: 'To Kill a Mockingbird', author: 'Harper Lee', pages: 281, category: 'Fiction' },
                 { title: '1984', author: 'George Orwell', pages: 328, category: 'Science Fiction' },
@@ -180,91 +265,177 @@ async function fetchBooks() {
             ];
             
             for (const book of sampleBooks) {
-                const bookResponse = await fetch(API_URL + '/', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(book)
-                });
-                
-                if (bookResponse.ok) {
-                    const newBook = await bookResponse.json();
-                    state.books.push(newBook);
+                try {
+                    const newBook = await xhrRequest(API_URL + '/', 'POST', book);
+                    if (newBook) {
+                        state.books.push(newBook);
+                    }
+                } catch (err) {
+                    console.error('Error adding sample book:', err);
                 }
             }
         }
         
-        // Initialize filtered books
+        // Update filtered books
         state.filteredBooks = [...state.books];
+        
+        // Remove loading indicator
+        if (booksList) {
+            while (booksList.firstChild) {
+                booksList.removeChild(booksList.firstChild);
+            }
+        }
         
         // Display books
         displayBooks(state.filteredBooks);
+        
     } catch (error) {
-        console.error('Error fetching books:', error);
+        console.error('Error in fetchBooks function:', error);
         showNotification('Error fetching books', 'error');
     }
 }
 
-// Display books in the UI
+// Browser-compatible display books function
 function displayBooks(books) {
-    // Update counts
-    totalCountEl.textContent = state.filteredBooks.length;
+    console.log('Display books function called with', books?.length || 0, 'books');
     
-    // Apply pagination
+    // Get DOM elements
+    const booksList = document.getElementById('books-list');
+    const shownCountEl = document.getElementById('shown-count');
+    const totalCountEl = document.getElementById('total-count');
+    const loadMoreBtn = document.getElementById('load-more');
+    
+    // Safety check for DOM elements
+    if (!booksList) {
+        console.error('Error: books-list element not found!');
+        return;
+    }
+    
+    // Safety check for books array
+    if (!Array.isArray(books)) {
+        console.error('Books is not an array:', typeof books);
+        books = [];
+    }
+    
+    // Start with a clean slate - this is important for browser compatibility
+    while (booksList.firstChild) {
+        booksList.removeChild(booksList.firstChild);
+    }
+    
+    // Update display counts
+    if (totalCountEl) totalCountEl.textContent = books.length;
+    
+    // Get pagination slice
     const startIndex = 0;
     const endIndex = state.pagination.page * state.pagination.limit;
     const booksToShow = books.slice(startIndex, endIndex);
     
-    // Update shown count
-    shownCountEl.textContent = booksToShow.length;
+    // Update shown count and load more button
+    if (shownCountEl) shownCountEl.textContent = booksToShow.length;
     
-    // Show/hide load more button
     state.pagination.hasMore = endIndex < books.length;
-    loadMoreBtn.style.display = state.pagination.hasMore ? 'flex' : 'none';
-    
-    // Clear book list if on first page
-    if (state.pagination.page === 1) {
-        booksList.innerHTML = '';
+    if (loadMoreBtn) {
+        loadMoreBtn.style.display = state.pagination.hasMore ? 'flex' : 'none';
     }
     
+    // If no books, show message
     if (books.length === 0) {
-        booksList.innerHTML = '<p class="no-books">No books found. Try adjusting your filters or add a new book.</p>';
+        const noBooks = document.createElement('p');
+        noBooks.className = 'no-books';
+        noBooks.textContent = 'No books found. Try adjusting your filters or add a new book.';
+        booksList.appendChild(noBooks);
         return;
     }
     
+    // Add book cards one by one
     booksToShow.forEach(book => {
-        // Skip if book card already exists
-        if (state.pagination.page > 1 && document.querySelector(`.book-card[data-id="${book.id}"]`)) {
+        if (!book || typeof book !== 'object') {
+            console.error('Invalid book object:', book);
             return;
         }
         
+        // Create book card with pure DOM methods - avoids SVG issues in Brave
         const bookCard = document.createElement('div');
         bookCard.classList.add('book-card');
-        bookCard.dataset.id = book.id;
+        if (book.id) {
+            bookCard.setAttribute('data-id', book.id);
+        }
         
-        bookCard.innerHTML = `
-            ${book.favorite ? '<div class="favorite-indicator"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="heart" class="svg-inline--fa fa-heart" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"></path></svg> Favorite</div>' : ''}
-            <h3 class="book-title">${book.title}</h3>
-            <p class="book-author">by ${book.author}</p>
-            <p class="book-pages">
-                <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="file-alt" class="svg-inline--fa fa-file-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zm64 236c0 6.6-5.4 12-12 12H108c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12v8zm0-64c0 6.6-5.4 12-12 12H108c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12v8zm0-72v8c0 6.6-5.4 12-12 12H108c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12z"></path></svg>
-                Pages: ${book.pages}
-            </p>
-            <span class="book-category">${book.category || 'Fiction'}</span>
-            <div class="book-actions">
-                <button class="favorite-btn ${book.favorite ? 'active' : ''}" title="Toggle favorite">
-                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="heart" class="svg-inline--fa fa-heart" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"></path></svg>
-                </button>
-                <button class="edit-btn" title="Edit book">
-                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="edit" class="svg-inline--fa fa-edit" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M402.6 83.2l90.2 90.2c3.8 3.8 3.8 10 0 13.8L274.4 405.6l-92.8 10.3c-12.4 1.4-22.9-9.1-21.5-21.5l10.3-92.8L388.8 83.2c3.8-3.8 10-3.8 13.8 0zm162-22.9l-48.8-48.8c-15.2-15.2-39.9-15.2-55.2 0l-35.4 35.4c-3.8 3.8-3.8 10 0 13.8l90.2 90.2c3.8 3.8 10 3.8 13.8 0l35.4-35.4c15.2-15.3 15.2-40 0-55.2zM384 346.2V448H64V128h229.8c3.2 0 6.2-1.3 8.5-3.5l40-40c7.6-7.6 2.2-20.5-8.5-20.5H48C21.5 64 0 85.5 0 112v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V306.2c0-10.7-12.9-16-20.5-8.5l-40 40c-2.2 2.3-3.5 5.3-3.5 8.5z"></path></svg>
-                </button>
-                <button class="delete-btn" title="Delete book">
-                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="trash" class="svg-inline--fa fa-trash" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M432 32H312l-9.4-18.7A24 24 0 0 0 281.1 0H166.8a23.72 23.72 0 0 0-21.4 13.3L136 32H16A16 16 0 0 0 0 48v32a16 16 0 0 0 16 16h416a16 16 0 0 0 16-16V48a16 16 0 0 0-16-16zM53.2 467a48 48 0 0 0 47.9 45h245.8a48 48 0 0 0 47.9-45L416 128H32z"></path></svg>
-                </button>
-            </div>
-        `;
+        // If book is favorite, add the indicator
+        if (book.favorite) {
+            const favIndicator = document.createElement('div');
+            favIndicator.className = 'favorite-indicator';
+            favIndicator.textContent = '❤️ Favorite';
+            bookCard.appendChild(favIndicator);
+        }
+        
+        // Add title
+        const titleEl = document.createElement('h3');
+        titleEl.className = 'book-title';
+        titleEl.textContent = book.title || 'Untitled';
+        bookCard.appendChild(titleEl);
+        
+        // Add author
+        const authorEl = document.createElement('p');
+        authorEl.className = 'book-author';
+        authorEl.textContent = 'by ' + (book.author || 'Unknown');
+        bookCard.appendChild(authorEl);
+        
+        // Add pages info
+        const pagesEl = document.createElement('p');
+        pagesEl.className = 'book-pages';
+        pagesEl.textContent = 'Pages: ' + (book.pages || 0);
+        bookCard.appendChild(pagesEl);
+        
+        // Add price
+        const priceEl = document.createElement('p');
+        priceEl.className = 'book-price';
+        priceEl.textContent = '$' + (book.price || 9.99).toFixed(2);
+        bookCard.appendChild(priceEl);
+        
+        // Add category
+        const categoryEl = document.createElement('span');
+        categoryEl.className = 'book-category';
+        categoryEl.textContent = book.category || 'Fiction';
+        bookCard.appendChild(categoryEl);
+        
+        // Add action buttons
+        const actionsDiv = document.createElement('div');
+        actionsDiv.className = 'book-actions';
+        
+        // Favorite button
+        const favBtn = document.createElement('button');
+        favBtn.className = 'favorite-btn' + (book.favorite ? ' active' : '');
+        favBtn.title = 'Toggle favorite';
+        favBtn.textContent = '❤️';
+        actionsDiv.appendChild(favBtn);
+        
+        // Buy button
+        const buyBtn = document.createElement('button');
+        buyBtn.className = 'buy-btn add-to-basket-btn';
+        buyBtn.title = 'Add to basket';
+        buyBtn.innerHTML = '<i class="fas fa-shopping-cart"></i>';
+        actionsDiv.appendChild(buyBtn);
+        
+        // Edit button
+        const editBtn = document.createElement('button');
+        editBtn.className = 'edit-btn';
+        editBtn.title = 'Edit book';
+        editBtn.textContent = '✏️';
+        actionsDiv.appendChild(editBtn);
+        
+        // Delete button
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'delete-btn';
+        deleteBtn.title = 'Delete book';
+        deleteBtn.textContent = '🗑️';
+        actionsDiv.appendChild(deleteBtn);
+        
+        bookCard.appendChild(actionsDiv);
         
         // Add event listeners for buttons
         bookCard.querySelector('.favorite-btn').addEventListener('click', (e) => toggleFavorite(e, book));
+        bookCard.querySelector('.buy-btn').addEventListener('click', () => addToBasket(book));
         bookCard.querySelector('.edit-btn').addEventListener('click', () => openEditModal(book));
         bookCard.querySelector('.delete-btn').addEventListener('click', () => deleteBook(book.id));
         
@@ -272,44 +443,56 @@ function displayBooks(books) {
     });
 }
 
-// Add a new book
+// Add a new book with XHR
 async function addBook(e) {
     e.preventDefault();
     
-    const title = document.getElementById('title').value.trim();
-    const author = document.getElementById('author').value.trim();
-    const pages = parseInt(document.getElementById('pages').value);
-    const category = document.getElementById('category').value;
+    // Get form values
+    const titleEl = document.getElementById('title');
+    const authorEl = document.getElementById('author');
+    const pagesEl = document.getElementById('pages');
+    const priceEl = document.getElementById('price');
+    const categoryEl = document.getElementById('category');
     
-    if (!title || !author || !pages || !category) {
-        showNotification('Please fill in all fields', 'error');
+    if (!titleEl || !authorEl || !pagesEl || !priceEl || !categoryEl) {
+        showNotification('Form elements not found', 'error');
         return;
     }
     
-    const newBook = { title, author, pages, category };
+    const title = titleEl.value.trim();
+    const author = authorEl.value.trim();
+    const pages = parseInt(pagesEl.value);
+    const price = parseFloat(priceEl.value);
+    const category = categoryEl.value;
+    
+    // Validate form
+    if (!title || !author || isNaN(pages) || pages <= 0 || isNaN(price) || price < 0 || !category) {
+        showNotification('Please fill in all fields correctly', 'error');
+        return;
+    }
+    
+    // Create book object
+    const newBook = { title, author, pages, price, category };
     
     try {
-        const response = await fetch(API_URL + '/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newBook)
-        });
+        // Use XHR to add book
+        const book = await xhrRequest(API_URL + '/', 'POST', newBook);
         
-        if (!response.ok) {
+        if (!book) {
             throw new Error('Failed to add book');
         }
         
-        const book = await response.json();
-        
         // Reset form
-        bookForm.reset();
+        const form = document.getElementById('book-form');
+        if (form) {
+            form.reset();
+        }
         
-        // Fetch and display all books after adding
-        fetchBooks();
+        // Show notification and refresh books
         showNotification('Book added successfully!', 'success');
+        fetchBooks();
     } catch (error) {
+        console.error('Error adding book:', error);
         showNotification('Error adding book', 'error');
     }
 }
@@ -320,6 +503,7 @@ function openEditModal(book) {
     document.getElementById('edit-title').value = book.title;
     document.getElementById('edit-author').value = book.author;
     document.getElementById('edit-pages').value = book.pages;
+    document.getElementById('edit-price').value = book.price || 9.99;
     
     // Set category if it exists
     if (book.category) {
@@ -334,91 +518,329 @@ function closeModal() {
     editModal.style.display = 'none';
 }
 
-// Update book
+// Update book with XHR
 async function updateBook(e) {
     e.preventDefault();
     
-    const id = document.getElementById('edit-id').value;
-    const title = document.getElementById('edit-title').value.trim();
-    const author = document.getElementById('edit-author').value.trim();
-    const pages = parseInt(document.getElementById('edit-pages').value);
-    const category = document.getElementById('edit-category').value;
+    // Get form values with validation checks
+    const idEl = document.getElementById('edit-id');
+    const titleEl = document.getElementById('edit-title');
+    const authorEl = document.getElementById('edit-author');
+    const pagesEl = document.getElementById('edit-pages');
+    const priceEl = document.getElementById('edit-price');
+    const categoryEl = document.getElementById('edit-category');
     
-    if (!title || !author || !pages || !category) {
-        showNotification('Please fill in all fields', 'error');
+    if (!idEl || !titleEl || !authorEl || !pagesEl || !priceEl || !categoryEl) {
+        showNotification('Form elements not found', 'error');
         return;
     }
     
-    const updatedBook = { title, author, pages, category };
+    const id = idEl.value;
+    const title = titleEl.value.trim();
+    const author = authorEl.value.trim();
+    const pages = parseInt(pagesEl.value);
+    const price = parseFloat(priceEl.value);
+    const category = categoryEl.value;
+    
+    // Validate form values
+    if (!id || !title || !author || isNaN(pages) || pages <= 0 || isNaN(price) || price < 0 || !category) {
+        showNotification('Please fill in all fields correctly', 'error');
+        return;
+    }
+    
+    // Create updated book object
+    const updatedBook = { title, author, pages, price, category };
     
     try {
-        const response = await fetch(`${API_URL}/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(updatedBook)
-        });
+        // Use XHR to update the book
+        const result = await xhrRequest(`${API_URL}/${id}`, 'PUT', updatedBook);
         
-        if (!response.ok) {
+        if (!result) {
             throw new Error('Failed to update book');
         }
         
         // Close modal
         closeModal();
         
-        // Fetch and display all books after updating
-        fetchBooks();
-        
+        // Show success notification and refresh book list
         showNotification('Book updated successfully!', 'success');
+        fetchBooks();
     } catch (error) {
+        console.error('Error updating book:', error);
         showNotification('Error updating book', 'error');
     }
 }
 
-// Delete book
+// Delete book with XHR
 async function deleteBook(id) {
-    if (!confirm('Are you sure you want to delete this book?')) {
+    // Confirm deletion
+    if (!id || !confirm('Are you sure you want to delete this book?')) {
         return;
     }
     
     try {
-        const response = await fetch(`${API_URL}/${id}`, {
-            method: 'DELETE'
-        });
+        // Use XHR to delete the book
+        const result = await xhrRequest(`${API_URL}/${id}`, 'DELETE');
         
-        if (!response.ok) {
-            throw new Error('Failed to delete book');
-        }
-        
-        // Fetch and display all books after deleting
+        // Refresh book list and show confirmation
         fetchBooks();
-        
         showNotification('Book deleted successfully!', 'success');
     } catch (error) {
+        console.error('Error deleting book:', error);
         showNotification('Error deleting book', 'error');
     }
 }
 
-// Toggle book favorite status
+// Shopping basket state and functionality
+let basketState = {
+    items: [],
+    total: 0
+};
+
+// Initialize basket on page load
+async function initializeBasket() {
+    await fetchBasket();
+    setupBasketEventListeners();
+}
+
+// Fetch current basket from API
+async function fetchBasket() {
+    try {
+        const basket = await xhrRequest('/basket/', 'GET');
+        basketState = basket;
+        updateBasketUI();
+    } catch (error) {
+        console.error('Error fetching basket:', error);
+    }
+}
+
+// Update basket UI elements
+function updateBasketUI() {
+    const basketCount = document.getElementById('basket-count');
+    if (basketCount) {
+        const itemCount = basketState.items ? basketState.items.reduce((sum, item) => sum + item.quantity, 0) : 0;
+        basketCount.textContent = itemCount;
+    }
+}
+
+// Add book to basket
+async function addToBasket(book) {
+    try {
+        const response = await xhrRequest('/basket/add', 'POST', {
+            book_id: book.id,
+            quantity: 1
+        });
+        
+        basketState = response;
+        updateBasketUI();
+        showNotification(`"${book.title}" added to basket!`, 'success');
+    } catch (error) {
+        console.error('Error adding to basket:', error);
+        showNotification('Error adding book to basket', 'error');
+    }
+}
+
+// Open basket modal
+function openBasketModal() {
+    const modal = document.getElementById('basket-modal');
+    if (modal) {
+        displayBasketItems();
+        modal.style.display = 'block';
+    }
+}
+
+// Display basket items in modal
+function displayBasketItems() {
+    const basketItems = document.getElementById('basket-items');
+    const totalAmount = document.getElementById('basket-total-amount');
+    
+    if (!basketItems) return;
+    
+    // Clear existing items
+    basketItems.innerHTML = '';
+    
+    if (!basketState.items || basketState.items.length === 0) {
+        basketItems.innerHTML = '<p class="no-items">Your basket is empty</p>';
+        if (totalAmount) totalAmount.textContent = '0.00';
+        return;
+    }
+    
+    // Display each item
+    basketState.items.forEach(item => {
+        const itemEl = document.createElement('div');
+        itemEl.className = 'basket-item';
+        
+        const itemPrice = (item.book.price * item.quantity).toFixed(2);
+        
+        itemEl.innerHTML = `
+            <div class="basket-item-info">
+                <div class="basket-item-title">${item.book.title}</div>
+                <div class="basket-item-author">by ${item.book.author}</div>
+            </div>
+            <span class="basket-item-quantity">Qty: ${item.quantity}</span>
+            <span class="basket-item-price">$${itemPrice}</span>
+            <button class="basket-item-remove" onclick="removeFromBasket(${item.id})">
+                <i class="fas fa-times"></i>
+            </button>
+        `;
+        
+        basketItems.appendChild(itemEl);
+    });
+    
+    // Update total
+    if (totalAmount) {
+        totalAmount.textContent = basketState.total ? basketState.total.toFixed(2) : '0.00';
+    }
+}
+
+// Remove item from basket
+async function removeFromBasket(itemId) {
+    try {
+        const response = await xhrRequest(`/basket/item/${itemId}`, 'DELETE');
+        basketState = response;
+        updateBasketUI();
+        displayBasketItems();
+        showNotification('Item removed from basket', 'success');
+    } catch (error) {
+        console.error('Error removing from basket:', error);
+        showNotification('Error removing item', 'error');
+    }
+}
+
+// Clear basket
+async function clearBasket() {
+    if (!confirm('Are you sure you want to clear your basket?')) return;
+    
+    try {
+        await xhrRequest('/basket/clear', 'DELETE');
+        basketState = { items: [], total: 0 };
+        updateBasketUI();
+        displayBasketItems();
+        showNotification('Basket cleared', 'success');
+    } catch (error) {
+        console.error('Error clearing basket:', error);
+        showNotification('Error clearing basket', 'error');
+    }
+}
+
+// Complete purchase
+async function completePurchase() {
+    try {
+        const purchase = await xhrRequest('/basket/purchase', 'POST');
+        
+        // Show purchase confirmation
+        showPurchaseConfirmation(purchase);
+        
+        // Close basket modal
+        document.getElementById('basket-modal').style.display = 'none';
+        
+        // Reset basket state
+        basketState = { items: [], total: 0 };
+        updateBasketUI();
+        
+    } catch (error) {
+        console.error('Error completing purchase:', error);
+        showNotification('Error completing purchase', 'error');
+    }
+}
+
+// Show purchase confirmation modal
+function showPurchaseConfirmation(purchase) {
+    const modal = document.getElementById('purchase-modal');
+    const summary = document.getElementById('purchase-summary');
+    
+    if (!modal || !summary) return;
+    
+    // Create purchase summary
+    let summaryHTML = '<h3>Order Summary</h3>';
+    purchase.items.forEach(item => {
+        summaryHTML += `
+            <div class="purchase-item">
+                <span>${item.book.title} (x${item.quantity})</span>
+                <span>$${(item.book.price * item.quantity).toFixed(2)}</span>
+            </div>
+        `;
+    });
+    summaryHTML += `<div class="total">Total: $${purchase.total.toFixed(2)}</div>`;
+    
+    summary.innerHTML = summaryHTML;
+    modal.style.display = 'block';
+}
+
+// Setup basket event listeners
+function setupBasketEventListeners() {
+    // Shopping basket button
+    const basketBtn = document.getElementById('shopping-basket-btn');
+    if (basketBtn) {
+        basketBtn.addEventListener('click', openBasketModal);
+    }
+    
+    // Basket modal close button
+    const closeBasket = document.getElementById('close-basket');
+    if (closeBasket) {
+        closeBasket.addEventListener('click', () => {
+            document.getElementById('basket-modal').style.display = 'none';
+        });
+    }
+    
+    // Clear basket button
+    const clearBtn = document.getElementById('clear-basket-btn');
+    if (clearBtn) {
+        clearBtn.addEventListener('click', clearBasket);
+    }
+    
+    // Buy now button
+    const buyNowBtn = document.getElementById('buy-now-btn');
+    if (buyNowBtn) {
+        buyNowBtn.addEventListener('click', completePurchase);
+    }
+    
+    // Purchase modal close buttons
+    const closePurchase = document.getElementById('close-purchase');
+    const closePurchaseBtn = document.getElementById('close-purchase-btn');
+    
+    if (closePurchase) {
+        closePurchase.addEventListener('click', () => {
+            document.getElementById('purchase-modal').style.display = 'none';
+        });
+    }
+    
+    if (closePurchaseBtn) {
+        closePurchaseBtn.addEventListener('click', () => {
+            document.getElementById('purchase-modal').style.display = 'none';
+        });
+    }
+    
+    // Close modals when clicking outside
+    window.addEventListener('click', (e) => {
+        const basketModal = document.getElementById('basket-modal');
+        const purchaseModal = document.getElementById('purchase-modal');
+        
+        if (e.target === basketModal) {
+            basketModal.style.display = 'none';
+        }
+        if (e.target === purchaseModal) {
+            purchaseModal.style.display = 'none';
+        }
+    });
+}
+
+// Toggle book favorite status with XHR
 async function toggleFavorite(event, book) {
     const button = event.currentTarget;
     const newFavoriteStatus = !book.favorite;
     
     try {
-        const response = await fetch(`${API_URL}/${book.id}/favorite`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ favorite: newFavoriteStatus })
-        });
+        // Use our XHR function
+        const updatedBook = await xhrRequest(
+            `${API_URL}/${book.id}/favorite`, 
+            'PATCH',
+            { favorite: newFavoriteStatus }
+        );
         
-        if (!response.ok) {
+        if (!updatedBook) {
             throw new Error('Failed to update favorite status');
         }
-        
-        const updatedBook = await response.json();
         
         // Update book in state
         const bookIndex = state.books.findIndex(b => b.id === book.id);
@@ -426,28 +848,39 @@ async function toggleFavorite(event, book) {
             state.books[bookIndex].favorite = updatedBook.favorite;
         }
         
-        // Update UI 
-        button.classList.toggle('active', updatedBook.favorite);
+        // Update UI - toggle active class
+        if (button) {
+            if (updatedBook.favorite) {
+                button.classList.add('active');
+            } else {
+                button.classList.remove('active');
+            }
+        }
         
-        // Update favorite indicator in the book card
-        const bookCard = button.closest('.book-card');
-        const existingIndicator = bookCard.querySelector('.favorite-indicator');
-        
-        if (updatedBook.favorite && !existingIndicator) {
-            // Add favorite indicator
-            const indicator = document.createElement('div');
-            indicator.className = 'favorite-indicator';
-            // Use a text + SVG fallback for better browser compatibility
-            indicator.innerHTML = '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="heart" class="svg-inline--fa fa-heart" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"></path></svg> Favorite';
-            bookCard.insertBefore(indicator, bookCard.firstChild);
-        } else if (!updatedBook.favorite && existingIndicator) {
-            // Remove favorite indicator
-            existingIndicator.remove();
+        // Update favorite indicator
+        if (button) {
+            const bookCard = button.closest('.book-card');
+            if (bookCard) {
+                // Look for existing indicator
+                const existingIndicator = bookCard.querySelector('.favorite-indicator');
+                
+                if (updatedBook.favorite && !existingIndicator) {
+                    // Create and add favorite indicator
+                    const indicator = document.createElement('div');
+                    indicator.className = 'favorite-indicator';
+                    indicator.textContent = '❤️ Favorite';
+                    bookCard.insertBefore(indicator, bookCard.firstChild);
+                } else if (!updatedBook.favorite && existingIndicator) {
+                    // Remove favorite indicator
+                    existingIndicator.remove();
+                }
+            }
         }
         
         // Show notification
         showNotification(`Book ${updatedBook.favorite ? 'added to' : 'removed from'} favorites`, 'success');
     } catch (error) {
+        console.error('Error toggling favorite:', error);
         showNotification('Error updating favorite status', 'error');
     }
 }

@@ -13,6 +13,15 @@
     <div class="container">
         <header>
             <h1><i class="fas fa-book"></i> Books Library</h1>
+            <div class="header-actions">
+                <a href="/dashboard" class="dashboard-link">
+                    <i class="fas fa-chart-line"></i> Sales Dashboard
+                </a>
+                <button id="shopping-basket-btn" class="basket-btn">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="basket-count" class="basket-count">0</span>
+                </button>
+            </div>
         </header>
         
         <div class="book-form-container">
@@ -29,6 +38,10 @@
                 <div class="form-group">
                     <label for="pages">Pages</label>
                     <input type="number" id="pages" name="pages" required min="1">
+                </div>
+                <div class="form-group">
+                    <label for="price">Price ($)</label>
+                    <input type="number" id="price" name="price" required min="0" step="0.01" value="9.99">
                 </div>
                 <div class="form-group">
                     <label for="category">Category</label>
@@ -152,6 +165,10 @@
                         <input type="number" id="edit-pages" name="pages" required min="1">
                     </div>
                     <div class="form-group">
+                        <label for="edit-price">Price ($)</label>
+                        <input type="number" id="edit-price" name="price" required min="0" step="0.01">
+                    </div>
+                    <div class="form-group">
                         <label for="edit-category">Category</label>
                         <select id="edit-category" name="category" required>
                             <option value="Fiction">Fiction</option>
@@ -178,6 +195,46 @@
                     </div>
                     <button type="submit" class="btn"><i class="fas fa-save"></i> Save Changes</button>
                 </form>
+            </div>
+        </div>
+
+        <!-- Shopping Basket Modal -->
+        <div id="basket-modal" class="modal basket-modal">
+            <div class="modal-content">
+                <span class="close" id="close-basket">&times;</span>
+                <h2>Shopping Basket</h2>
+                <div id="basket-items" class="basket-items">
+                    <!-- Basket items will be dynamically added here -->
+                </div>
+                <div class="basket-total">
+                    Total: $<span id="basket-total-amount">0.00</span>
+                </div>
+                <div class="basket-actions">
+                    <button id="clear-basket-btn" class="btn btn-secondary">
+                        <i class="fas fa-trash"></i> Clear Basket
+                    </button>
+                    <button id="buy-now-btn" class="btn btn-primary">
+                        <i class="fas fa-credit-card"></i> Buy Now
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Purchase Confirmation Modal -->
+        <div id="purchase-modal" class="modal purchase-modal">
+            <div class="modal-content">
+                <span class="close" id="close-purchase">&times;</span>
+                <h2>Purchase Confirmation</h2>
+                <div class="purchase-success">
+                    <i class="fas fa-check-circle"></i>
+                    <p>Thank you for your purchase!</p>
+                </div>
+                <div id="purchase-summary" class="purchase-summary">
+                    <!-- Purchase summary will be dynamically added here -->
+                </div>
+                <button id="close-purchase-btn" class="btn">
+                    <i class="fas fa-times"></i> Close
+                </button>
             </div>
         </div>
     </div>

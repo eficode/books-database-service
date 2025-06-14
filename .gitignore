@@ -166,3 +166,5 @@ cython_debug/
 #.idea/
 data/books.db
 *.db
+
+**/.claude/settings.local.json

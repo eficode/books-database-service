@@ -254,3 +254,51 @@ Delete Book
     Click    .book-card:has(h3.book-title:has-text("${title}")) .delete-btn
     # Wait for success notification
     Wait For Elements State    .notification.success    visible    ${TIMEOUT}
+
+I Create A Book For Purchase
+    [Arguments]    ${title}    ${author}    ${pages}    ${category}    ${price}
+    # This will need to be implemented in the backend with price support
+    Add New Book    ${title}    ${author}    ${pages}    ${category}
+
+I Add Book To Shopping Basket
+    [Arguments]    ${title}
+    Wait For Elements State    .book-card h3.book-title:has-text("${title}")    visible    ${TIMEOUT}
+    Click    .book-card:has(h3.book-title:has-text("${title}")) .add-to-basket-btn
+
+I Should See Shopping Basket With Count
+    [Arguments]    ${count}
+    Wait For Elements State    #basket-count:has-text("${count}")    visible    ${TIMEOUT}
+
+I Click On Shopping Basket
+    Click    #shopping-basket-btn
+
+I Should See Shopping Basket Summary
+    Wait For Elements State    .basket-modal    visible    ${TIMEOUT}
+    Wait For Elements State    h2:has-text("Shopping Basket")    visible
+
+I Should See Book In Basket
+    [Arguments]    ${title}    ${price}
+    Wait For Elements State    .basket-item:has-text("${title}")    visible    ${TIMEOUT}
+    Wait For Elements State    .basket-item:has-text("${title}") .price:has-text("$${price}")    visible
+
+I Should See Total Price
+    [Arguments]    ${total}
+    Wait For Elements State    .basket-total:has-text("Total: $${total}")    visible    ${TIMEOUT}
+
+I Click Buy Now Button
+    Click    button:has-text("Buy Now")
+
+I Should See Purchase Confirmation
+    Wait For Elements State    .purchase-modal    visible    ${TIMEOUT}
+    Wait For Elements State    h2:has-text("Purchase Confirmation")    visible
+
+I Should See Purchase Summary With Total
+    [Arguments]    ${total}
+    Wait For Elements State    .purchase-summary .total:has-text("Total: $${total}")    visible    ${TIMEOUT}
+
+Shopping Basket Should Be Empty
+    Wait For Elements State    #basket-count:has-text("0")    visible    ${TIMEOUT}
+
+The Shopping Basket Icon Should Be Yellow
+    ${basket_btn_color}=    Get Style    #shopping-basket-btn    background-color
+    Should Contain    ${basket_btn_color}    rgb(255, 255, 0)

@@ -17,8 +17,5 @@ RUN mkdir -p /app/data
 # Expose port
 EXPOSE 8000
 
-# Install wget for healthcheck
-RUN apt-get update && apt-get install -y wget && rm -rf /var/lib/apt/lists/*
-
 # Run the application
 CMD ["uvicorn", "fastapi_demo.main:app", "--host", "0.0.0.0", "--port", "8000"]
