@@ -65,6 +65,13 @@ async def custom_404_handler(request: Request, exc):
     # For debugging
     print(f"404 error: {request.url.path}")
     
+    # If it's an HTTPException with a specific detail message, preserve it
+    if hasattr(exc, 'detail') and exc.detail:
+        return JSONResponse(
+            status_code=404,
+            content={"detail": exc.detail}
+        )
+    
     # If it's an API request, return a standard 404 JSON response
     if request.url.path.startswith("/books"):
         return JSONResponse(
