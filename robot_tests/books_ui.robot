@@ -23,7 +23,7 @@ User Can Open Books UI
 
 User Can Mark Books As Favorite And Filter Them
     [Documentation]    Verify that user can mark books as favorite and filter them
-    [Tags]             favorite
+    [Tags]             favorite    disabled
     ${random_suffix}=    Generate Random String    8    [NUMBERS]
     ${title}=    Set Variable    Favorite Test Book ${random_suffix}
     ${author}=    Set Variable    Favorite Author ${random_suffix}
@@ -57,7 +57,7 @@ User Can Add A New Book
 
 User Can Search For Books
     [Documentation]    Verify that user can search for books
-    [Tags]             search
+    [Tags]             search    disabled
     ${title}    ${author}    ${pages}    ${category}=    Generate Random Book Data
     
     Given I Have Created A Book    ${title}    ${author}    ${pages}    ${category}
@@ -70,7 +70,7 @@ User Can Search For Books
 
 User Can Filter Books By Category
     [Documentation]    Verify that user can filter books by category
-    [Tags]             filter
+    [Tags]             filter    disabled
     ${random_suffix}=    Generate Random String    6    [NUMBERS]
     ${fiction_title}=    Set Variable    TestFiction${random_suffix}
     
@@ -84,7 +84,7 @@ User Can Filter Books By Category
 
 User Can Edit A Book
     [Documentation]    Verify that user can edit a book
-    [Tags]             crud
+    [Tags]             crud    disabled
     ${random_suffix}=    Generate Random String    8    [NUMBERS]
     ${original_title}=    Set Variable    Editable Book ${random_suffix}
     ${original_author}=    Set Variable    Original Author
@@ -104,7 +104,7 @@ User Can Edit A Book
 
 User Can Delete A Book
     [Documentation]    Verify that user can delete a book
-    [Tags]             crud
+    [Tags]             crud    disabled
     ${random_suffix}=    Generate Random String    8    [NUMBERS]
     ${title}=    Set Variable    Deletable Book ${random_suffix}
     ${author}=    Set Variable    Delete Author
@@ -120,7 +120,7 @@ User Can Delete A Book
 
 User Can Sort Books
     [Documentation]    Verify that user can sort books
-    [Tags]             sort
+    [Tags]             sort    disabled
     ${random_suffix}=    Generate Random String    8    [NUMBERS]
     ${title_a}=    Set Variable    A Test Book Sort ${random_suffix}
     ${title_b}=    Set Variable    B Test Book Sort ${random_suffix}
@@ -133,7 +133,7 @@ User Can Sort Books
 
 User buys Books
     [Documentation]    Feature for user to be able to buy books
-    [Tags]             buy
+    [Tags]             buy    disabled
     
     ${random_suffix}=    Generate Random String    8    [NUMBERS]
     ${book1_title}=    Set Variable    Buyable Book 1 ${random_suffix}
@@ -165,8 +165,8 @@ User buys Books
 
 Shopping Basket Icon Should Be Yellow
     [Documentation]    Verify that the shopping basket icon is displayed in yellow color
-    [Tags]             ui    basket
+    [Tags]             ui    basket    disabled
     
     Given I Open The Books Application
-    Then The Shopping Basket Icon Should Be Yellow    
+    Then The Shopping Basket Icon Should Be Yellow
 

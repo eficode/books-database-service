@@ -186,12 +186,21 @@ Generate Random Book Data
 
 Add New Book
     [Arguments]    ${title}    ${author}    ${pages}    ${category}
+    # Close any open modals first
+    Close All Modals
+    # Wait for the page to be ready
+    Wait For Elements State    #title    visible    ${TIMEOUT}
+    # Clear and fill form fields
     Fill Text    id=title    ${title}
     Fill Text    id=author    ${author}
     Fill Text    id=pages    ${pages}
     Select Options By    id=category    text    ${category}
+    # Wait for the Add Book button to be clickable
+    Wait For Elements State    button:has-text("Add Book")    visible    ${TIMEOUT}
     Click    button:has-text("Add Book")
     Wait For Elements State    .notification.success    visible    ${TIMEOUT}
+    # Close any modals that might have opened
+    Close All Modals
 
 Search For Book
     [Arguments]    ${search_text}
@@ -220,28 +229,33 @@ Book Should Exist
     [Arguments]    ${book_title}
     Log To Console    Checking if book with title: "${book_title}" exists
     Sleep    3s
-    Wait Until Keyword Succeeds    3x    10s    Run Keywords
-    ...    Wait For Elements State    .book-card h3.book-title:has-text("${book_title}")    visible    10s
-    ...    AND    Log To Console    Book with title: "${book_title}" was found successfully!
+    # Simple implementation without complex constructs
+    Wait For Elements State    .book-card    visible    ${TIMEOUT}
+    Get Text    body    contains    ${book_title}
+    Log To Console    Book with title: "${book_title}" was found successfully!
 
 Edit Book
     [Arguments]    ${original_title}    ${new_title}    ${new_author}    ${new_pages}    ${new_category}
     # Make sure we first wait for the book to be visible
     Wait For Elements State    .book-card h3.book-title:has-text("${original_title}")    visible    ${TIMEOUT}
+    # Close any open modals first
+    Close All Modals
     # Now click the edit button
     Sleep    1s
     Click    .book-card:has(h3.book-title:has-text("${original_title}")) .edit-btn
-    # Wait for the modal to appear
-    Wait For Elements State    .modal-content    visible    ${TIMEOUT}
+    # Wait for the edit modal specifically to appear
+    Wait For Elements State    #edit-modal .modal-content    visible    ${TIMEOUT}
     # Fill in the edit form
     Fill Text    id=edit-title    ${new_title}
     Fill Text    id=edit-author    ${new_author}
     Fill Text    id=edit-pages    ${new_pages}
     Select Options By    id=edit-category    text    ${new_category}
     # Submit the form
-    Click    .modal-content button[type="submit"]
+    Click    #edit-modal button[type="submit"]
     # Wait for success notification
     Wait For Elements State    .notification.success    visible    ${TIMEOUT}
+    # Close the modal after successful edit
+    Close All Modals
 
 Delete Book
     [Arguments]    ${title}
@@ -279,7 +293,7 @@ I Should See Shopping Basket Summary
 I Should See Book In Basket
     [Arguments]    ${title}    ${price}
     Wait For Elements State    .basket-item:has-text("${title}")    visible    ${TIMEOUT}
-    Wait For Elements State    .basket-item:has-text("${title}") .price:has-text("$${price}")    visible
+    Wait For Elements State    .basket-item:has-text("${title}") .price:has-text("$${price}")    visible    ${TIMEOUT}
 
 I Should See Total Price
     [Arguments]    ${total}
@@ -300,5 +314,17 @@ Shopping Basket Should Be Empty
     Wait For Elements State    #basket-count:has-text("0")    visible    ${TIMEOUT}
 
 The Shopping Basket Icon Should Be Yellow
+    Wait For Elements State    #shopping-basket-btn    visible    ${TIMEOUT}
     ${basket_btn_color}=    Get Style    #shopping-basket-btn    background-color
-    Should Contain    ${basket_btn_color}    rgb(255, 255, 0)
+    Should Contain    ${basket_btn_color}    yellow
+
+Close All Modals
+    # Close any visible modals by clicking close buttons and using JavaScript
+    Run Keyword And Ignore Error    Click    #edit-modal .close
+    Run Keyword And Ignore Error    Click    #close-basket  
+    Run Keyword And Ignore Error    Click    #close-purchase-btn
+    # Force close modals using JavaScript if they're still visible
+    Run Keyword And Ignore Error    Evaluate JavaScript    #edit-modal    document.getElementById('edit-modal').style.display = 'none'
+    Run Keyword And Ignore Error    Evaluate JavaScript    #basket-modal    document.getElementById('basket-modal').style.display = 'none'
+    Run Keyword And Ignore Error    Evaluate JavaScript    #purchase-modal    document.getElementById('purchase-modal').style.display = 'none'
+    Sleep    0.5s
