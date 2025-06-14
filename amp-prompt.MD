@@ -9,3 +9,5 @@
     * **Crucially**, use the *exact* scenarios and keywords defined in the specification for your test cases. **Do not add more Gherkin scenarios.**
     * **Always** run all existing test cases *before* progressing with new implementation or tests.
 3.  **Development:** Build Docker containers for all code changes.
+ 
+ Use commands and coding conventions in AGENT.md file 
