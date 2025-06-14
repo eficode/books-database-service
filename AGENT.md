@@ -5,7 +5,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 - Install deps: `poetry install`
 - Run server: `poetry run dev-server`
-- Run server (Docker): `docker-compose up -d`
+- Run server (Docker): `docker compose up -d`
+- Build the Docker containers: `docker compose build` 
 - Activate venv: `poetry shell`
 - Run all tests: `poetry run pytest`
 - Run single test: `poetry run pytest tests/test_books.py::test_create_book -v`
