@@ -55,6 +55,7 @@ I Enter The Recipients Name Address And Country
     Fill Text    input[name='recipient_name']    John Doe
     Fill Text    textarea[name='recipient_address']    123 Main St, New York, NY 10001
     Fill Text    input[name='recipient_country']    USA
+    Check Checkbox    input#data-consent
     Set Test Variable    ${RECIPIENT_DETAILS_ENTERED}    true
 
 I Confirm The Details

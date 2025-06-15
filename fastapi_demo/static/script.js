@@ -461,9 +461,10 @@ async function addBook(e) {
     const authorEl = document.getElementById('author');
     const pagesEl = document.getElementById('pages');
     const priceEl = document.getElementById('price');
+    const stockEl = document.getElementById('stock');
     const categoryEl = document.getElementById('category');
     
-    if (!titleEl || !authorEl || !pagesEl || !priceEl || !categoryEl) {
+    if (!titleEl || !authorEl || !pagesEl || !priceEl || !stockEl || !categoryEl) {
         showNotification('Form elements not found', 'error');
         return;
     }
@@ -472,16 +473,17 @@ async function addBook(e) {
     const author = authorEl.value.trim();
     const pages = parseInt(pagesEl.value);
     const price = parseFloat(priceEl.value);
+    const stock = parseInt(stockEl.value);
     const category = categoryEl.value;
     
     // Validate form
-    if (!title || !author || isNaN(pages) || pages <= 0 || isNaN(price) || price < 0 || !category) {
+    if (!title || !author || isNaN(pages) || pages <= 0 || isNaN(price) || price < 0 || isNaN(stock) || stock < 0 || !category) {
         showNotification('Please fill in all fields correctly', 'error');
         return;
     }
     
     // Create book object
-    const newBook = { title, author, pages, price, category };
+    const newBook = { title, author, pages, price, stock, category };
     
     try {
         // Use XHR to add book
@@ -513,6 +515,7 @@ function openEditModal(book) {
     document.getElementById('edit-author').value = book.author;
     document.getElementById('edit-pages').value = book.pages;
     document.getElementById('edit-price').value = book.price || 9.99;
+    document.getElementById('edit-stock').value = book.stock || 10;
     
     // Set category if it exists
     if (book.category) {
@@ -537,9 +540,10 @@ async function updateBook(e) {
     const authorEl = document.getElementById('edit-author');
     const pagesEl = document.getElementById('edit-pages');
     const priceEl = document.getElementById('edit-price');
+    const stockEl = document.getElementById('edit-stock');
     const categoryEl = document.getElementById('edit-category');
     
-    if (!idEl || !titleEl || !authorEl || !pagesEl || !priceEl || !categoryEl) {
+    if (!idEl || !titleEl || !authorEl || !pagesEl || !priceEl || !stockEl || !categoryEl) {
         showNotification('Form elements not found', 'error');
         return;
     }
@@ -549,16 +553,17 @@ async function updateBook(e) {
     const author = authorEl.value.trim();
     const pages = parseInt(pagesEl.value);
     const price = parseFloat(priceEl.value);
+    const stock = parseInt(stockEl.value);
     const category = categoryEl.value;
     
     // Validate form values
-    if (!id || !title || !author || isNaN(pages) || pages <= 0 || isNaN(price) || price < 0 || !category) {
+    if (!id || !title || !author || isNaN(pages) || pages <= 0 || isNaN(price) || price < 0 || isNaN(stock) || stock < 0 || !category) {
         showNotification('Please fill in all fields correctly', 'error');
         return;
     }
     
     // Create updated book object
-    const updatedBook = { title, author, pages, price, category };
+    const updatedBook = { title, author, pages, price, stock, category };
     
     try {
         // Use XHR to update the book
@@ -971,6 +976,7 @@ function openGiftModal(book) {
             <p>by ${book.author}</p>
             <p>Category: ${book.category}</p>
             <p>Price: $${book.price}</p>
+            <p>Stock: ${book.stock || 0} available</p>
         </div>
     `;
     

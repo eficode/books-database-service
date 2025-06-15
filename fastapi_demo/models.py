@@ -14,6 +14,7 @@ class Book(Base):
     category = Column(String, index=True, default="Fiction")
     favorite = Column(Boolean, default=False, index=True)
     price = Column(Float, default=9.99)
+    stock = Column(Integer, default=10)
     
     basket_items = relationship("BasketItem", back_populates="book")
 

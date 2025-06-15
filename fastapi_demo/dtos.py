@@ -10,6 +10,7 @@ class BookCreate(BaseModel):
     category: str = "Fiction"
     favorite: bool = False
     price: float = 9.99
+    stock: int = 10
 
 class BookInfo(BookCreate):
     id: Optional[int] = None

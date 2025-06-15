@@ -1,5 +1,5 @@
 """
-Script to migrate the database with the new category column
+Script to migrate the database with new columns (category, favorite, price, stock)
 """
 import sys
 import os
@@ -12,7 +12,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 from fastapi_demo.database import engine, SQLALCHEMY_DATABASE_URL
 
 def migrate_database():
-    """Add the category column to the books table if it doesn't exist"""
+    """Add the category, favorite, price, and stock columns to the books table if they don't exist"""
     # Extract database path from SQLALCHEMY_DATABASE_URL
     # SQLite URL format: sqlite:///path/to/database.db
     match = re.search(r'sqlite:///(.+)', SQLALCHEMY_DATABASE_URL)
@@ -61,8 +61,21 @@ def migrate_database():
         cursor.execute("ALTER TABLE books ADD COLUMN price REAL DEFAULT 9.99")
         conn.commit()
         print("Price column added successfully.")
+        # Refresh column names
+        cursor.execute("PRAGMA table_info(books)")
+        columns = cursor.fetchall()
+        column_names = [column[1] for column in columns]
     else:
         print("Column 'price' already exists.")
+    
+    # Add stock column if it doesn't exist
+    if 'stock' not in column_names:
+        print("Adding 'stock' column to books table...")
+        cursor.execute("ALTER TABLE books ADD COLUMN stock INTEGER DEFAULT 10")
+        conn.commit()
+        print("Stock column added successfully.")
+    else:
+        print("Column 'stock' already exists.")
     
     conn.close()
 
