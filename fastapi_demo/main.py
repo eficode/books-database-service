@@ -6,6 +6,7 @@ from .database import Base, engine
 from .routers.books import router as books
 from .routers.basket import router as basket
 from .routers.dashboard import router as dashboard
+from .routers.gifts import router as gifts
 from .mcp_server import setup_mcp_server
 
 app = FastAPI(
@@ -24,6 +25,7 @@ Base.metadata.create_all(bind=engine)
 app.include_router(books)
 app.include_router(basket, prefix="/basket", tags=["basket"])
 app.include_router(dashboard, prefix="/dashboard", tags=["dashboard"])
+app.include_router(gifts)
 
 # Setup MCP server
 setup_mcp_server(app)

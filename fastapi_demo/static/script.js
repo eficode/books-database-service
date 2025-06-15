@@ -417,6 +417,14 @@ function displayBooks(books) {
         buyBtn.innerHTML = '<i class="fas fa-shopping-cart"></i>';
         actionsDiv.appendChild(buyBtn);
         
+        // Send as Gift button
+        const giftBtn = document.createElement('button');
+        giftBtn.className = 'gift-btn';
+        giftBtn.title = 'Send as Gift';
+        giftBtn.innerHTML = '<i class="fas fa-gift"></i>';
+        giftBtn.textContent = 'Send as Gift';
+        actionsDiv.appendChild(giftBtn);
+        
         // Edit button
         const editBtn = document.createElement('button');
         editBtn.className = 'edit-btn';
@@ -436,6 +444,7 @@ function displayBooks(books) {
         // Add event listeners for buttons
         bookCard.querySelector('.favorite-btn').addEventListener('click', (e) => toggleFavorite(e, book));
         bookCard.querySelector('.buy-btn').addEventListener('click', () => addToBasket(book));
+        bookCard.querySelector('.gift-btn').addEventListener('click', () => openGiftModal(book));
         bookCard.querySelector('.edit-btn').addEventListener('click', () => openEditModal(book));
         bookCard.querySelector('.delete-btn').addEventListener('click', () => deleteBook(book.id));
         
@@ -946,4 +955,302 @@ notificationStyles.innerHTML = `
         padding: 2rem 0;
     }
 `;
+
+// Gift modal functionality
+let currentGiftBook = null;
+
+function openGiftModal(book) {
+    currentGiftBook = book;
+    const modal = document.getElementById('gift-modal');
+    const bookInfo = document.getElementById('gift-book-info');
+    
+    // Display book information
+    bookInfo.innerHTML = `
+        <div class="selected-book">
+            <h3>${book.title}</h3>
+            <p>by ${book.author}</p>
+            <p>Category: ${book.category}</p>
+            <p>Price: $${book.price}</p>
+        </div>
+    `;
+    
+    // Reset form and messages
+    document.getElementById('gift-form').reset();
+    document.getElementById('gift-message').style.display = 'none';
+    document.getElementById('confirm-details-btn').style.display = 'inline-block';
+    document.getElementById('confirm-gift-order-btn').style.display = 'none';
+    
+    modal.style.display = 'block';
+}
+
+function confirmGiftDetails() {
+    const recipientName = document.getElementById('recipient_name').value.trim();
+    const recipientAddress = document.getElementById('recipient_address').value.trim();
+    const recipientCountry = document.getElementById('recipient_country').value.trim();
+    const dataConsent = document.getElementById('data-consent').checked;
+    
+    if (!recipientName || !recipientAddress || !recipientCountry) {
+        showGiftMessage('details are incomplete', 'error');
+        return;
+    }
+    
+    // Check GDPR consent
+    if (!dataConsent) {
+        showGiftMessage('explicit consent is required to process recipient data', 'error');
+        return;
+    }
+    
+    // Show confirmation message
+    showGiftMessage('book will be sent as a gift', 'confirmation');
+    
+    // Show the confirm order button
+    document.getElementById('confirm-details-btn').style.display = 'none';
+    document.getElementById('confirm-gift-order-btn').style.display = 'inline-block';
+}
+
+async function confirmGiftOrder() {
+    if (!currentGiftBook) {
+        showGiftMessage('No book selected', 'error');
+        return;
+    }
+    
+    const recipientName = document.getElementById('recipient_name').value.trim();
+    const recipientAddress = document.getElementById('recipient_address').value.trim();
+    const recipientCountry = document.getElementById('recipient_country').value.trim();
+    const dataConsent = document.getElementById('data-consent').checked;
+    
+    const giftData = {
+        book_id: currentGiftBook.id,
+        recipient_name: recipientName,
+        recipient_address: recipientAddress,
+        recipient_country: recipientCountry,
+        consent_given: dataConsent
+    };
+    
+    try {
+        const response = await xhrRequest('/gifts/', 'POST', giftData);
+        if (response) {
+            showGiftMessage('added to the gift orders queue', 'success');
+            showGiftMessage('email confirmation', 'info');
+            
+            // Close modal after successful order
+            setTimeout(() => {
+                closeGiftModal();
+            }, 2000);
+        }
+    } catch (error) {
+        console.error('Error creating gift order:', error);
+        if (error.status === 400) {
+            showGiftMessage('explicit consent is required to process recipient data', 'error');
+        } else {
+            showGiftMessage('book is out of stock', 'error');
+        }
+    }
+}
+
+function showGiftMessage(message, type) {
+    const messageDiv = document.getElementById('gift-message');
+    messageDiv.className = `gift-message ${type}-message`;
+    messageDiv.textContent = message;
+    messageDiv.style.display = 'block';
+}
+
+function closeGiftModal() {
+    const modal = document.getElementById('gift-modal');
+    modal.style.display = 'none';
+    currentGiftBook = null;
+}
+
+// Add event listeners when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Gift modal event listeners
+    const giftModal = document.getElementById('gift-modal');
+    const closeGiftBtn = document.getElementById('close-gift');
+    const confirmDetailsBtn = document.getElementById('confirm-details-btn');
+    const confirmOrderBtn = document.getElementById('confirm-gift-order-btn');
+    
+    if (closeGiftBtn) {
+        closeGiftBtn.addEventListener('click', closeGiftModal);
+    }
+    
+    if (confirmDetailsBtn) {
+        confirmDetailsBtn.addEventListener('click', confirmGiftDetails);
+    }
+    
+    if (confirmOrderBtn) {
+        confirmOrderBtn.addEventListener('click', confirmGiftOrder);
+    }
+    
+    // Close modal when clicking outside
+    if (giftModal) {
+        giftModal.addEventListener('click', function(e) {
+            if (e.target === giftModal) {
+                closeGiftModal();
+            }
+        });
+    }
+    
+    // GDPR Rights modal event listeners
+    const gdprRightsModal = document.getElementById('gdpr-rights-modal');
+    const closeGdprRightsBtn = document.getElementById('close-gdpr-rights');
+    
+    if (closeGdprRightsBtn) {
+        closeGdprRightsBtn.addEventListener('click', closeGDPRRightsModal);
+    }
+    
+    if (gdprRightsModal) {
+        gdprRightsModal.addEventListener('click', function(e) {
+            if (e.target === gdprRightsModal) {
+                closeGDPRRightsModal();
+            }
+        });
+    }
+});
+
+// GDPR Rights Functions
+function showGDPRRights() {
+    const modal = document.getElementById('gdpr-rights-modal');
+    modal.style.display = 'block';
+}
+
+function closeGDPRRightsModal() {
+    const modal = document.getElementById('gdpr-rights-modal');
+    modal.style.display = 'none';
+    const responseArea = document.getElementById('gdpr-response');
+    responseArea.style.display = 'none';
+    responseArea.innerHTML = '';
+}
+
+function showGDPRResponse(content) {
+    const responseArea = document.getElementById('gdpr-response');
+    responseArea.innerHTML = content;
+    responseArea.style.display = 'block';
+}
+
+async function requestDataAccess() {
+    const identifier = prompt('Please enter your name or email address to find your data:');
+    if (!identifier) return;
+    
+    try {
+        const response = await xhrRequest('/gifts/gdpr/access', 'POST', {
+            request_type: 'access',
+            subject_identifier: identifier
+        });
+        
+        if (response && response.length > 0) {
+            let content = '<h3>Your Personal Data</h3><div class="data-export">';
+            response.forEach(gift => {
+                content += `
+                    <div class="gift-data">
+                        <p><strong>Gift Order #${gift.id}</strong></p>
+                        <p>Status: ${gift.status}</p>
+                        <p>Created: ${new Date(gift.created_at).toLocaleDateString()}</p>
+                        <p>Data will be deleted: ${new Date(gift.data_retention_until).toLocaleDateString()}</p>
+                        ${gift.recipient_data ? `
+                            <p>Recipient: ${gift.recipient_data.name}</p>
+                            <p>Address: ${gift.recipient_data.address}</p>
+                            <p>Country: ${gift.recipient_data.country}</p>
+                        ` : ''}
+                    </div>
+                `;
+            });
+            content += '</div>';
+            showGDPRResponse(content);
+        } else {
+            showGDPRResponse('<p>No personal data found for that identifier.</p>');
+        }
+    } catch (error) {
+        showGDPRResponse('<p>Error retrieving your data. Please contact privacy@bookbridge.com</p>');
+    }
+}
+
+async function requestDataCorrection() {
+    const giftId = prompt('Please enter the Gift Order ID you want to correct:');
+    if (!giftId) return;
+    
+    const name = prompt('New recipient name:');
+    const address = prompt('New recipient address:');
+    const country = prompt('New recipient country:');
+    
+    if (!name || !address || !country) {
+        alert('All fields are required for data correction.');
+        return;
+    }
+    
+    try {
+        const response = await xhrRequest(`/gifts/gdpr/rectify/${giftId}`, 'PUT', {
+            book_id: 1, // This would need to be provided or looked up
+            recipient_name: name,
+            recipient_address: address,
+            recipient_country: country,
+            consent_given: true
+        });
+        
+        showGDPRResponse('<p>Your data has been successfully corrected.</p>');
+    } catch (error) {
+        showGDPRResponse('<p>Error correcting your data. Please contact privacy@bookbridge.com</p>');
+    }
+}
+
+async function requestDataDeletion() {
+    const giftId = prompt('Please enter the Gift Order ID you want to delete:');
+    if (!giftId) return;
+    
+    const confirmed = confirm('Are you sure you want to permanently delete this gift order and all associated personal data? This action cannot be undone.');
+    if (!confirmed) return;
+    
+    try {
+        const response = await xhrRequest(`/gifts/gdpr/erase/${giftId}`, 'DELETE');
+        showGDPRResponse('<p>Your personal data has been permanently deleted.</p>');
+    } catch (error) {
+        showGDPRResponse('<p>Error deleting your data. Please contact privacy@bookbridge.com</p>');
+    }
+}
+
+async function withdrawConsent() {
+    const giftId = prompt('Please enter the Gift Order ID for which you want to withdraw consent:');
+    if (!giftId) return;
+    
+    const confirmed = confirm('Withdrawing consent will schedule your data for deletion within 30 days. Do you want to continue?');
+    if (!confirmed) return;
+    
+    try {
+        const response = await xhrRequest(`/gifts/gdpr/consent/${giftId}`, 'PUT', {
+            consent_given: false,
+            consent_timestamp: new Date().toISOString()
+        });
+        
+        showGDPRResponse('<p>Your consent has been withdrawn. Your data will be deleted within 30 days.</p>');
+    } catch (error) {
+        showGDPRResponse('<p>Error withdrawing consent. Please contact privacy@bookbridge.com</p>');
+    }
+}
+
+async function viewRetentionInfo() {
+    try {
+        const response = await xhrRequest('/gifts/gdpr/retention-info', 'GET');
+        
+        if (response && response.length > 0) {
+            let content = '<h3>Data Retention Information</h3><div class="retention-info">';
+            response.forEach(info => {
+                content += `
+                    <div class="retention-item">
+                        <p><strong>Gift Order #${info.gift_id}</strong></p>
+                        <p>Created: ${new Date(info.created_at).toLocaleDateString()}</p>
+                        <p>Will be deleted: ${new Date(info.retention_until).toLocaleDateString()}</p>
+                        <p>Days remaining: ${info.days_remaining}</p>
+                        <p>Auto-delete: ${info.auto_delete_enabled ? 'Enabled' : 'Disabled'}</p>
+                    </div>
+                `;
+            });
+            content += '</div>';
+            showGDPRResponse(content);
+        } else {
+            showGDPRResponse('<p>No data retention information available.</p>');
+        }
+    } catch (error) {
+        showGDPRResponse('<p>Error retrieving retention information. Please contact privacy@bookbridge.com</p>');
+    }
+}
+
 document.head.appendChild(notificationStyles);

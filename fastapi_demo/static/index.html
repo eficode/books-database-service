@@ -237,6 +237,135 @@
                 </button>
             </div>
         </div>
+
+        <!-- Gift Modal -->
+        <div id="gift-modal" class="modal gift-modal">
+            <div class="modal-content">
+                <span class="close" id="close-gift">&times;</span>
+                <h2>Send Book as Gift</h2>
+                <div id="gift-book-info" class="gift-book-info">
+                    <!-- Selected book info will be displayed here -->
+                </div>
+                <form id="gift-form">
+                    <div class="form-group">
+                        <label for="recipient_name">Recipient Name</label>
+                        <input type="text" id="recipient_name" name="recipient_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient_address">Recipient Address</label>
+                        <textarea id="recipient_address" name="recipient_address" required rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient_country">Recipient Country</label>
+                        <input type="text" id="recipient_country" name="recipient_country" required>
+                    </div>
+                    
+                    <!-- GDPR Consent Section -->
+                    <div class="gdpr-consent-section">
+                        <h4>Privacy & Data Protection</h4>
+                        <div class="privacy-notice">
+                            <p><strong>Data Processing Information:</strong></p>
+                            <ul>
+                                <li><strong>Purpose:</strong> We collect recipient details solely to deliver your gift</li>
+                                <li><strong>Legal Basis:</strong> Your explicit consent (GDPR Article 6(1)(a))</li>
+                                <li><strong>Data Retention:</strong> 90 days after gift delivery, then automatically deleted</li>
+                                <li><strong>Your Rights:</strong> Access, rectify, or erase your data at any time</li>
+                                <li><strong>Data Security:</strong> All personal data is encrypted at rest and in transit</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="consent-checkboxes">
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="data-consent" required>
+                                <label for="data-consent">
+                                    <strong>Required:</strong> I explicitly consent to processing the recipient's personal data 
+                                    (name, address, country) solely for gift delivery purposes. 
+                                    <a href="#privacy-policy" class="privacy-link">Privacy Policy</a>
+                                </label>
+                            </div>
+                            
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="retention-consent">
+                                <label for="retention-consent">
+                                    I understand that recipient data will be automatically deleted after 90 days 
+                                    unless I request earlier deletion.
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="data-subject-rights">
+                            <p><strong>Data Subject Rights:</strong> 
+                                <a href="#" onclick="showGDPRRights()">View your rights under GDPR</a>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="gift-actions">
+                        <button type="button" id="confirm-details-btn" class="btn btn-secondary">
+                            Confirm Details
+                        </button>
+                        <button type="button" id="confirm-gift-order-btn" class="btn btn-primary" style="display: none;">
+                            Confirm Gift Order
+                        </button>
+                    </div>
+                </form>
+                <div id="gift-message" class="gift-message" style="display: none;">
+                    <!-- Gift confirmation or error messages will appear here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- GDPR Rights Modal -->
+        <div id="gdpr-rights-modal" class="modal gdpr-modal">
+            <div class="modal-content">
+                <span class="close" id="close-gdpr-rights">&times;</span>
+                <h2>Your Data Protection Rights (GDPR)</h2>
+                <div class="gdpr-rights-content">
+                    <h3>Under the General Data Protection Regulation, you have the following rights:</h3>
+                    
+                    <div class="gdpr-right">
+                        <h4>1. Right to Access (Article 15)</h4>
+                        <p>You can request to see what personal data we hold about you.</p>
+                        <button class="btn btn-secondary" onclick="requestDataAccess()">Request My Data</button>
+                    </div>
+                    
+                    <div class="gdpr-right">
+                        <h4>2. Right to Rectification (Article 16)</h4>
+                        <p>You can request to correct any inaccurate personal data.</p>
+                        <button class="btn btn-secondary" onclick="requestDataCorrection()">Correct My Data</button>
+                    </div>
+                    
+                    <div class="gdpr-right">
+                        <h4>3. Right to Erasure (Article 17)</h4>
+                        <p>You can request deletion of your personal data ("Right to be forgotten").</p>
+                        <button class="btn btn-danger" onclick="requestDataDeletion()">Delete My Data</button>
+                    </div>
+                    
+                    <div class="gdpr-right">
+                        <h4>4. Right to Withdraw Consent (Article 7)</h4>
+                        <p>You can withdraw your consent for data processing at any time.</p>
+                        <button class="btn btn-warning" onclick="withdrawConsent()">Withdraw Consent</button>
+                    </div>
+                    
+                    <div class="gdpr-right">
+                        <h4>5. Data Retention Information</h4>
+                        <p>View how long we keep your data and when it will be deleted.</p>
+                        <button class="btn btn-secondary" onclick="viewRetentionInfo()">View Retention Info</button>
+                    </div>
+                    
+                    <div class="contact-info">
+                        <h4>Contact Information</h4>
+                        <p>For any data protection questions or requests, contact us at: 
+                           <strong>privacy@bookbridge.com</strong></p>
+                        <p>Response time: Within 30 days as required by GDPR</p>
+                    </div>
+                </div>
+                
+                <div class="gdpr-response-area" id="gdpr-response" style="display: none;">
+                    <!-- GDPR request responses will appear here -->
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="/static/script.js"></script>

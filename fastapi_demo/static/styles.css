@@ -324,7 +324,7 @@ h2 {
     gap: 0.5rem;
 }
 
-.edit-btn, .delete-btn, .favorite-btn, .buy-btn {
+.edit-btn, .delete-btn, .favorite-btn, .buy-btn, .gift-btn {
     border: none;
     background-color: transparent;
     cursor: pointer;
@@ -351,6 +351,13 @@ h2 {
 
 .buy-btn {
     color: #28a745;
+}
+
+.gift-btn {
+    color: #ff6b6b;
+    font-size: 0.8rem;
+    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
 }
 
 .favorite-indicator {
@@ -623,4 +630,225 @@ h2 {
     color: #6c757d;
     font-style: italic;
     padding: 2rem;
+}
+
+/* Gift Modal Styles */
+.gift-modal .modal-content {
+    max-width: 600px;
+}
+
+.gift-book-info {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 1rem;
+}
+
+.selected-book h3 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.selected-book p {
+    margin: 0.25rem 0;
+    color: #6c757d;
+}
+
+.gift-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 1rem;
+}
+
+.gift-message {
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    margin-top: 1rem;
+    font-weight: 500;
+}
+
+.gift-message.confirmation-message {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.gift-message.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.gift-message.success-message {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+.gift-message.info-message {
+    background-color: #e2f3ff;
+    color: #004085;
+    border: 1px solid #b8daff;
+}
+
+.gift-queue-message {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    margin: 1rem 0;
+}
+
+/* GDPR Compliance Styles */
+.gdpr-consent-section {
+    border: 2px solid #4a6fa5;
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    margin: 1rem 0;
+    background-color: #f8f9fa;
+}
+
+.gdpr-consent-section h4 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.gdpr-consent-section h4:before {
+    content: "🔒";
+    margin-right: 0.5rem;
+}
+
+.privacy-notice {
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 1rem;
+    border-left: 4px solid var(--primary-color);
+}
+
+.privacy-notice ul {
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+}
+
+.privacy-notice li {
+    margin: 0.25rem 0;
+    font-size: 0.9rem;
+}
+
+.consent-checkboxes {
+    margin: 1rem 0;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: flex-start;
+    margin: 0.75rem 0;
+    gap: 0.5rem;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-top: 0.2rem;
+    transform: scale(1.2);
+}
+
+.checkbox-group label {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    cursor: pointer;
+}
+
+.privacy-link {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+.data-subject-rights {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #ddd;
+    font-size: 0.9rem;
+}
+
+.data-subject-rights a {
+    color: var(--primary-color);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/* GDPR Rights Modal */
+.gdpr-modal .modal-content {
+    max-width: 700px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.gdpr-rights-content {
+    padding: 1rem 0;
+}
+
+.gdpr-right {
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    margin: 1rem 0;
+    background-color: #f8f9fa;
+}
+
+.gdpr-right h4 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.gdpr-right p {
+    margin-bottom: 0.75rem;
+    color: #555;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    color: #212529;
+    border: none;
+}
+
+.contact-info {
+    background-color: #e3f2fd;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    margin-top: 1rem;
+    border-left: 4px solid #2196f3;
+}
+
+.gdpr-response-area {
+    border-top: 2px solid #ddd;
+    margin-top: 1rem;
+    padding-top: 1rem;
+}
+
+.data-export, .retention-info {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.gift-data, .retention-item {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+}
+
+.gift-data p, .retention-item p {
+    margin: 0.25rem 0;
+    font-size: 0.9rem;
 }
