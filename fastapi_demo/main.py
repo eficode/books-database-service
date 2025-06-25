@@ -5,9 +5,9 @@ from .database import Base, engine
 from .routers.books import router as books
 
 app = FastAPI(
-    title="Books Library API",
-    description="A simple API for managing books",
-    version="1.0.0"
+    title='Books Library API',
+    description='A simple API for managing books',
+    version='1.0.0'
 )
 
 # Create tables
@@ -17,9 +17,9 @@ Base.metadata.create_all(bind=engine)
 app.include_router(books)
 
 # Mount static files
-app.mount("/static", StaticFiles(directory="fastapi_demo/static"), name="static")
+app.mount('/static', StaticFiles(directory='fastapi_demo/static'), name='static')
 
 # Serve index.html at root
-@app.get("/", include_in_schema=False)
+@app.get('/', include_in_schema=False)
 async def root():
-    return FileResponse("fastapi_demo/static/index.html")
+    return FileResponse('fastapi_demo/static/index.html')
