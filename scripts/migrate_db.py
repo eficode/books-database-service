@@ -8,6 +8,7 @@ import re
 
 # Add parent directory to path so we can import from fastapi_demo
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from fastapi_demo.database import engine, SQLALCHEMY_DATABASE_URL
 
 def migrate_database():
