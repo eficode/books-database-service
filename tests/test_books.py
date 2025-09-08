@@ -37,5 +37,11 @@ def test_read_book_by_isbn_invalid_isbn(mock_get_db):
 @patch('fastapi_demo.routers.books.get_db')
 def test_read_book_by_isbn_empty_isbn(mock_get_db):
     response = client.get("/books/isbn/")
+    assert response.status_code == 404
+    assert response.json().get("detail") == "Not Found"
+
+@patch('fastapi_demo.routers.books.get_db')
+def test_read_book_by_isbn_empty_isbn_field(mock_get_db):
+    response = client.get("/books/isbn/")
     assert response.status_code == 400
     assert response.json().get("detail") == "Invalid ISBN"
