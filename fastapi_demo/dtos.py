@@ -1,16 +1,24 @@
 from pydantic import BaseModel
-from typing import Optional
+from typing import List
 
-
-class BookCreate(BaseModel):
+class BestsellerInfo(BaseModel):
+    id: int
     title: str
     author: str
-    pages: int
-    category: str = "Fiction"
-    favorite: bool = False
+    price: float
 
-class BookInfo(BookCreate):
-    id: Optional[int] = None
+    class Config:
+        orm_mode = True
 
-class BookFavorite(BaseModel):
-    favorite: bool
+class CartAddRequest(BaseModel):
+    book_id: int
+
+class CheckoutRequest(BaseModel):
+    payment_details: dict
+
+class CheckoutResponse(BaseModel):
+    message: str
+    order_id: int
+
+class BestsellersResponse(BaseModel):
+    bestsellers: List[BestsellerInfo]
