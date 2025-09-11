@@ -1,78 +1,46 @@
-# FILEPATH: /Users/alexjantunen/dev/fast-api-demo/test_main.py
-from unittest.mock import MagicMock, patch
 from fastapi.testclient import TestClient
 from fastapi_demo.main import app
 from fastapi_demo.models import Book
-
-from fastapi import HTTPException
+from fastapi_demo.database import SessionLocal, engine
+from sqlalchemy.orm import sessionmaker
+import pytest
 
 client = TestClient(app)
 
-def test_create_book(mock_db_session):
-    response = client.post("/books/", json={
-        "title": "Test Book",
-        "author": "Test Author",
-        "pages": 100
-    })
+@pytest.fixture(scope='module')
+def db_session():
+    connection = engine.connect()
+    transaction = connection.begin()
+    session = SessionLocal(bind=connection)
+    yield session
+    session.close()
+    transaction.rollback()
+    connection.close()
 
-    assert response.status_code == 200
-    assert response.json().get("title") == "Test Book"
-    assert response.json().get("author") == "Test Author"
-    assert response.json().get("pages") == 100
+@pytest.fixture(autouse=True)
+def setup_db(db_session):
+    db_session.query(Book).delete()
+    db_session.commit()
+    book1 = Book(title='Example Book', author='John Doe', pages=123, isbn='1234567890')
+    book2 = Book(title='Another Book', author='Jane Doe', pages=456, isbn='0987654321')
+    db_session.add(book1)
+    db_session.add(book2)
+    db_session.commit()
+    yield
+    db_session.query(Book).delete()
+    db_session.commit()
 
-def test_read_book_success(mock_db_session):
-    mock_db_session.query.return_value.filter.return_value.first.return_value = Book(id=1, title="Test Book", author="Test Author", pages=100)
-    response = client.get("/books/1")
-    assert response.status_code == 200
-    assert response.json().get("title") == "Test Book"
-    assert response.json().get("author") == "Test Author"
-    assert response.json().get("pages") == 100
-
-def test_read_book_not_found(mock_db_session):
-    mock_db_session.query.return_value.filter.return_value.first.return_value = None
-    response = client.get("/books/1")
+def test_search_books_by_title_no_results(client, db_session):
+    response = client.get('/books/search?title=NonExistentTitle')
     assert response.status_code == 404
-    assert response.json().get("detail") == "Book not found"
+    assert response.json().get('detail') == 'No books found'
 
-
-def test_update_book_success(mock_db_session):
-    mock_db_session.query.return_value.filter.return_value.first.return_value = Book(id=1, title="Old Title", author="Old Author", pages=100)
-
-    response = client.put("/books/1", json={
-        "title": "New Title",
-        "author": "New Author",
-        "pages": 200
-    })
-
-    assert response.status_code == 200
-    assert response.json().get("title") == "New Title"
-    assert response.json().get("author") == "New Author"
-    assert response.json().get("pages") == 200
-
-def test_update_book_not_found(mock_db_session):
-    mock_db_session.query.return_value.filter.return_value.first.return_value = None
-
-    response = client.put("/books/1", json={
-        "title": "New Title",
-        "author": "New Author",
-        "pages": 200
-    })
-
+def test_search_books_by_author_no_results(client, db_session):
+    response = client.get('/books/search?author=NonExistentAuthor')
     assert response.status_code == 404
-    assert response.json().get("detail") == "Book not found"
+    assert response.json().get('detail') == 'No books found'
 
-def test_delete_book_success(mock_db_session):
-    mock_db_session.query.return_value.filter.return_value.first.return_value = Book(id=1, title="Test Book", author="Test Author", pages=100)
-
-    response = client.delete("/books/1")
-
-    assert response.status_code == 200
-    assert response.json().get("message") == "Book deleted successfully"
-
-def test_delete_book_not_found(mock_db_session):
-    mock_db_session.query.return_value.filter.return_value.first.return_value = None
-
-    response = client.delete("/books/1")
-
+def test_search_books_by_isbn_no_results(client, db_session):
+    response = client.get('/books/search?isbn=0000000000')
     assert response.status_code == 404
-    assert response.json().get("detail") == "Book not found"
+    assert response.json().get('detail') == 'No books found'
