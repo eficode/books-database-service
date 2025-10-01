@@ -1,0 +1,7 @@
+# Robot Framework and testing dependencies
+robotframework==6.1.1
+robotframework-browser==17.5.2
+robotframework-requests==0.9.7
+
+# Additional testing utilities
+requests==2.31.0

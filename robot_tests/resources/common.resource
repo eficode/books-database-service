@@ -1,256 +1,137 @@
 *** Settings ***
-Documentation     Common resources for Books Database UI tests
-Library           Browser  timeout=15s
-Library           DateTime
-Library           String
-Library           Collections
-Library           Process
-
+Documentation    Common variables and settings for Books Library tests
+Library          Browser
+Library          RequestsLibrary
+Library          Collections
+Library          String
+Library          OperatingSystem
 
 *** Variables ***
-${BROWSER}        chromium
-${HEADLESS}       True
-${BASE_URL}       http://localhost:8000
-${TIMEOUT}        40s
-${DOCKER_UP_TIMEOUT}    30s
+# Application URLs - configurable via environment or command line
+${BASE_URL}              http://localhost:8000
+${API_BASE_URL}          ${BASE_URL}/books
+${UI_URL}                ${BASE_URL}
+
+# Browser settings
+${BROWSER}               chromium
+${HEADLESS}              True
+${TIMEOUT}               10s
+${SLOW_TIMEOUT}          30s
+
+# Test data
+${TEST_BOOK_TITLE}       Test Book Title
+${TEST_BOOK_AUTHOR}      Test Author
+${TEST_BOOK_PAGES}       250
+${TEST_BOOK_CATEGORY}    Fiction
+
+# UI Selectors based on actual HTML structure
+${TITLE_INPUT}           id=title
+${AUTHOR_INPUT}          id=author
+${PAGES_INPUT}           id=pages
+${CATEGORY_SELECT}       id=category
+${ADD_BOOK_BUTTON}       css=#book-form button[type="submit"]
+${BOOKS_GRID}            id=books-list
+${SEARCH_INPUT}          id=search-input
+${SEARCH_BUTTON}         id=search-btn
+${CATEGORY_FILTER}       id=category-filter
+${FAVORITE_FILTER}       id=favorite-filter
+${ALL_BOOKS_FILTER}      id=all-books-filter
+${SORT_BY_SELECT}        id=sort-by
+${SORT_DIRECTION_BTN}    id=sort-direction
+${EDIT_MODAL}            id=edit-modal
+${EDIT_TITLE_INPUT}      id=edit-title
+${EDIT_AUTHOR_INPUT}     id=edit-author
+${EDIT_PAGES_INPUT}      id=edit-pages
+${EDIT_CATEGORY_SELECT}  id=edit-category
+${EDIT_SAVE_BUTTON}      css=#edit-form button[type="submit"]
+${MODAL_CLOSE}           css=.close
+
+# Book card selectors
+${BOOK_CARD}             css=.book-card
+${BOOK_TITLE}            css=.book-title
+${BOOK_AUTHOR}           css=.book-author
+${BOOK_PAGES}            css=.book-pages
+${BOOK_CATEGORY}         css=.book-category
+${FAVORITE_BTN}          css=.favorite-btn
+${EDIT_BTN}              css=.edit-btn
+${DELETE_BTN}            css=.delete-btn
 
 *** Keywords ***
 Setup Test Environment
-    Run Process    docker compose up -d    shell=True
-    Wait Until Keyword Succeeds    ${DOCKER_UP_TIMEOUT}    2s    Check Service Available
-    Open Books Application
-
-Check Service Available
-    New Browser    browser=${BROWSER}    headless=${HEADLESS}
-    New Page       ${BASE_URL}
-    Wait For Elements State    h1:has-text("Books Library")    visible    ${TIMEOUT}
-    Close Browser
-
-Open Books Application
-    New Browser    browser=${BROWSER}    headless=${HEADLESS}
-    New Page       ${BASE_URL}
-    Wait For Elements State    h1:has-text("Books Library")    visible    ${TIMEOUT}
-    
-I Open The Books Application
-    # This is handled by the suite setup which calls Open Books Application
-    No Operation
-
-I Should See The Books Library Title
-    Wait For Elements State    h1:has-text("Books Library")    visible
-
-I Should See The Add Book Button
-    Wait For Elements State    text=Add a New Book    visible
-    
-I Should See The Books List Section
-    Wait For Elements State    text=Your Books    visible
-    
-I Have Book Details To Add
-    No Operation
-    
-I Fill The Add Book Form
-    [Arguments]    ${title}    ${author}    ${pages}    ${category}
-    Fill Text    id=title    ${title}
-    Fill Text    id=author    ${author}
-    Fill Text    id=pages    ${pages}
-    Select Options By    id=category    text    ${category}
-    
-I Submit The Add Book Form
-    Click    button:has-text("Add Book")
-    
-I Should See A Success Notification
-    Wait For Elements State    .notification.success    visible    ${TIMEOUT}
-    
-I Search For Book By Title
-    [Arguments]    ${title}
-    Search For Book    ${title}
-    
-I Should See Book Details
-    [Arguments]    ${title}    ${author}
-    Wait For Elements State    .book-card h3:has-text("${title}")    visible    ${TIMEOUT}
-    Wait For Elements State    .book-card:has(.book-title:has-text("${title}")) p:has-text("by ${author}")    visible    ${TIMEOUT}
-    
-I Have Created A Book
-    [Arguments]    ${title}    ${author}    ${pages}    ${category}
-    Add New Book    ${title}    ${author}    ${pages}    ${category}
-    
-I Should See Book With Title
-    [Arguments]    ${title}
-    Book Should Exist    ${title}
-    
-I Search For Nonexistent Book
-    Search For Book    NonExistentBookXYZ123
-    
-I Should See No Books Found Message
- #   [Arguments]    ${title}
- #   Wait For Elements State    .book-card h3.book-title:has-text("${title}")    detached     timeout=10s
-    Sleep    3s
-    Wait For Elements State    text=No books found    visible    timeout=30s
-    
-I Clear The Search
-    Fill Text    id=search-input    ${EMPTY}
-    Click    id=search-btn
-    
-I Should See All Books
-    Wait For Elements State    css=.book-card >> nth=0    visible    ${TIMEOUT}
-    
-I Can See The Category Filter
-    Wait For Elements State    id=category-filter    visible    ${TIMEOUT}
-    
-I Select Fiction Category Filter
-    Select Options By    id=category-filter    text    Fiction
-    Sleep    1s
-    
-I Add A Fiction Book
-    [Arguments]    ${title}
-    Add New Book    ${title}    Fiction Author    100    Fiction
-    
-I Reset The Category Filter
-    Filter By Category    All Categories
-    
-I Should See All Categories Option
-    Wait For Elements State    id=category-filter    visible    ${TIMEOUT}
-    
-I Create A Book For Editing
-    [Arguments]    ${title}    ${author}    ${pages}    ${category}
-    Add New Book    ${title}    ${author}    ${pages}    ${category}
-    
-I Clear Filters And Search
-    [Arguments]    ${search_text}
-    Fill Text    id=search-input    ${EMPTY}
-    Click    id=search-btn
-    Filter By Category    All Categories
-    Search For Book    ${search_text}
-    
-I Edit The Book
-    [Arguments]    ${original_title}    ${new_title}    ${new_author}    ${new_pages}    ${new_category}
-    Edit Book    ${original_title}    ${new_title}    ${new_author}    ${new_pages}    ${new_category}
-    
-I Create A Book For Deletion
-    [Arguments]    ${title}    ${author}    ${pages}    ${category}
-    Add New Book    ${title}    ${author}    ${pages}    ${category}
-    
-I Delete Book With Title
-    [Arguments]    ${title}
-    Delete Book    ${title}
-    
-I Create Multiple Books For Sorting
-    [Arguments]    ${title_a}    ${title_b}    ${title_c}
-    Add New Book    ${title_a}    Author 1    100    Fiction
-    Add New Book    ${title_b}    Author 2    200    Science Fiction
-    Add New Book    ${title_c}    Author 3    300    Mystery
-    
-I Filter And Search For Books
-    [Arguments]    ${search_text}
-    Fill Text    id=search-input    ${EMPTY}
-    Click    id=search-btn
-    Filter By Category    All Categories
-    Search For Book    ${search_text}
-    
-I Sort By Title Ascending
-    Sort Books By    Title
-    Sleep    1s
-    
-I Should See First Book With Title
-    [Arguments]    ${title}
-    Wait For Elements State    .book-card h3.book-title:has-text("${title}")    visible    ${TIMEOUT}
-
-I Mark Book As Favorite
-    [Arguments]    ${title}
-    Wait For Elements State    .book-card h3.book-title:has-text("${title}")    visible    ${TIMEOUT}
-    Click    .book-card:has(h3.book-title:has-text("${title}")) .favorite-btn
-
-I Should See Book Marked As Favorite
-    [Arguments]    ${title}
-    Wait For Elements State    .book-card:has(h3.book-title:has-text("${title}")) .favorite-btn.active    visible    ${TIMEOUT}
-
-I Filter Favorite Books
-    Click    id=favorite-filter
-
-I Reset Favorite Filter
-    Click    id=all-books-filter
-
-Close Books Application
-    Close Browser
+    [Documentation]    Setup both browser and API sessions for comprehensive testing
+    Setup Browser Session
+    Setup API Session
 
 Teardown Test Environment
-    Close Books Application
-    Run Process    docker compose down    shell=True
+    [Documentation]    Cleanup both browser and API sessions
+    Teardown Browser Session
+    Teardown API Session
+
+Setup Browser Session
+    [Documentation]    Initialize browser session for UI tests
+    New Browser    ${BROWSER}    headless=${HEADLESS}
+    New Context    viewport={'width': 1920, 'height': 1080}
+    New Page       ${UI_URL}
+    Set Browser Timeout    ${TIMEOUT}
+
+Teardown Browser Session
+    [Documentation]    Close browser session
+    Close Browser
+
+Setup API Session
+    [Documentation]    Initialize API session for API tests
+    Create Session    books_api    ${BASE_URL}    timeout=30
+    Set Suite Variable    ${API_SESSION}    books_api
+
+Teardown API Session
+    [Documentation]    Clean up API session
+    Delete All Sessions
 
 Generate Random Book Data
-    ${random_number}=    Generate Random String    4    [NUMBERS]
-    ${title}=            Set Variable    Test Book ${random_number}
-    ${author}=           Set Variable    Test Author ${random_number}
-    ${pages}=            Set Variable    ${random_number}
-    ${category}=         Set Variable    Fiction
-    RETURN    ${title}    ${author}    ${pages}    ${category}
+    [Documentation]    Generate random book data for testing
+    ${random_suffix}=    Generate Random String    5    [LETTERS]
+    ${title}=    Set Variable    Test Book ${random_suffix}
+    ${author}=    Set Variable    Test Author ${random_suffix}
+    ${pages}=    Evaluate    random.randint(100, 500)    random
+    ${categories}=    Create List    Fiction    Non-Fiction    Fantasy    Science Fiction    Mystery    Thriller    Horror    Romance
+    ${category}=    Evaluate    random.choice($categories)    random
+    
+    ${book_data}=    Create Dictionary
+    ...    title=${title}
+    ...    author=${author}
+    ...    pages=${pages}
+    ...    category=${category}
+    
+    RETURN    ${book_data}
 
-Add New Book
-    [Arguments]    ${title}    ${author}    ${pages}    ${category}
-    Fill Text    id=title    ${title}
-    Fill Text    id=author    ${author}
-    Fill Text    id=pages    ${pages}
-    Select Options By    id=category    text    ${category}
-    Click    button:has-text("Add Book")
-    Wait For Elements State    .notification.success    visible    ${TIMEOUT}
+Clean Up Test Data
+    [Documentation]    Clean up test data by deleting all books via API
+    TRY
+        # Ensure API session exists
+        ${session_exists}=    Run Keyword And Return Status    GET On Session    books_api    /books
+        IF    not ${session_exists}
+            Create Session    books_api    ${BASE_URL}    timeout=30
+        END
+        
+        ${books}=    Get All Books Via API
+        FOR    ${book}    IN    @{books}
+            Delete Book Via API    ${book}[id]
+        END
+        
+        # Wait for UI to update if browser is active
+        ${browser_active}=    Run Keyword And Return Status    Get Title
+        IF    ${browser_active}
+            Sleep    2s
+            Reload
+            Sleep    1s
+        END
+    EXCEPT
+        Log    No books to clean up or API not available
+    END
 
-Search For Book
-    [Arguments]    ${search_text}
-    Fill Text    id=search-input    ${search_text}
-    Click    id=search-btn
-
-Filter By Category
-    [Arguments]    ${category}
-    Select Options By    id=category-filter    text    ${category}
-
-Sort Books By
-    [Arguments]    ${sort_by}
-    Select Options By    id=sort-by    text    ${sort_by}
-
-#Book Should Exist
-#    [Arguments]    ${title}
-#    Wait For Elements State    .book-card h3.book-title:has-text("${title}")    visible    ${TIMEOUT}
-
-#Book Should Exist
-#    [Arguments]    ${title}
-#    Log To Console    Checking if book with title: "${title}" exists
-#   Run Keyword And Continue On Failure    Wait For Elements State    .book-card h3.book-title:has-text("${title}")    visible    ${TIMEOUT}
-#    Log To Console    Book with title: "${title}" was found successfully!
-
-Book Should Exist
-    [Arguments]    ${book_title}
-    Log To Console    Checking if book with title: "${book_title}" exists
-    Sleep    3s
-    Wait Until Keyword Succeeds    3x    10s    Run Keywords
-    ...    Wait For Elements State    .book-card h3.book-title:has-text("${book_title}")    visible    10s
-    ...    AND    Log To Console    Book with title: "${book_title}" was found successfully!
-
-Edit Book
-    [Arguments]    ${original_title}    ${new_title}    ${new_author}    ${new_pages}    ${new_category}
-    # Make sure we first wait for the book to be visible
-    Wait For Elements State    .book-card h3.book-title:has-text("${original_title}")    visible    ${TIMEOUT}
-    # Now click the edit button
-    Sleep    1s
-    Click    .book-card:has(h3.book-title:has-text("${original_title}")) .edit-btn
-    # Wait for the modal to appear
-    Wait For Elements State    .modal-content    visible    ${TIMEOUT}
-    # Fill in the edit form
-    Fill Text    id=edit-title    ${new_title}
-    Fill Text    id=edit-author    ${new_author}
-    Fill Text    id=edit-pages    ${new_pages}
-    Select Options By    id=edit-category    text    ${new_category}
-    # Submit the form
-    Click    .modal-content button[type="submit"]
-    # Wait for success notification
-    Wait For Elements State    .notification.success    visible    ${TIMEOUT}
-
-Delete Book
-    [Arguments]    ${title}
-    # Make sure we first wait for the book to be visible
-    Wait For Elements State    .book-card h3.book-title:has-text("${title}")    visible    ${TIMEOUT}
-    # Handle the confirmation dialog
-    Handle Future Dialogs    action=accept
-    # Now click the delete button
-    Sleep    1s
-    Click    .book-card:has(h3.book-title:has-text("${title}")) .delete-btn
-    # Wait for success notification
-    Wait For Elements State    .notification.success    visible    ${TIMEOUT}
+Wait For Application To Be Ready
+    [Documentation]    Wait for the application to be fully loaded and ready
+    Wait For Elements State    css=h1    visible    timeout=${SLOW_TIMEOUT}
+    Wait For Elements State    ${BOOKS_GRID}    visible    timeout=${TIMEOUT}
+    # Wait for any initial data loading
+    Sleep    2s
