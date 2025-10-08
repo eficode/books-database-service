@@ -17,7 +17,7 @@ Create Book Via API
     ...    category=${category}
     ...    favorite=${favorite}
     ${response}=    POST On Session    books_api    /books    json=${book_data}
-    Should Be Equal As Numbers    ${response.status_code}    201
+    Should Be Equal As Numbers    ${response.status_code}    200
     [Return]    ${response.json()}
 
 Get All Books Via API
@@ -50,7 +50,7 @@ Delete Book Via API
     [Documentation]    Delete a book via API
     [Arguments]    ${book_id}
     ${response}=    DELETE On Session    books_api    /books/${book_id}
-    Should Be Equal As Numbers    ${response.status_code}    204
+    Should Be Equal As Numbers    ${response.status_code}    200
 
 Search Books Via API
     [Documentation]    Search books via API

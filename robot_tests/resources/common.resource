@@ -6,7 +6,7 @@ Library          Collections
 
 *** Variables ***
 ${BASE_URL}         http://localhost:8000
-${API_URL}          ${BASE_URL}/api/v1
+${API_URL}          ${BASE_URL}
 ${BROWSER}          chromium
 ${HEADLESS}         True
 ${TIMEOUT}          10s
@@ -36,4 +36,5 @@ Verify Element Contains Text
     [Documentation]    Verify element contains expected text
     [Arguments]    ${locator}    ${expected_text}
     Wait For Elements State    ${locator}    visible    timeout=${TIMEOUT}
-    Get Text    ${locator}    contains    ${expected_text}
+    ${text}=    Get Text    ${locator}
+    Should Contain    ${text}    ${expected_text}
