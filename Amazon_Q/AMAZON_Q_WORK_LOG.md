@@ -7,6 +7,7 @@
 2. ✅ Memory Bank Guidelines - 4 documentation files (guidelines, product, structure, tech)
 3. ✅ Agent Documentation - Usage guide with examples
 4. ✅ Spectacular ASCII output - Box design with emojis for test results
+5. ✅ Calculator MCP Server - Docker-based MCP server with hello and calculate tools
 
 **Key Features:**
 - Interactive test suite selection (sonnet 4.5 / 4 / both)
@@ -57,8 +58,36 @@ python3 .amazonq/agents/qa-runner.py ui --sonnet-4.5
 
 **Purpose**: Provide context to Amazon Q about project conventions, patterns, and best practices
 
-### 4. Work Log
-**Location**: `.amazonq/WORK_LOG.md`
+### 4. Calculator MCP Server
+**Location**: `Amazon_Q/calculator-mcp/`
+
+**Purpose**: Simple MCP server providing calculation and greeting tools
+
+**Files**:
+- `server.py` - MCP server implementation with hello and calculate tools
+- `Dockerfile` - Container image for the MCP server
+- `README.md` - Setup and configuration instructions
+
+**Features**:
+- `hello` tool - Greet someone by name
+- `calculate` tool - Perform basic arithmetic operations
+- Docker-based deployment for easy integration
+- Stdio transport for Amazon Q integration
+
+**Configuration**:
+- **Name**: Calculator
+- **Transport**: stdio
+- **Command**: `/usr/local/bin/docker`
+- **Arguments**: `run`, `-i`, `calculator-mcp`
+
+**Build**:
+```bash
+cd Amazon_Q/calculator-mcp
+docker build -t calculator-mcp .
+```
+
+### 5. Work Log
+**Location**: `Amazon_Q/AMAZON_Q_WORK_LOG.md`
 
 **Purpose**: Documentation of what Amazon Q built and project structure
 
@@ -107,12 +136,16 @@ python3 .amazonq/agents/qa-runner.py ui --sonnet-4.5
 **Amazon Q Created (This Session)**:
 1. ✅ QA Test Runner Agent (`.amazonq/agents/qa-runner.py`)
 2. ✅ Agent documentation (`.amazonq/agents/README.md`)
-3. ✅ Work log (`.amazonq/WORK_LOG.md`)
+3. ✅ Work log (`Amazon_Q/AMAZON_Q_WORK_LOG.md`)
 4. ✅ Memory bank guidelines (`.amazonq/rules/memory-bank/*.md`)
    - `guidelines.md` - Code quality standards, FastAPI patterns, testing patterns
    - `product.md` - Product overview, features, target users
    - `structure.md` - Project structure, architectural patterns
    - `tech.md` - Technology stack, commands, dependencies
+5. ✅ Calculator MCP Server (`Amazon_Q/calculator-mcp/`)
+   - `server.py` - MCP server with hello and calculate tools
+   - `Dockerfile` - Container image definition
+   - `README.md` - Setup and configuration guide
 
 **Copied from GitHub Copilot Branch**:
 1. ✅ Amazon Q rules (`.amazonq/rules/*.yaml`)
