@@ -21,11 +21,11 @@ class QARunner:
         
         # Ask which test suite to run if not specified
         if scope == "all" and "test_suite" not in kwargs:
-            print("\nWhich test suite do you want to run?")
-            print("1. robot_tests_claude_sonnet_4_5 (recommended)")
-            print("2. robot_tests_claude_sonnet_4")
-            print("3. Both")
-            choice = input("Enter choice (1-3): ").strip()
+            print("\n🤖 Select test suite:")
+            print("  1️⃣  sonnet_4_5 (recommended)")
+            print("  2️⃣  sonnet_4")
+            print("  3️⃣  both")
+            choice = input("Choice (1-3): ").strip()
             
             if choice == "1":
                 kwargs["test_suite"] = "sonnet_4_5"
@@ -44,8 +44,7 @@ class QARunner:
         paths = self._resolve_paths(scope, kwargs.get("changed_only", False), kwargs.get("test_suite", "sonnet_4_5"))
         cmd = self._build_command(outdir, paths, **kwargs)
         
-        print(f"Executing: {' '.join(cmd)}")
-        result = subprocess.run(cmd, capture_output=True, text=True)
+        result = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, cwd=self.workspace)
         
         if kwargs.get("rerun_failed") and (outdir / "output.xml").exists():
             self._rerun_failed(outdir, paths)
@@ -58,13 +57,11 @@ class QARunner:
             raise RuntimeError("Poetry not found")
         
         if not (self.workspace / "poetry.lock").exists():
-            print("Installing dependencies...")
-            subprocess.run(["poetry", "install", "--no-interaction"], cwd=self.workspace, check=True)
+            subprocess.run(["poetry", "install", "--no-interaction"], capture_output=True, cwd=self.workspace, check=True)
     
     def _read_memory(self):
         index = self.memory_path / "index.md"
-        if index.exists():
-            print(f"📖 Memory: {index}")
+        # Silent memory check
     
     def _resolve_paths(self, scope: str, changed_only: bool, test_suite: str = "sonnet_4_5") -> List[str]:
         if changed_only:
@@ -120,13 +117,11 @@ class QARunner:
     
     def _rerun_failed(self, outdir: Path, paths: List[str]):
         cmd = ["poetry", "run", "robot", "--rerunfailed", str(outdir / "output.xml"), "--output", str(outdir / "rerun-output.xml")] + paths
-        print(f"Rerunning failed: {' '.join(cmd)}")
-        subprocess.run(cmd, cwd=self.workspace)
+        subprocess.run(cmd, capture_output=True, cwd=self.workspace)
     
     def _merge_results(self, outdir: Path):
         cmd = ["poetry", "run", "rebot", "--merge", "--output", str(outdir / "merged-output.xml"), str(outdir / "output.xml"), str(outdir / "rerun-output.xml")]
-        print(f"Merging: {' '.join(cmd)}")
-        subprocess.run(cmd, cwd=self.workspace)
+        subprocess.run(cmd, capture_output=True, cwd=self.workspace)
     
     def _generate_report(self, outdir: Path, cmd: List[str], returncode: int) -> Dict:
         xml_file = outdir / "merged-output.xml" if (outdir / "merged-output.xml").exists() else outdir / "output.xml"
@@ -186,28 +181,40 @@ class QARunner:
     
     def _print_report(self, report: Dict):
         stats = report["stats"]
+        pass_rate = (stats['passed'] / stats['total'] * 100) if stats['total'] > 0 else 0
         
-        print("\n## Test Run Summary\n")
-        print(f"**Output**: `{report['outdir']}`\n")
-        print("| Metric   | Value |")
-        print("|----------|-------|")
-        print(f"| Total    | {stats['total']} |")
-        print(f"| Passed   | {stats['passed']} |")
-        print(f"| Failed   | {stats['failed']} |")
-        print(f"| Skipped  | {stats.get('skipped', 0)} |")
-        print(f"| Duration | {stats.get('duration', 'N/A')} |")
-        print(f"| Suites   | {stats.get('suites', 0)} |")
+        print("\n╔═══════════════════════════════════════════════════════════")
+        print("║")
+        
+        if stats['failed'] == 0:
+            print("║  🎉 ✨ ALL TESTS PASSED! ✨ 🎉")
+            print("║")
+            print(f"║  ✅ {stats['passed']}/{stats['total']} tests | {pass_rate:.0f}% success | ⚡ {stats.get('duration', '0s')}")
+        else:
+            print("║  ⚠️  TESTS FAILED ⚠️")
+            print("║")
+            print(f"║  ✅ {stats['passed']} passed | ❌ {stats['failed']} failed | ⚡ {stats.get('duration', '0s')}")
+        
+        print("║")
+        print("╠═══════════════════════════════════════════════════════════")
         
         if report["failures"]:
-            print("\n### Top Failures\n")
-            for i, f in enumerate(report["failures"], 1):
-                print(f"{i}. **{f['suite']} :: {f['test']}** — `{f['error']}`")
+            print("║")
+            print("║  💥 FAILURES:")
+            print("║")
+            for i, f in enumerate(report["failures"][:5], 1):
+                print(f"║  {i}. {f['suite']} :: {f['test']}")
+                print(f"║     {f['error'][:80]}")
+                print("║")
+            print("╠═══════════════════════════════════════════════════════════")
         
-        print("\n### Artifacts\n")
-        for name, path in report["artifacts"].items():
-            print(f"- [{name}]({path})")
-        
-        print(f"\n### Command\n```bash\n{report['command']}\n```")
+        print("║")
+        print(f"║  📁 {report['outdir']}")
+        print("║")
+        print(f"║  📊 [View Report]({report['artifacts']['report']})")
+        print(f"║  📋 [View Log]({report['artifacts']['log']})")
+        print("║")
+        print("╚═══════════════════════════════════════════════════════════\n")
 
 
 if __name__ == "__main__":
