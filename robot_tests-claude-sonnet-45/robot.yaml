@@ -1,0 +1,55 @@
+# Robot Framework configuration file
+# This file contains default settings for Robot Framework test execution
+
+# Test execution settings
+--outputdir: robot_results
+--loglevel: INFO
+--report: report.html
+--log: log.html
+--output: output.xml
+
+# Browser settings (can be overridden via command line)
+--variable: BROWSER:chromium
+--variable: HEADLESS:true
+--variable: BASE_URL:http://localhost:8000
+
+# Test selection and organization
+--include: smoke
+--exclude: skip
+
+# Parallel execution settings
+--processes: auto
+
+# Reporting and logging
+--reporttitle: Books Library Test Report
+--logtitle: Books Library Test Log
+--reportbackground: #f0f8ff:white:blue
+--timestampoutputs: true
+
+# Listener for enhanced reporting
+--listener: robot.libraries.Collections
+
+# Console output settings
+--consolecolors: on
+--consolemarkers: on
+
+# Retry settings for flaky tests
+--rerunfailed: robot_results/output.xml
+--rerunfailedsuites: robot_results/output.xml
+
+# Test timeout settings
+--timeout: 300s
+--testtimeout: 60s
+
+# Variable files (if needed)
+# --variablefile: variables.py
+
+# Additional libraries path
+--pythonpath: .
+
+# Documentation settings
+--doc: "Comprehensive acceptance tests for Books Library application covering both UI and API functionality"
+--metadata: "Version:1.0"
+--metadata: "Environment:Test"
+--metadata: "Browser:Chromium"
+--metadata: "Platform:Docker"
