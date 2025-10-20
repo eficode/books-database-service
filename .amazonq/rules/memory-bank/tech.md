@@ -1,142 +1,211 @@
-# Books Database Service - Technology Stack
+# Technology Stack
 
 ## Programming Languages
-- **Python 3.12** - Primary backend language
-- **JavaScript (ES6+)** - Frontend client-side scripting
-- **HTML5** - UI markup
-- **CSS3** - Styling and responsive design
-- **SQL** - Database queries (via SQLAlchemy ORM)
 
-## Backend Framework and Libraries
+### Python 3.12+
+- Primary backend language
+- Modern Python features and type hints
+- Async/await support for FastAPI
 
-### Core Framework
-- **FastAPI 0.115.11** - Modern async web framework with automatic API documentation
-- **Uvicorn 0.29.0** - ASGI server for running FastAPI applications
-- **Pydantic 2.6.4** - Data validation and settings management using Python type annotations
+### JavaScript (ES6+)
+- Frontend implementation with vanilla JavaScript
+- No framework dependencies (React, Vue, etc.)
+- Modern DOM manipulation and fetch API
 
-### Database
-- **SQLAlchemy 2.0.29** - SQL toolkit and ORM for database operations
-- **SQLite** - Lightweight embedded database (file-based at `data/books.db`)
+### HTML5 & CSS3
+- Semantic HTML structure
+- Responsive CSS with flexbox and grid
+- Mobile-first design approach
 
-### Testing
-- **Pytest 8.1.1** - Python testing framework for API tests
-- **httpx 0.27.0** - HTTP client for testing FastAPI applications
-- **Robot Framework 6.1.1** - Keyword-driven test automation framework
-- **Robot Framework Browser 17.5.2** - Browser automation library using Playwright
+## Backend Framework & Libraries
 
-## Frontend Technologies
-- **Vanilla JavaScript** - No framework dependencies, direct DOM manipulation
-- **Fetch API** - Modern HTTP client for API requests
-- **CSS Grid/Flexbox** - Responsive layout system
+### FastAPI 0.115.11+
+- Modern, high-performance web framework
+- Automatic OpenAPI documentation generation
+- Built-in request validation with Pydantic
+- Async support for high concurrency
+
+### Pydantic 2.6.4+
+- Data validation using Python type annotations
+- Automatic JSON schema generation
+- DTO (Data Transfer Object) definitions
+
+### SQLAlchemy 2.0.29+
+- SQL toolkit and ORM
+- Database abstraction layer
+- Migration support
+- Session management
+
+### Uvicorn 0.29.0+
+- ASGI server for FastAPI
+- Hot-reload for development
+- Production-ready performance
+
+## Database
+
+### SQLite
+- File-based relational database (`data/books.db`)
+- Zero configuration required
+- Suitable for development and small deployments
+- Easy to backup and version control
+
+## Testing Frameworks
+
+### Pytest 8.1.1+
+- Unit and integration testing for API
+- Fixture-based test setup
+- httpx TestClient for API testing
+- Async test support
+
+### Robot Framework 6.1.1+
+- Keyword-driven test automation
+- Human-readable test syntax
+- Browser automation with robotframework-browser 17.5.2+
+- API testing capabilities
+
+### HTTPX 0.27.0+
+- Modern HTTP client for Python
+- Async support
+- Used in pytest tests via TestClient
 
 ## Development Tools
 
-### Dependency Management
-- **Poetry** - Primary dependency management and packaging tool
-- **pip** - Alternative package installer (via requirements.txt)
+### Poetry
+- Dependency management
+- Virtual environment handling
+- Script definitions in `pyproject.toml`
+- Lock file for reproducible builds
 
-### Containerization
-- **Docker** - Container runtime for application packaging
-- **Docker Compose** - Multi-container orchestration
+### Docker & Docker Compose
+- Application containerization
+- Multi-container orchestration
+- Consistent development and production environments
+- Network isolation for testing
 
-### CI/CD
-- **GitHub Actions** - Automated testing and continuous integration
+## Build System
+
+### Poetry Core
+- Build backend specified in `pyproject.toml`
+- Package building and distribution
+- Dependency resolution
 
 ## Development Commands
 
-### Using Poetry (Recommended)
+### Installation
 
-**Install Dependencies:**
+**Using Poetry (Recommended)**
 ```bash
-poetry install
+poetry install                    # Install all dependencies
+poetry install --with test        # Install with test dependencies
 ```
 
-**Run Development Server:**
+**Using pip**
 ```bash
-poetry run dev-server
-# or
-poetry run uvicorn fastapi_demo.main:app --reload
+pip install -r requirements.txt   # Install from requirements file
 ```
 
-**Run API Tests:**
+### Running the Application
+
+**Development Server**
 ```bash
-poetry run pytest                                    # All tests
-poetry run pytest -v                                 # Verbose output
-poetry run pytest tests/test_books.py::test_name -v # Specific test
+poetry run dev-server             # Run with Poetry script
+python server.py                  # Direct Python execution
+uvicorn fastapi_demo.main:app --reload  # Direct uvicorn
 ```
 
-**Run Robot Framework Tests:**
+**Docker**
+```bash
+docker-compose up -d              # Start in detached mode
+docker-compose down               # Stop and remove containers
+docker-compose logs -f            # Follow logs
+```
+
+### Testing
+
+**API Tests (Pytest)**
+```bash
+poetry run pytest                 # Run all tests
+poetry run pytest -v              # Verbose output
+poetry run pytest tests/test_books.py::test_create_book  # Specific test
+poetry run pytest --cov           # With coverage report
+```
+
+**UI Tests (Robot Framework)**
 ```bash
 # Initialize Browser library (first time only)
 poetry run python -m Browser.entry init
 
-# Run all UI tests
-poetry run robot --outputdir robot_results robot_tests_claude_sonnet_4_5/
+# Run all Robot tests
+poetry run robot --outputdir robot_results robot_tests/
 
 # Run specific test
-poetry run robot --outputdir robot_results -t "Test Name" robot_tests_claude_sonnet_4_5/
+poetry run robot --outputdir robot_results -t "User Can Open Books UI" robot_tests/
+
+# Using script
+./scripts/run_robot_tests.sh
 ```
 
-**Database Management:**
+### Database Management
+
 ```bash
-python scripts/migrate_db.py      # Run migrations
+python scripts/migrate_db.py      # Initialize database schema
 python scripts/generate_books.py  # Generate sample data
 ```
 
-### Using Docker (Production)
+### Amazon Q MCP Integration
 
-**Start Application:**
+**Robot Framework MCP Server**
 ```bash
-docker-compose up -d              # Start in background
-docker-compose up                 # Start with logs
+cd Amazon_Q/RobotFramework-MCP-server
+./setup.sh                        # Build Docker image
+./start-container.sh              # Start persistent container
 ```
 
-**Stop Application:**
-```bash
-docker-compose down               # Stop and remove containers
-docker-compose down -v            # Also remove volumes
-```
+## CI/CD
 
-**View Logs:**
-```bash
-docker-compose logs -f            # Follow logs
-docker-compose logs books-service # Service-specific logs
-```
+### GitHub Actions
+- Workflow file: `.github/workflows/ci_tests.yaml`
+- Automated testing on push/pull request
+- Python version matrix testing
+- Test result reporting
 
-### Using Python Virtual Environment
+## Configuration Files
 
-**Setup:**
-```bash
-python -m venv .venv
-source .venv/bin/activate         # Linux/macOS
-.venv\Scripts\activate            # Windows
-pip install -r requirements.txt
-```
-
-**Run:**
-```bash
-python server.py
-```
-
-## API Documentation
-- **Swagger UI**: http://localhost:8000/docs (interactive API documentation)
-- **ReDoc**: http://localhost:8000/redoc (alternative API documentation)
-- **OpenAPI JSON**: http://localhost:8000/openapi.json (machine-readable schema)
-
-## Application URLs
-- **Frontend**: http://localhost:8000
-- **API Base**: http://localhost:8000/books/
-- **Health Check**: http://localhost:8000/books/ (GET request)
-
-## Build System
-- **Poetry** for dependency resolution and virtual environment management
-- **Poetry scripts** defined in pyproject.toml for common tasks
-- **Docker multi-stage builds** for optimized container images
+- `pyproject.toml` - Poetry configuration, dependencies, scripts
+- `requirements.txt` - Pip-compatible dependency list
+- `pytest.ini` - Pytest configuration and test discovery
+- `docker-compose.yml` - Multi-container Docker setup
+- `Dockerfile` - Application container definition
+- `.dockerignore` - Docker build context exclusions
+- `.gitignore` - Git version control exclusions
 
 ## Environment Variables
-- **DATABASE_URL**: SQLite database connection string (default: `sqlite:///data/books.db`)
-- Configured in docker-compose.yml for containerized deployments
 
-## Python Version Requirements
-- **Minimum**: Python 3.12
-- **Specified in**: pyproject.toml (`python = "^3.12"`)
+### Application
+- `HOST` - Server host (default: 127.0.0.1)
+- `PORT` - Server port (default: 8000)
+
+### Robot Framework MCP
+- `ROBOT_OUTPUT_DIR` - Test results directory (default: /tmp/results)
+- `RF_TESTS_DIR` - Test files location (default: /tests)
+- `BROWSER` - Browser type (default: chromium)
+- `HEADLESS` - Headless mode (default: true)
+
+## API Documentation
+
+- **Interactive Docs**: http://localhost:8000/docs (Swagger UI)
+- **ReDoc**: http://localhost:8000/redoc (Alternative documentation)
+- **OpenAPI Schema**: http://localhost:8000/openapi.json
+
+## Browser Support
+
+### Frontend
+- Modern browsers with ES6+ support
+- Chrome, Firefox, Safari, Edge (latest versions)
+- Mobile browsers (responsive design)
+
+### Robot Framework Tests
+- Chromium (default)
+- Firefox
+- WebKit
+- Configurable via BROWSER environment variable

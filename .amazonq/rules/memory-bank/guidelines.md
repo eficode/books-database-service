@@ -1,97 +1,130 @@
-# Books Database Service - Development Guidelines
+# Development Guidelines
 
 ## Code Quality Standards
 
 ### Python Code Formatting
-- **Import Organization**: Standard library imports first, then third-party imports, then local imports with relative imports (`.` notation)
-- **Line Length**: Keep lines reasonably short, break long function signatures across multiple lines
-- **Docstrings**: Use triple-quoted strings for module-level documentation
-- **Type Hints**: Use type hints for function parameters and return values (e.g., `List[BookInfo]`, `Session`, `int`)
-- **Naming Conventions**: 
-  - snake_case for functions, variables, and module names
-  - PascalCase for class names
-  - UPPER_CASE for constants
+
+**Import Organization**
+- Standard library imports first
+- Third-party imports second
+- Local application imports last
+- Use relative imports within packages (e.g., `from ..database import get_db`)
+- Group imports logically and alphabetically within each section
+
+**Type Hints**
+- Use type hints for function parameters and return values
+- Example: `def read_books(db: Session = Depends(get_db)) -> List[BookInfo]:`
+- Import types from `typing` module: `List`, `Dict`, `Any`
+
+**Docstrings**
+- Use triple-quoted strings for module-level documentation
+- Keep docstrings concise and descriptive
+- Example: `"""Script to generate 100 sample books with various categories"""`
+
+**Function Documentation**
+- Use inline comments for complex logic
+- Document function purpose with brief comments
+- Example: `def generate_title(): """Generate a random book title"""`
 
 ### JavaScript Code Formatting
-- **Const/Let**: Use `const` for immutable references, avoid `var`
-- **Arrow Functions**: Use arrow functions for callbacks and inline functions
-- **Template Literals**: Use backticks for string interpolation
-- **Async/Await**: Prefer async/await over promise chains for asynchronous operations
-- **Comments**: Use `//` for single-line comments describing sections
 
-### Structural Conventions
-- **Single Responsibility**: Each file has a clear, focused purpose (e.g., `books.py` only handles book routes)
-- **Separation of Concerns**: DTOs, models, database, and routes are in separate files
-- **Flat Structure**: Keep directory nesting minimal (max 2-3 levels)
-- **Resource-Based Organization**: Group related functionality by resource (e.g., `routers/books.py`)
+**Variable Declarations**
+- Use `const` for constants and immutable references
+- Use `let` for variables that will be reassigned
+- Avoid `var` - not used in this codebase
+- Group related constants together at the top of files
 
-## FastAPI Patterns
+**Function Definitions**
+- Use `async function` for asynchronous operations
+- Use arrow functions for callbacks and event handlers
+- Example: `async function fetchBooks() { ... }`
+- Example: `searchInput.addEventListener('input', debounce(() => { ... }, 300))`
 
-### Router Configuration
+**Comments**
+- Use single-line comments (`//`) for section headers and explanations
+- Group related code with comment headers
+- Example: `// DOM Elements`, `// API Base URL`, `// App State`
+
+**String Formatting**
+- Use template literals for string interpolation
+- Example: `` `${API_URL}/${id}` ``
+- Use single quotes for simple strings
+- Use backticks for HTML template strings
+
+## Structural Conventions
+
+### FastAPI Application Structure
+
+**Router Organization**
 ```python
 router = APIRouter(
     prefix="/books",
     tags=["books"]
 )
 ```
-- Always use `APIRouter` for organizing endpoints
-- Set meaningful prefix and tags for API documentation
-- Keep routers focused on a single resource
+- Define routers with clear prefixes
+- Use tags for API documentation grouping
+- Keep related endpoints in the same router file
 
-### Endpoint Definitions
+**Endpoint Definitions**
 ```python
 @router.get("/", response_model=List[BookInfo],
          summary="Get all books",
          description="This endpoint retrieves all books from the database",
          response_description="A list of all books")
 def read_books(db: Session = Depends(get_db)):
-    books = db.query(Book).all()
-    return [BookInfo(**book.__dict__) for book in books]
+    ...
 ```
-- **Always specify `response_model`** for type safety and automatic documentation
-- **Include `summary` and `description`** for clear API documentation
-- **Use dependency injection** with `Depends(get_db)` for database sessions
-- **HTTP method semantics**: GET (read), POST (create), PUT (update), DELETE (delete), PATCH (partial update)
+- Always specify `response_model` for type safety and documentation
+- Include `summary` and `description` for API documentation
+- Use dependency injection for database sessions: `db: Session = Depends(get_db)`
+- Use descriptive function names that match HTTP verbs: `read_books`, `create_book`, `update_book`, `delete_book`
 
-### Path Parameters
+**Path Parameters**
 ```python
 @router.get("/{book_id}", response_model=BookInfo)
 def read_book(
     book_id: int = Path(..., description="The ID of the book to be retrieved", examples=1),
     db: Session = Depends(get_db)):
 ```
-- Use `Path(...)` with descriptions and examples for documentation
-- Validate path parameters with type hints
+- Use `Path(...)` for path parameter validation and documentation
+- Include descriptions and examples for better API docs
 
-### Request Body Handling
+**Request Body Parameters**
 ```python
 def create_book(
     book: BookCreate = Body(..., description="The details of the book to be created"),
     db: Session = Depends(get_db)):
 ```
+- Use `Body(...)` for request body documentation
 - Use Pydantic models for request validation
-- Use `Body(...)` with descriptions for documentation
 
-### Error Handling
+### Database Patterns
+
+**ORM Model Conversion**
 ```python
+return BookInfo(**db_book.__dict__)
+```
+- Convert SQLAlchemy models to Pydantic DTOs using `**model.__dict__`
+- This pattern appears consistently across all endpoints
+
+**Query Patterns**
+```python
+db_book = db.query(Book).filter(Book.id == book_id).first()
 if db_book is None:
     raise HTTPException(status_code=404, detail="Book not found")
 ```
-- **Always check for None** before operating on database results
-- **Use HTTPException** with appropriate status codes (404 for not found, 400 for bad request)
-- **Provide clear error messages** in the `detail` field
+- Always check if query results are `None` before proceeding
+- Raise `HTTPException` with appropriate status codes (404 for not found)
+- Use descriptive error messages
 
-### Database Operations Pattern
+**CRUD Operations**
 ```python
 # Create
 db_book = Book(**book.model_dump())
 db.add(db_book)
 db.commit()
 db.refresh(db_book)
-return BookInfo(**db_book.__dict__)
-
-# Read
-db_book = db.query(Book).filter(Book.id == book_id).first()
 
 # Update
 for key, value in book.model_dump().items():
@@ -103,13 +136,14 @@ db.refresh(db_book)
 db.delete(db_book)
 db.commit()
 ```
-- **Always commit** after modifications
-- **Always refresh** after commit to get updated values
-- **Convert to DTO** before returning (e.g., `BookInfo(**db_book.__dict__)`)
+- Use `model_dump()` to convert Pydantic models to dictionaries
+- Always call `db.commit()` after modifications
+- Use `db.refresh()` to get updated values from database
+- Use `setattr()` for dynamic attribute updates
 
-## Frontend JavaScript Patterns
+### Frontend JavaScript Patterns
 
-### State Management
+**State Management**
 ```javascript
 const state = {
     books: [],
@@ -119,11 +153,11 @@ const state = {
     pagination: { page: 1, limit: 12, hasMore: false }
 };
 ```
-- **Centralized state object** for managing application data
-- **Separate filtered data** from source data for efficient rendering
-- **Track UI state** (filters, sort, pagination) in state object
+- Use a centralized state object for application data
+- Group related state properties into nested objects
+- Initialize with sensible defaults
 
-### API Communication
+**API Communication**
 ```javascript
 async function fetchBooks() {
     try {
@@ -139,13 +173,13 @@ async function fetchBooks() {
     }
 }
 ```
-- **Always use async/await** for API calls
-- **Always check response.ok** before parsing JSON
-- **Always use try/catch** for error handling
-- **Show user feedback** via notifications for errors
-- **Update state** before triggering UI updates
+- Always use `async/await` for asynchronous operations
+- Wrap API calls in try-catch blocks
+- Check `response.ok` before parsing JSON
+- Show user-friendly error notifications
+- Log errors to console for debugging
 
-### Event Handling
+**Event Handling**
 ```javascript
 document.addEventListener('DOMContentLoaded', fetchBooks);
 bookForm.addEventListener('submit', addBook);
@@ -154,12 +188,12 @@ searchInput.addEventListener('input', debounce(() => {
     applyFiltersAndSort();
 }, 300));
 ```
-- **Wait for DOMContentLoaded** before initializing
-- **Prevent default** on form submissions with `e.preventDefault()`
-- **Debounce input events** to avoid excessive processing
-- **Normalize input** (trim, toLowerCase) before filtering
+- Use `DOMContentLoaded` for initialization
+- Prevent default form submission with `e.preventDefault()`
+- Use debounce for input events to avoid excessive function calls
+- Update state before triggering UI updates
 
-### DOM Manipulation
+**DOM Manipulation**
 ```javascript
 const bookCard = document.createElement('div');
 bookCard.classList.add('book-card');
@@ -167,215 +201,288 @@ bookCard.dataset.id = book.id;
 bookCard.innerHTML = `...`;
 booksList.appendChild(bookCard);
 ```
-- **Use template literals** for HTML generation
-- **Store IDs in data attributes** for later reference
-- **Add event listeners** after creating elements
-- **Clear containers** before re-rendering: `booksList.innerHTML = ''`
-
-### User Feedback Pattern
-```javascript
-function showNotification(message, type) {
-    const existingNotification = document.querySelector('.notification');
-    if (existingNotification) {
-        existingNotification.remove();
-    }
-    const notification = document.createElement('div');
-    notification.classList.add('notification', type);
-    notification.textContent = message;
-    document.body.appendChild(notification);
-    setTimeout(() => {
-        notification.classList.add('hide');
-        setTimeout(() => notification.remove(), 300);
-    }, 3000);
-}
-```
-- **Remove existing notifications** before showing new ones
-- **Use CSS classes** for styling (success, error)
-- **Auto-dismiss** after 3 seconds
-- **Animate removal** with CSS transitions
+- Create elements with `document.createElement()`
+- Use `classList.add()` for adding CSS classes
+- Use `dataset` for storing data attributes
+- Use template literals for complex HTML structures
+- Append elements to DOM after full construction
 
 ## Testing Patterns
 
-### Pytest API Testing
+### Pytest Testing
+
+**Test Function Naming**
 ```python
-from fastapi.testclient import TestClient
-from fastapi_demo.main import app
-
-client = TestClient(app)
-
 def test_create_book(mock_db_session):
-    response = client.post("/books/", json={
-        "title": "Test Book",
-        "author": "Test Author",
-        "pages": 100
-    })
+def test_read_book_success(mock_db_session):
+def test_read_book_not_found(mock_db_session):
+```
+- Prefix all test functions with `test_`
+- Use descriptive names that indicate what is being tested
+- Include expected outcome in name (e.g., `_success`, `_not_found`)
+
+**Test Structure**
+```python
+def test_read_book_success(mock_db_session):
+    # Arrange
+    mock_db_session.query.return_value.filter.return_value.first.return_value = Book(...)
+    
+    # Act
+    response = client.get("/books/1")
+    
+    # Assert
     assert response.status_code == 200
     assert response.json().get("title") == "Test Book"
 ```
-- **Use TestClient** for testing FastAPI endpoints
-- **Mock database sessions** via fixtures (conftest.py)
-- **Test both success and error cases** (e.g., `test_read_book_success`, `test_read_book_not_found`)
-- **Assert status codes** and response data
-- **Use descriptive test names** that explain what is being tested
+- Follow Arrange-Act-Assert pattern
+- Mock database sessions using fixtures
+- Use `TestClient` for API endpoint testing
+- Assert both status codes and response data
 
-### Test Organization
-- **One test file per module** (e.g., `test_books.py` for `books.py`)
-- **Group related tests** by functionality
-- **Use fixtures** for common setup (database mocking, test data)
-- **Test edge cases**: not found (404), validation errors, empty results
-
-## Database Patterns
-
-### SQLAlchemy Model Definition
+**Mocking Database Operations**
 ```python
-from sqlalchemy import Column, Integer, String, Boolean
-from .database import Base
-
-class Book(Base):
-    __tablename__ = "books"
-    
-    id = Column(Integer, primary_key=True, index=True)
-    title = Column(String, nullable=False)
-    author = Column(String, nullable=False)
-    pages = Column(Integer, nullable=False)
-    category = Column(String, default="Fiction")
-    favorite = Column(Boolean, default=False)
+mock_db_session.query.return_value.filter.return_value.first.return_value = Book(...)
 ```
-- **Inherit from Base** for all models
-- **Set `__tablename__`** explicitly
-- **Use appropriate column types** (Integer, String, Boolean)
-- **Set nullable constraints** appropriately
-- **Provide defaults** for optional fields
+- Chain mock return values to simulate SQLAlchemy query patterns
+- Return `None` to test not-found scenarios
+- Use fixtures for consistent mock setup
 
-### Pydantic DTO Pattern
+### Robot Framework Testing
+
+**Test Organization**
+- Separate API tests and UI tests into different files
+- Use resource files for shared keywords and variables
+- Group related keywords by functionality (api_keywords, ui_keywords, common)
+
+## Common Code Idioms
+
+### Python Idioms
+
+**Dictionary Unpacking**
 ```python
-from pydantic import BaseModel
-
-class BookCreate(BaseModel):
-    title: str
-    author: str
-    pages: int
-    category: str = "Fiction"
-
-class BookInfo(BookCreate):
-    id: int
-    favorite: bool = False
+db_book = Book(**book.model_dump())
+return BookInfo(**db_book.__dict__)
 ```
-- **Separate DTOs for input and output** (BookCreate vs BookInfo)
-- **Inherit for shared fields** to avoid duplication
-- **Provide defaults** for optional fields
-- **Use type hints** for validation
+- Use `**` operator to unpack dictionaries as keyword arguments
+- Common pattern for converting between models
 
-### Database Session Management
+**List Comprehensions**
 ```python
-from sqlalchemy.orm import sessionmaker
-
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+return [BookInfo(**book.__dict__) for book in books]
 ```
-- **Use dependency injection** pattern with `yield`
-- **Always close sessions** in finally block
-- **Disable autocommit** for explicit transaction control
+- Use list comprehensions for transforming collections
+- Keep comprehensions simple and readable
 
-## Script Patterns
-
-### Database Initialization Scripts
+**Path Manipulation**
 ```python
-import sys
-import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-from fastapi_demo.database import get_db, engine, Base
-from fastapi_demo.models import Book
-
-def main():
-    Base.metadata.create_all(bind=engine)
-    db = next(get_db())
-    # ... perform operations
-    
-if __name__ == "__main__":
-    main()
 ```
-- **Add parent directory to path** for imports
-- **Import models early** to avoid circular imports
-- **Create tables** before operations
-- **Use `if __name__ == "__main__"`** guard
+- Use `os.path` for cross-platform path operations
+- Add parent directories to path for imports in scripts
 
-### Data Generation
-- **Use random module** for generating test data
-- **Provide variety** in generated data (categories, authors, titles)
-- **Set realistic ranges** (e.g., pages between 100-1000)
-- **Commit in batches** for efficiency
+**Random Data Generation**
+```python
+favorite=random.random() < 0.2  # About 20% of books set as favorites
+```
+- Use `random.random()` with comparison for probability-based selection
+- Include comments explaining probability thresholds
 
-## Documentation Standards
+### JavaScript Idioms
 
-### API Documentation
-- **Always provide summary** for each endpoint
-- **Write clear descriptions** explaining what the endpoint does
-- **Document parameters** with descriptions and examples
-- **Specify response models** for automatic schema generation
+**Array Spread Operator**
+```javascript
+state.filteredBooks = [...state.books];
+```
+- Use spread operator to create shallow copies of arrays
+- Prevents unintended mutations of original data
 
-### Code Comments
-- **Explain "why" not "what"**: Code should be self-explanatory, comments explain reasoning
-- **Section headers**: Use comments to separate logical sections (e.g., `// DOM Elements`, `// Event Listeners`)
-- **Function documentation**: Docstrings for Python functions, JSDoc-style comments for complex JavaScript functions
+**Ternary Operators**
+```javascript
+sortDirectionBtn.querySelector('i').className = state.sort.ascending 
+    ? 'fas fa-sort-up' 
+    : 'fas fa-sort-down';
+```
+- Use ternary operators for conditional assignments
+- Format multi-line for readability
 
-### README Documentation
-- **Multiple setup methods**: Document Docker, Poetry, and venv approaches
-- **Step-by-step instructions**: Clear numbered steps for each method
-- **Include commands**: Show exact commands to run
-- **Link to API docs**: Reference auto-generated documentation
+**Template Literals**
+```javascript
+bookCard.innerHTML = `
+    <h3 class="book-title">${book.title}</h3>
+    <p class="book-author">by ${book.author}</p>
+`;
+```
+- Use template literals for HTML generation
+- Escape user data appropriately (framework handles this)
 
-## Common Idioms
+**Array Methods**
+```javascript
+state.filteredBooks = state.books.filter(book => {
+    return matchesSearch && matchesCategory && matchesFavorite;
+});
 
-### Python
-- **Dictionary unpacking**: `Book(**book.model_dump())` for creating models from DTOs
-- **List comprehensions**: `[BookInfo(**book.__dict__) for book in books]` for transformations
-- **Context managers**: Use `with` for file operations (though not heavily used in this codebase)
+state.filteredBooks.sort((a, b) => {
+    if (valueA < valueB) return state.sort.ascending ? -1 : 1;
+    if (valueA > valueB) return state.sort.ascending ? 1 : -1;
+    return 0;
+});
+```
+- Use `filter()` for filtering arrays
+- Use `sort()` with comparison function for custom sorting
+- Chain array methods when appropriate
 
-### JavaScript
-- **Spread operator**: `[...state.books]` for array copying
-- **Destructuring**: Not heavily used, but available for object/array destructuring
-- **Optional chaining**: Use `?.` for safe property access
-- **Ternary operators**: `book.favorite ? 'active' : ''` for conditional values
+**Optional Chaining and Nullish Coalescing**
+```javascript
+const existingNotification = document.querySelector('.notification');
+if (existingNotification) {
+    existingNotification.remove();
+}
+```
+- Check for element existence before manipulation
+- Use explicit null checks for clarity
+
+## API Usage Patterns
+
+### FastAPI Dependency Injection
+
+**Database Session Management**
+```python
+from ..database import get_db
+
+def read_books(db: Session = Depends(get_db)):
+    books = db.query(Book).all()
+    return books
+```
+- Import `get_db` from database module
+- Use `Depends(get_db)` for automatic session management
+- Session is automatically closed after request
+
+### Pydantic Model Usage
+
+**Model Conversion**
+```python
+# Request validation
+book: BookCreate = Body(...)
+
+# Database creation
+db_book = Book(**book.model_dump())
+
+# Response serialization
+return BookInfo(**db_book.__dict__)
+```
+- Use `BookCreate` for input validation
+- Use `BookInfo` for response serialization
+- Use `model_dump()` to convert Pydantic to dict
+
+### HTTP Status Codes
+
+**Standard Status Codes**
+- 200: Successful GET, PUT, PATCH, DELETE
+- 404: Resource not found
+- 422: Validation error (automatic with Pydantic)
+
+**Error Handling**
+```python
+if db_book is None:
+    raise HTTPException(status_code=404, detail="Book not found")
+```
+- Use `HTTPException` for all API errors
+- Provide descriptive error messages in `detail`
+
+## MCP Server Patterns
+
+### JSON-RPC Protocol
+
+**Request Handling**
+```python
+def handle_request(request: Dict[str, Any]) -> Dict[str, Any]:
+    method = request.get("method")
+    
+    if method == "initialize":
+        return {"jsonrpc": "2.0", "id": request.get("id"), "result": {...}}
+    elif method == "tools/list":
+        return {"jsonrpc": "2.0", "id": request.get("id"), "result": {...}}
+    elif method == "tools/call":
+        params = request.get("params", {})
+        return {"jsonrpc": "2.0", "id": request.get("id"), "result": {...}}
+```
+- Use if-elif chain for method routing
+- Always include `jsonrpc` version and request `id` in responses
+- Return structured responses with `result` or `error` keys
+
+**Tool Definitions**
+```python
+{
+    "name": "calculate",
+    "description": "Perform basic arithmetic calculations",
+    "inputSchema": {
+        "type": "object",
+        "properties": {
+            "expression": {
+                "type": "string",
+                "description": "Mathematical expression to evaluate"
+            }
+        },
+        "required": ["expression"]
+    }
+}
+```
+- Define clear tool names and descriptions
+- Use JSON Schema for input validation
+- Specify required parameters
+
+**STDIO Communication**
+```python
+def main():
+    for line in sys.stdin:
+        try:
+            request = json.loads(line.strip())
+            response = handle_request(request)
+            print(json.dumps(response))
+            sys.stdout.flush()
+        except Exception as e:
+            error_response = {...}
+            print(json.dumps(error_response))
+            sys.stdout.flush()
+```
+- Read JSON-RPC requests from stdin line by line
+- Write responses to stdout with `sys.stdout.flush()`
+- Handle parsing errors gracefully with error responses
 
 ## Frequently Used Annotations
 
-### FastAPI
-- `@router.get()`, `@router.post()`, `@router.put()`, `@router.delete()`, `@router.patch()` - HTTP method decorators
+### FastAPI Decorators
+- `@router.get()` - GET endpoint
+- `@router.post()` - POST endpoint
+- `@router.put()` - PUT endpoint
+- `@router.patch()` - PATCH endpoint
+- `@router.delete()` - DELETE endpoint
+
+### FastAPI Parameters
 - `Depends()` - Dependency injection
 - `Path()` - Path parameter validation
-- `Body()` - Request body validation
-- `HTTPException` - Error responses
+- `Body()` - Request body documentation
+- `HTTPException()` - Error responses
 
 ### SQLAlchemy
-- `Column()` - Define table columns
-- `Integer`, `String`, `Boolean` - Column types
-- `primary_key=True` - Primary key designation
-- `index=True` - Create database index
-- `nullable=False` - NOT NULL constraint
-- `default=` - Default values
-
-### Pydantic
-- `BaseModel` - Base class for DTOs
-- `model_dump()` - Convert model to dictionary
-- Type hints for automatic validation
+- `db.query(Model)` - Start query
+- `.filter()` - Add WHERE clause
+- `.all()` - Get all results
+- `.first()` - Get first result or None
+- `db.add()` - Add to session
+- `db.commit()` - Commit transaction
+- `db.refresh()` - Refresh from database
+- `db.delete()` - Delete from database
 
 ## Best Practices Summary
 
-1. **Always validate input** using Pydantic models
-2. **Always check for None** before database operations
-3. **Always use try/catch** for API calls and error-prone operations
-4. **Always provide user feedback** via notifications or error messages
-5. **Always commit and refresh** after database modifications
-6. **Always document endpoints** with summary, description, and response models
-7. **Always use dependency injection** for database sessions
-8. **Always separate concerns** (models, DTOs, routes, database)
-9. **Always test both success and failure cases**
-10. **Always use appropriate HTTP status codes** (200, 404, 400, etc.)
+1. **Always validate input** - Use Pydantic models for request validation
+2. **Handle errors gracefully** - Use try-catch blocks and return meaningful error messages
+3. **Check for None** - Always verify database query results before use
+4. **Use dependency injection** - Leverage FastAPI's Depends() for clean code
+5. **Document APIs** - Include summary, description, and examples in endpoint definitions
+6. **Separate concerns** - Keep routers, models, DTOs, and database logic in separate files
+7. **Test thoroughly** - Write tests for both success and failure scenarios
+8. **Use type hints** - Improve code clarity and enable better IDE support
+9. **Manage state centrally** - Use a single state object in frontend applications
+10. **Debounce user input** - Prevent excessive API calls from search inputs

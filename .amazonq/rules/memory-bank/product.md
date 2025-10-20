@@ -1,52 +1,53 @@
-# Books Database Service - Product Overview
+# Product Overview
 
-## Purpose
-A modern web application for managing a books database with a RESTful API and responsive user interface. Provides comprehensive book management capabilities including CRUD operations, categorization, favorites, and search functionality.
+## Project Purpose
+Books Database Service is a modern web application that provides a complete solution for managing a books library through both a RESTful API and an interactive web interface. The application demonstrates best practices in full-stack development with FastAPI, SQLAlchemy, and vanilla JavaScript.
 
 ## Key Features
 
 ### API Capabilities
-- RESTful API for managing books (Create, Read, Update, Delete)
-- Book favorite status toggling
-- Real-time filtering by category
-- Search functionality across book titles and authors
-- Pagination support for large datasets
-- Comprehensive API documentation via FastAPI's automatic OpenAPI/Swagger UI
+- **CRUD Operations**: Create, read, update, and delete books with full validation
+- **Advanced Filtering**: Filter books by title, author, category, and publication year
+- **Sorting**: Sort books by any field in ascending or descending order
+- **Pagination**: Handle large datasets efficiently with configurable page size
+- **OpenAPI Documentation**: Auto-generated interactive API documentation at `/docs`
 
 ### User Interface
-- Beautiful and responsive web interface
-- Real-time book filtering and sorting
-- Category-based organization
-- Favorite books management
-- Search across book collection
-- Pagination for browsing large collections
-- Add, edit, and delete books through intuitive forms
+- **Responsive Design**: Beautiful, mobile-friendly interface built with vanilla JavaScript
+- **Real-time Filtering**: Instant search and filter results without page reloads
+- **Dynamic Sorting**: Click column headers to sort books
+- **Category Management**: Visual categorization of books (Fiction, Non-Fiction, Science, History, etc.)
+- **Pagination Controls**: Navigate through large book collections easily
 
 ### Data Management
-- SQLite database for persistent storage
-- Automatic database initialization and migration
-- Sample data generation for testing and demonstration
-- Database schema versioning
+- **SQLite Database**: Lightweight, file-based database for easy deployment
+- **Sample Data Generation**: Scripts to populate the database with realistic book data
+- **Database Migrations**: Tools for initializing and managing database schema
 
 ## Target Users
 
 ### Developers
-- Backend developers building book management systems
-- Frontend developers needing a book API for testing
-- Full-stack developers learning FastAPI and modern web development
-- QA engineers testing API and UI automation
+- Learning FastAPI and modern Python web development
+- Building RESTful APIs with proper structure and documentation
+- Implementing full-stack applications with separation of concerns
+- Understanding testing strategies (unit tests with pytest, UI tests with Robot Framework)
 
-### Use Cases
-- Personal book collection management
-- Library catalog system prototype
-- Educational project for learning FastAPI and SQLAlchemy
-- Testing and demonstration of REST API patterns
-- Robot Framework testing examples for web applications
-- CI/CD pipeline demonstrations with automated testing
+### Students
+- Studying web application architecture
+- Learning API design patterns
+- Understanding database integration with ORMs
+- Practicing test-driven development
 
-## Deployment Options
-- Docker containerization for easy deployment
-- Docker Compose for orchestrated multi-service setup
-- Poetry for Python dependency management
-- Traditional Python virtual environment support
-- Health checks and automatic restart capabilities
+### Teams
+- Need a reference implementation for FastAPI projects
+- Want to understand Docker containerization for Python applications
+- Looking for examples of CI/CD integration with GitHub Actions
+- Seeking patterns for Robot Framework UI testing
+
+## Use Cases
+
+1. **API Development Reference**: Demonstrates proper FastAPI project structure with routers, DTOs, and database models
+2. **Testing Examples**: Shows both pytest for API testing and Robot Framework for UI testing
+3. **Docker Deployment**: Provides Docker and Docker Compose configurations for containerized deployment
+4. **CI/CD Pipeline**: Includes GitHub Actions workflow for automated testing
+5. **MCP Integration**: Demonstrates Amazon Q integration with Robot Framework through Model Context Protocol servers

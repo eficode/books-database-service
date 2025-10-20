@@ -1,114 +1,150 @@
-# Books Database Service - Project Structure
+# Project Structure
 
 ## Directory Organization
 
-### Core Application (`fastapi_demo/`)
-Main application package containing the FastAPI backend.
+```
+books-database-service/
+├── fastapi_demo/          # Main application package
+│   ├── routers/           # API route handlers
+│   ├── static/            # Frontend assets (HTML, CSS, JS)
+│   ├── database.py        # Database configuration and session management
+│   ├── dtos.py            # Data Transfer Objects (Pydantic models)
+│   ├── main.py            # FastAPI application setup
+│   └── models.py          # SQLAlchemy ORM models
+├── tests/                 # Pytest unit and integration tests
+├── robot_tests_claude_sonnet_4/     # Robot Framework UI tests (v4)
+├── robot_tests_claude_sonnet_4_5/   # Robot Framework UI tests (v4.5)
+├── scripts/               # Utility scripts for database and data generation
+├── data/                  # SQLite database file
+├── Amazon_Q/              # Amazon Q MCP server integrations
+│   ├── calculator-mcp/    # Calculator MCP server example
+│   └── RobotFramework-MCP-server/  # Robot Framework MCP integration
+├── robot_results/         # Test execution results and reports
+└── .amazonq/              # Amazon Q configuration and rules
+```
 
-- **`main.py`** - FastAPI application entry point, CORS configuration, static file serving
-- **`models.py`** - SQLAlchemy ORM models (Book model with database schema)
-- **`database.py`** - Database connection, session management, engine configuration
-- **`dtos.py`** - Pydantic models for request/response validation and serialization
-- **`routers/`** - API route handlers organized by resource
-  - **`books.py`** - Books API endpoints (CRUD, search, filter, favorite toggle)
-- **`static/`** - Frontend assets served by FastAPI
-  - **`index.html`** - Single-page application UI
-  - **`script.js`** - Frontend JavaScript for API interaction
-  - **`styles.css`** - UI styling and responsive design
+## Core Components
 
-### Testing (`tests/` and `robot_tests_*/`)
-Comprehensive test suites for API and UI validation.
+### Application Layer (`fastapi_demo/`)
 
-- **`tests/`** - Pytest-based API tests
-  - **`conftest.py`** - Pytest fixtures and test configuration
-  - **`test_books.py`** - API endpoint tests with httpx TestClient
-- **`robot_tests_claude_sonnet_4_5/`** - Robot Framework UI and API tests (production-ready)
-  - **`books_ui.robot`** - UI test cases using Browser library
-  - **`books_api.robot`** - API test cases using RequestsLibrary
-  - **`resources/`** - Reusable keywords and configuration
-    - **`common.resource`** - Shared variables and setup/teardown
-    - **`ui_keywords.resource`** - UI interaction keywords
-    - **`api_keywords.resource`** - API request keywords
-- **`robot_tests_claude_sonnet_4/`** - Alternative Robot Framework tests (stub implementations)
+**main.py** - Application entry point
+- Initializes FastAPI application with metadata
+- Creates database tables on startup
+- Registers API routers
+- Mounts static file serving
+- Serves the frontend at root path
 
-### Database and Scripts (`data/` and `scripts/`)
-Database storage and utility scripts.
+**routers/books.py** - Books API endpoints
+- GET `/api/books` - List books with filtering, sorting, pagination
+- POST `/api/books` - Create new book
+- GET `/api/books/{book_id}` - Get single book
+- PUT `/api/books/{book_id}` - Update book
+- DELETE `/api/books/{book_id}` - Delete book
 
-- **`data/`** - SQLite database file storage
-  - **`books.db`** - Persistent book data
-- **`scripts/`** - Database management utilities
-  - **`migrate_db.py`** - Database schema migration (adds favorite column)
-  - **`generate_books.py`** - Sample data generation for testing
-  - **`run_robot_tests.sh`** - Robot Framework test execution script
+**database.py** - Database configuration
+- SQLAlchemy engine setup for SQLite
+- Session factory configuration
+- Database dependency injection for FastAPI
 
-### Configuration and Deployment
-Project configuration, dependencies, and containerization.
+**models.py** - ORM models
+- `Book` model with fields: id, title, author, category, publication_year, description
+- SQLAlchemy table definitions
 
-- **`pyproject.toml`** - Poetry dependency management and project metadata
-- **`poetry.lock`** - Locked dependency versions
-- **`requirements.txt`** - Pip-compatible dependency list
-- **`server.py`** - Development server entry point
-- **`Dockerfile`** - Container image definition
-- **`docker-compose.yml`** - Multi-service orchestration with initialization
-- **`pytest.ini`** - Pytest configuration
-- **`.github/workflows/ci_tests.yaml`** - CI/CD pipeline configuration
+**dtos.py** - Request/response schemas
+- `BookCreate` - Validation for creating books
+- `BookUpdate` - Validation for updating books
+- `BookResponse` - Response serialization
+- Pydantic models for type safety and validation
 
-### Documentation
-- **`README.md`** - Project documentation and setup instructions
-- **`CLAUDE.md`** - AI assistant context and guidelines
-- **`TEST_COMPARISON.md`** - Comparison of Robot Framework test implementations
-- **`LICENSE`** - MIT license
+**static/** - Frontend files
+- `index.html` - Single-page application structure
+- `script.js` - Client-side logic for API interaction
+- `styles.css` - Responsive styling
+
+### Testing Layer
+
+**tests/** - Pytest tests
+- `conftest.py` - Test fixtures and configuration
+- `test_books.py` - API endpoint tests with httpx TestClient
+
+**robot_tests_claude_sonnet_4/** - Robot Framework tests (version 4)
+- `books_api.robot` - API test cases
+- `books_ui.robot` - Browser-based UI test cases
+- `resources/` - Shared keywords and variables
+
+**robot_tests_claude_sonnet_4_5/** - Robot Framework tests (version 4.5)
+- Enhanced test suite with improved keywords
+- `resources/api_keywords.resource` - API testing keywords
+- `resources/ui_keywords.resource` - UI testing keywords
+- `resources/common.resource` - Shared configuration
+
+### Infrastructure
+
+**Docker Configuration**
+- `Dockerfile` - Application container image
+- `docker-compose.yml` - Multi-container orchestration
+- `.dockerignore` - Build context optimization
+
+**CI/CD**
+- `.github/workflows/ci_tests.yaml` - GitHub Actions pipeline for automated testing
+
+**Amazon Q Integration**
+- `.amazonq/agents/default.json` - Agent configuration
+- `Amazon_Q/RobotFramework-MCP-server/` - MCP server for running Robot Framework tests through Amazon Q
+- Persistent Docker container setup for fast test execution
+
+### Scripts and Utilities
+
+**scripts/**
+- `migrate_db.py` - Initialize database schema
+- `generate_books.py` - Populate database with sample data
+- `run_robot_tests.sh` - Execute Robot Framework test suite
+
+**server.py** - Development server launcher
+- Uvicorn server configuration
+- Hot-reload enabled for development
 
 ## Architectural Patterns
 
 ### Layered Architecture
-- **Presentation Layer**: FastAPI routes and static HTML/JS frontend
-- **Business Logic Layer**: Route handlers in `routers/books.py`
-- **Data Access Layer**: SQLAlchemy ORM models and database session management
-- **Data Layer**: SQLite database
+1. **Presentation Layer**: FastAPI routers and static frontend
+2. **Business Logic Layer**: Service logic in routers (lightweight for this demo)
+3. **Data Access Layer**: SQLAlchemy ORM models and database session management
 
-### API Design
-- RESTful resource-based endpoints (`/books/`, `/books/{id}`)
-- HTTP method semantics (GET, POST, PUT, DELETE)
-- JSON request/response format
-- Pydantic validation for type safety
-- Automatic OpenAPI documentation
+### Dependency Injection
+- Database sessions injected via FastAPI's `Depends()`
+- Promotes testability and loose coupling
 
-### Frontend Architecture
-- Single-page application (SPA) pattern
-- Vanilla JavaScript with fetch API for backend communication
-- Dynamic DOM manipulation for real-time updates
-- Client-side filtering and pagination
+### DTO Pattern
+- Separation between API contracts (DTOs) and database models
+- Pydantic for request validation and response serialization
 
-### Testing Strategy
-- **Unit/Integration Tests**: Pytest with FastAPI TestClient
-- **UI Tests**: Robot Framework with Browser library (Playwright)
-- **API Tests**: Robot Framework with RequestsLibrary
-- **CI/CD**: GitHub Actions for automated testing
+### Repository Pattern (Implicit)
+- Database operations encapsulated in router functions
+- Could be extracted to dedicated repository classes for larger applications
 
-### Database Management
-- SQLAlchemy ORM for database abstraction
-- Migration scripts for schema evolution
-- Seed data generation for development and testing
-- SQLite for simplicity and portability
+### Test Isolation
+- Pytest fixtures for test database setup
+- Robot Framework tests use Docker for environment isolation
+- Separate test suites for API and UI testing
 
 ## Component Relationships
 
 ```
-FastAPI App (main.py)
-    ├── Serves Static Files (index.html, script.js, styles.css)
-    ├── Includes Router (books.py)
-    │   ├── Uses DTOs (dtos.py) for validation
-    │   ├── Uses Models (models.py) for database operations
-    │   └── Uses Database (database.py) for sessions
-    └── Configured with CORS for frontend access
-
-Database (books.db)
-    ├── Managed by SQLAlchemy (models.py, database.py)
-    ├── Initialized by migrate_db.py
-    └── Populated by generate_books.py
-
-Tests
-    ├── Pytest (tests/) → Tests API directly
-    └── Robot Framework (robot_tests_*/) → Tests API and UI through browser
+Frontend (static/) ←→ FastAPI (main.py) ←→ Routers (books.py)
+                                              ↓
+                                         DTOs (dtos.py)
+                                              ↓
+                                         Models (models.py)
+                                              ↓
+                                         Database (database.py)
+                                              ↓
+                                         SQLite (data/books.db)
 ```
+
+## Configuration Files
+
+- `pyproject.toml` - Poetry dependency management and project metadata
+- `requirements.txt` - Pip-compatible dependency list
+- `pytest.ini` - Pytest configuration
+- `.amazonq/rules/*.yaml` - Amazon Q context and standards
