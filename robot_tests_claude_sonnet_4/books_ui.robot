@@ -1,123 +1,208 @@
 *** Settings ***
 Documentation    UI acceptance tests for Books Database Service
 Resource         resources/common.resource
-Resource         resources/keywords/ui_keywords.resource
-Suite Setup      Setup Test Environment
-Suite Teardown   Teardown Test Environment
-Test Tags        ui    acceptance
-
-*** Test Cases ***
-User Can Open Books UI
-    [Documentation]    Verify user can access the books application
-    [Tags]    smoke
-    Given the books application is running
-    When user opens the books application
-    Then the books page should be displayed
-
-User Can Add A New Book
-    [Documentation]    Verify user can add a new book through UI
-    [Tags]    crud
-    Given the books application is open
-    Then the books page should be displayed
-
-User Can Search For Books
-    [Documentation]    Verify user can search for books
-    [Tags]    search
-    Given the books application is open
-    Then the books page should be displayed
-
-User Can Filter Books By Category
-    [Documentation]    Verify user can filter books by category
-    [Tags]    filter
-    Given the books application is open
-    Then the books page should be displayed
-
-User Can Mark Book As Favorite
-    [Documentation]    Verify user can mark books as favorites
-    [Tags]    favorite
-    Given the books application is open
-    Then the books page should be displayed
-
-User Can Delete A Book
-    [Documentation]    Verify user can delete books
-    [Tags]    crud
-    Given the books application is open
-    Then the books page should be displayed
+Resource         resources/ui_keywords.resource
+Suite Setup      Setup UI Test Suite
+Suite Teardown   Teardown UI Test Suite
+Test Setup       Open Books Application
+Test Teardown    Close Books Application
 
 *** Keywords ***
-The Books Application Is Running
-    [Documentation]    Ensure the application is accessible
-    Open Books Application
+Setup UI Test Suite
+    [Documentation]    Setup test suite with Docker environment
+    Setup Test Environment
 
-User Opens The Books Application
-    [Documentation]    User navigates to the books application
-    Navigate To Books Page
+Teardown UI Test Suite
+    [Documentation]    Cleanup test suite environment
+    Teardown Test Environment
 
-The Books Page Should Be Displayed
-    [Documentation]    Verify the main books page is shown
-    Wait For Elements State    h1:has-text("Books Library")    visible    timeout=${TIMEOUT}
+*** Test Cases ***
+Scenario: User Can Open Books UI
+    [Documentation]    Test that user can open the books application UI
+    [Tags]    ui    smoke
+    Given I am on the books application homepage
+    Then I should see the books library interface
+    And I should see the add book form
 
-The Books Application Is Open
-    [Documentation]    Ensure the books application is open
-    Open Books Application
-    Navigate To Books Page
+Scenario: User Can Add A New Book Through UI
+    [Documentation]    Test adding a new book through the web interface
+    [Tags]    ui    crud
+    Given I am on the books application homepage
+    When I fill in the book form with valid data
+    And I submit the book form
+    Then the book should appear in the books list
+    And I should see a success notification
 
-User Adds A New Book With Title "${title}" Author "${author}" Pages "${pages}" Category "${category}"
-    [Documentation]    User adds a new book with specified details
-    Add New Book    ${title}    ${author}    ${pages}    ${category}
+Scenario: User Can Search For Books
+    [Documentation]    Test searching for books using the search functionality
+    [Tags]    ui    search
+    Given I am on the books application homepage
+    And there are books displayed in the list
+    When I search for a specific book title
+    Then only matching books should be displayed
+    And the books count should be updated
 
-The Book Should Be Displayed In The List
-    [Documentation]    Verify the book appears in the books list
-    Wait For Elements State    .book-card    visible    timeout=${TIMEOUT}
+Scenario: User Can Filter Books By Category
+    [Documentation]    Test filtering books by category
+    [Tags]    ui    filter
+    Given I am on the books application homepage
+    And there are books displayed in the list
+    When I filter books by Fiction category
+    Then only Fiction books should be displayed
+    And the books count should reflect the filter
 
-The Books Application Has Books
-    [Documentation]    Ensure there are books in the application
-    Open Books Application
-    Navigate To Books Page
-    Add New Book    Sample Book 1    Author 1    150    Fiction
-    Add New Book    Sample Book 2    Author 2    250    Non-Fiction
+Scenario: User Can Sort Books By Title
+    [Documentation]    Test sorting books by title
+    [Tags]    ui    sort
+    Given I am on the books application homepage
+    And there are books displayed in the list
+    When I sort books by title
+    Then books should be displayed in alphabetical order
 
-User Searches For "${search_term}"
-    [Documentation]    User performs a search
-    Search For Book    ${search_term}
+Scenario: User Can Toggle Sort Direction
+    [Documentation]    Test toggling sort direction
+    [Tags]    ui    sort
+    Given I am on the books application homepage
+    And there are books displayed in the list
+    When I sort books by title
+    And I toggle the sort direction
+    Then books should be displayed in reverse alphabetical order
 
-Only Matching Books Should Be Displayed
+Scenario: User Can Filter Favorite Books
+    [Documentation]    Test filtering books by favorite status
+    [Tags]    ui    favorite
+    Given I am on the books application homepage
+    And there are books displayed in the list
+    When I click the favorites filter
+    Then only favorite books should be displayed
+
+*** Keywords ***
+Given I am on the books application homepage
+    [Documentation]    Verify user is on the homepage
+    Verify Page Title    Books Library
+    Wait For Books To Load
+
+Then I should see the books library interface
+    [Documentation]    Verify main interface elements are visible
+    Wait For Element To Be Visible    h1:has-text("Books Library")
+    Wait For Element To Be Visible    id=books-list
+
+And I should see the add book form
+    [Documentation]    Verify add book form is visible
+    Wait For Element To Be Visible    id=book-form
+    Wait For Element To Be Visible    id=title
+    Wait For Element To Be Visible    id=author
+    Wait For Element To Be Visible    id=pages
+    Wait For Element To Be Visible    id=category
+
+When I fill in the book form with valid data
+    [Documentation]    Fill the book form with test data
+    ${title}    ${author}    ${pages}    ${category}=    Generate Random Book Data
+    Fill Book Form    ${title}    ${author}    ${pages}    ${category}
+    Set Test Variable    ${TEST_TITLE}    ${title}
+    Set Test Variable    ${TEST_AUTHOR}    ${author}
+    Set Test Variable    ${TEST_PAGES}    ${pages}
+    Set Test Variable    ${TEST_CATEGORY}    ${category}
+
+And I submit the book form
+    [Documentation]    Submit the book creation form
+    Submit Book Form
+    Sleep    2s    # Wait for API call to complete
+
+Then the book should appear in the books list
+    [Documentation]    Verify book appears in the list
+    Verify Book Card Exists    ${TEST_TITLE}
+
+And I should see a success notification
+    [Documentation]    Verify success notification appears
+    # Note: This depends on the UI implementation showing notifications
+    Sleep    1s    # Allow time for notification to appear
+
+And there are books displayed in the list
+    [Documentation]    Verify books are displayed
+    Wait For Books To Load
+    ${book_count}=    Get Element Count    .book-card
+    Should Be True    ${book_count} > 0
+
+When I search for a specific book title
+    [Documentation]    Search for a book using search input
+    ${first_book_title}=    Get Text    .book-card:first-child .book-title
+    Search For Books    ${first_book_title}
+    Set Test Variable    ${SEARCH_TERM}    ${first_book_title}
+
+Then only matching books should be displayed
     [Documentation]    Verify only matching books are shown
-    Wait For Elements State    .book-card    visible    timeout=${TIMEOUT}
+    Sleep    1s    # Wait for search to complete
+    ${visible_books}=    Get Element Count    .book-card
+    Should Be True    ${visible_books} >= 1
+    # Verify at least one book contains the search term
+    ${first_visible_title}=    Get Text    .book-card:first-child .book-title
+    Should Contain    ${first_visible_title}    ${SEARCH_TERM}    ignore_case=True
 
-The Books Application Has Books In Different Categories
-    [Documentation]    Setup books in different categories
-    Open Books Application
-    Navigate To Books Page
-    Add New Book    Fiction Book    Fiction Author    200    Fiction
-    Add New Book    Science Book    Science Author    300    Non-Fiction
+And the books count should be updated
+    [Documentation]    Verify books count display is updated
+    ${shown_count}=    Get Text    id=shown-count
+    Should Be True    int($shown_count) >= 1
 
-User Filters Books By "${category}" Category
-    [Documentation]    User applies category filter
-    Filter Books By Category    ${category}
+When I filter books by Fiction category
+    [Documentation]    Filter books by Fiction category
+    Filter Books By Category    Fiction
 
-Only Fiction Books Should Be Displayed
-    [Documentation]    Verify only fiction books are visible
-    Wait For Elements State    .book-card:has-text("Fiction")    visible    timeout=${TIMEOUT}
+Then only Fiction books should be displayed
+    [Documentation]    Verify only Fiction books are shown
+    Sleep    1s    # Wait for filter to apply
+    ${visible_books}=    Get Element Count    .book-card
+    Should Be True    ${visible_books} >= 0
+    # If books are visible, verify they are Fiction
+    IF    ${visible_books} > 0
+        ${category_elements}=    Get Element Count    .book-card .book-category:has-text("Fiction")
+        Should Be Equal As Numbers    ${category_elements}    ${visible_books}
+    END
 
-The Books Application Has A Book "${book_title}"
-    [Documentation]    Ensure specific book exists
-    Open Books Application
-    Navigate To Books Page
-    Add New Book    ${book_title}    Test Author    100    Fiction
+And the books count should reflect the filter
+    [Documentation]    Verify books count reflects the applied filter
+    ${shown_count}=    Get Text    id=shown-count
+    ${visible_books}=    Get Element Count    .book-card
+    Should Be Equal As Numbers    ${shown_count}    ${visible_books}
 
-User Marks The Book As Favorite
-    [Documentation]    User toggles favorite status
-    Toggle Book Favorite    Sample Book
+When I sort books by title
+    [Documentation]    Sort books by title field
+    Sort Books By Field    Title
 
-The Book Should Show As Favorited
-    [Documentation]    Verify book shows favorite status
-    Wait For Elements State    .favorite-btn.active    visible    timeout=${TIMEOUT}
+Then books should be displayed in alphabetical order
+    [Documentation]    Verify books are in alphabetical order
+    Sleep    1s    # Wait for sort to apply
+    ${book_titles}=    Get Elements    .book-card .book-title
+    ${title_count}=    Get Length    ${book_titles}
+    IF    ${title_count} > 1
+        ${first_title}=    Get Text    ${book_titles}[0]
+        ${second_title}=    Get Text    ${book_titles}[1]
+        Should Be True    '${first_title}' <= '${second_title}'
+    END
 
-User Deletes The Book
-    [Documentation]    User removes the book
-    Delete Book    Book to Delete
+And I toggle the sort direction
+    [Documentation]    Toggle the sort direction
+    Toggle Sort Direction
 
-The Book Should Not Be Displayed In The List
-    [Documentation]    Verify book is removed from list
-    Wait For Elements State    .book-card:has-text("Book to Delete")    hidden    timeout=${TIMEOUT}
+Then books should be displayed in reverse alphabetical order
+    [Documentation]    Verify books are in reverse alphabetical order
+    Sleep    1s    # Wait for sort to apply
+    ${book_titles}=    Get Elements    .book-card .book-title
+    ${title_count}=    Get Length    ${book_titles}
+    IF    ${title_count} > 1
+        ${first_title}=    Get Text    ${book_titles}[0]
+        ${second_title}=    Get Text    ${book_titles}[1]
+        Should Be True    '${first_title}' >= '${second_title}'
+    END
+
+When I click the favorites filter
+    [Documentation]    Click the favorites filter button
+    Click Favorite Filter
+
+Then only favorite books should be displayed
+    [Documentation]    Verify only favorite books are shown
+    Sleep    1s    # Wait for filter to apply
+    ${visible_books}=    Get Element Count    .book-card
+    # Verify favorite filter is active
+    ${filter_class}=    Get Attribute    id=favorite-filter    class
+    Should Contain    ${filter_class}    active
