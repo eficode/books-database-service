@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books Library</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Fallback for Font Awesome icons -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-book"></i> Books Library</h1>
+        </header>
+        
+        <div class="book-form-container">
+            <h2>Add a New Book</h2>
+            <form id="book-form">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="author">Author</label>
+                    <input type="text" id="author" name="author" required>
+                </div>
+                <div class="form-group">
+                    <label for="pages">Pages</label>
+                    <input type="number" id="pages" name="pages" required min="1">
+                </div>
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category" name="category" required>
+                        <option value="Fiction">Fiction</option>
+                        <option value="Non-Fiction">Non-Fiction</option>
+                        <option value="Fantasy">Fantasy</option>
+                        <option value="Science Fiction">Science Fiction</option>
+                        <option value="Mystery">Mystery</option>
+                        <option value="Thriller">Thriller</option>
+                        <option value="Horror">Horror</option>
+                        <option value="Romance">Romance</option>
+                        <option value="Historical Fiction">Historical Fiction</option>
+                        <option value="Biography">Biography</option>
+                        <option value="Self-Help">Self-Help</option>
+                        <option value="Business">Business</option>
+                        <option value="Science">Science</option>
+                        <option value="History">History</option>
+                        <option value="Poetry">Poetry</option>
+                        <option value="Children's Books">Children's Books</option>
+                        <option value="Young Adult">Young Adult</option>
+                        <option value="Travel">Travel</option>
+                        <option value="Cookbooks">Cookbooks</option>
+                        <option value="Philosophy">Philosophy</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn"><i class="fas fa-plus"></i> Add Book</button>
+            </form>
+        </div>
+
+        <div class="books-container">
+            <h2>Your Books</h2>
+            
+            <div class="filters">
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="Search by title or author...">
+                    <button id="search-btn"><i class="fas fa-search"></i></button>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="category-filter">Filter by Category:</label>
+                    <select id="category-filter">
+                        <option value="all">All Categories</option>
+                        <option value="Fiction">Fiction</option>
+                        <option value="Non-Fiction">Non-Fiction</option>
+                        <option value="Fantasy">Fantasy</option>
+                        <option value="Science Fiction">Science Fiction</option>
+                        <option value="Mystery">Mystery</option>
+                        <option value="Thriller">Thriller</option>
+                        <option value="Horror">Horror</option>
+                        <option value="Romance">Romance</option>
+                        <option value="Historical Fiction">Historical Fiction</option>
+                        <option value="Biography">Biography</option>
+                        <option value="Self-Help">Self-Help</option>
+                        <option value="Business">Business</option>
+                        <option value="Science">Science</option>
+                        <option value="History">History</option>
+                        <option value="Poetry">Poetry</option>
+                        <option value="Children's Books">Children's Books</option>
+                        <option value="Young Adult">Young Adult</option>
+                        <option value="Travel">Travel</option>
+                        <option value="Cookbooks">Cookbooks</option>
+                        <option value="Philosophy">Philosophy</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label>Filter by Favorite:</label>
+                    <div class="favorite-filters">
+                        <button id="all-books-filter" class="active">All Books</button>
+                        <button id="favorite-filter">Favorites</button>
+                    </div>
+                </div>
+                
+                <div class="sort-group">
+                    <label for="sort-by">Sort by:</label>
+                    <select id="sort-by">
+                        <option value="title">Title</option>
+                        <option value="author">Author</option>
+                        <option value="pages">Pages</option>
+                        <option value="category">Category</option>
+                    </select>
+                    <button id="sort-direction" title="Toggle sort direction">
+                        <i class="fas fa-sort-up"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="results-info">
+                <p>Showing <span id="shown-count">0</span> of <span id="total-count">0</span> books</p>
+            </div>
+            
+            <div id="books-list" class="books-grid">
+                <!-- Books will be dynamically added here -->
+            </div>
+            
+            <div class="pagination">
+                <button id="load-more" class="btn" style="display: none;">
+                    <i class="fas fa-arrow-down"></i> Load More
+                </button>
+            </div>
+        </div>
+
+        <!-- Book Edit Modal -->
+        <div id="edit-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Edit Book</h2>
+                <form id="edit-form">
+                    <input type="hidden" id="edit-id">
+                    <div class="form-group">
+                        <label for="edit-title">Title</label>
+                        <input type="text" id="edit-title" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-author">Author</label>
+                        <input type="text" id="edit-author" name="author" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-pages">Pages</label>
+                        <input type="number" id="edit-pages" name="pages" required min="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-category">Category</label>
+                        <select id="edit-category" name="category" required>
+                            <option value="Fiction">Fiction</option>
+                            <option value="Non-Fiction">Non-Fiction</option>
+                            <option value="Fantasy">Fantasy</option>
+                            <option value="Science Fiction">Science Fiction</option>
+                            <option value="Mystery">Mystery</option>
+                            <option value="Thriller">Thriller</option>
+                            <option value="Horror">Horror</option>
+                            <option value="Romance">Romance</option>
+                            <option value="Historical Fiction">Historical Fiction</option>
+                            <option value="Biography">Biography</option>
+                            <option value="Self-Help">Self-Help</option>
+                            <option value="Business">Business</option>
+                            <option value="Science">Science</option>
+                            <option value="History">History</option>
+                            <option value="Poetry">Poetry</option>
+                            <option value="Children's Books">Children's Books</option>
+                            <option value="Young Adult">Young Adult</option>
+                            <option value="Travel">Travel</option>
+                            <option value="Cookbooks">Cookbooks</option>
+                            <option value="Philosophy">Philosophy</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn"><i class="fas fa-save"></i> Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>

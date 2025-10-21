@@ -1,0 +1,35 @@
+{
+  "version": "1.0",
+  "context": {
+    "description": "Books Database Service - Personal book collection management system",
+    "domain": "library_management",
+    "technology_stack": {
+      "backend": "FastAPI (Python)",
+      "frontend": "React",
+      "database": "SQLite", 
+      "testing": "pytest, Robot Framework",
+      "containerization": "Docker"
+    },
+    "architecture_type": "REST API with SPA frontend",
+    "primary_patterns": [
+      "Repository pattern for data access",
+      "DTO pattern for API responses", 
+      "Component-based UI architecture",
+      "Test-driven development"
+    ]
+  },
+  "guidance": {
+    "code_style": "Follow PEP 8 for Python, Airbnb style for JavaScript",
+    "testing_strategy": "Unit tests for business logic, integration tests for APIs, E2E tests for critical flows",
+    "documentation": "Include docstrings, type hints, and API documentation",
+    "error_handling": "Comprehensive exception handling with meaningful error messages"
+  },
+  "references": [
+    ".github/copilot/architecture.md",
+    ".github/copilot/context.md", 
+    ".github/copilot/standards.md",
+    ".github/copilot/review-guide.md",
+    ".github/copilot/workflow.md",
+    ".github/copilot/glossary.md"
+  ]
+}
