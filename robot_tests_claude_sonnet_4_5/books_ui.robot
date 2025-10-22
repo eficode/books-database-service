@@ -11,8 +11,7 @@ User can add a new book
     [Documentation]    Verify that user can successfully add a new book through the UI
     [Tags]    create    smoke
     Given user is on the books application homepage
-    When user fills in the book form with title "The Great Gatsby" author "F. Scott Fitzgerald"
-    ...      pages "180" category "Fiction"
+    When user fills in the book form with title "The Great Gatsby" author "F. Scott Fitzgerald" pages "180" category "Fiction"
     And user submits the book form
     Then book "The Great Gatsby" should appear in the books list
 
@@ -22,8 +21,7 @@ User can edit an existing book
     Given user is on the books application homepage
     And book "1984" by "George Orwell" with "328" pages exists
     When user clicks edit button for book "1984"
-    And user updates the book with title "Nineteen Eighty-Four" author "George Orwell"
-    ...     pages "328" category "Science Fiction"
+    And user updates the book with title "Nineteen Eighty-Four" author "George Orwell" pages "328" category "Science Fiction"
     And user submits the edit form
     Then book "Nineteen Eighty-Four" should appear in the books list
 

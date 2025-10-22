@@ -16,8 +16,7 @@ API can create a new book
     [Documentation]    Verify that a new book can be created via API
     [Tags]    create    smoke
     Given the API is available
-    When book is created with title "The Catcher in the Rye" author "J.D. Salinger"
-    ...      pages "277" category "Fiction"
+    When book is created with title "The Catcher in the Rye" author "J.D. Salinger" pages "277" category "Fiction"
     Then the book should be created successfully
     And the book should have correct properties
 

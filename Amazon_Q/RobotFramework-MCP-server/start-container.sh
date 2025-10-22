@@ -49,7 +49,7 @@ docker run -d \
     --network host \
     --entrypoint tail \
     -v "${TESTS_DIR}:/tests:ro" \
-    -v "${RESULTS_DIR}:/results" \
+    -v "${RESULTS_DIR}:/results:rw" \
     "$IMAGE_NAME" \
     -f /dev/null
 

@@ -19,8 +19,21 @@ Always follow this order in Robot files:
 
 ### Line Length
 - Keep lines ≤ 120 characters
-- Use continuation (`...`) for long lines:
+- CRITICAL: Do NOT split keyword calls across multiple lines - keep the entire keyword call on one line
+- Use continuation (`...`) ONLY for:
+  - Keyword arguments list in keyword definitions
+  - Long assertion messages
+  - Documentation strings
+
 ```robot
+# CORRECT - Keyword call on single line
+When user fills in the book form with title "The Great Gatsby" author "F. Scott Fitzgerald" pages "180" category "Fiction"
+
+# INCORRECT - Do NOT split keyword calls
+When user fills in the book form with title "The Great Gatsby" author "F. Scott Fitzgerald"
+...      pages "180" category "Fiction"
+
+# CORRECT - Use continuation for keyword definitions
 Long Keyword With Many Arguments
     [Arguments]    ${arg1}    ${arg2}    ${arg3}    ${arg4}
     ...            ${arg5}    ${arg6}
@@ -142,7 +155,7 @@ User can add a new book
     [Documentation]    Verify that user can successfully add a new book through the UI
     [Tags]    create    smoke
     Given user is on the books application homepage
-    When user fills in the book form with title "1984" author "George Orwell" pages "328"
+    When user fills in the book form with title "1984" author "George Orwell" pages "328" category "Fiction"
     And user submits the book form
     Then the book "1984" should appear in the books list
 
@@ -394,8 +407,7 @@ User can add a new book
     [Documentation]    Verify that user can successfully add a new book through the UI
     [Tags]    create    smoke
     Given user is on the books application homepage
-    When user fills in the book form with title "The Great Gatsby"
-    ...      author "F. Scott Fitzgerald" pages "180" category "Fiction"
+    When user fills in the book form with title "The Great Gatsby" author "F. Scott Fitzgerald" pages "180" category "Fiction"
     And user submits the book form
     Then the book "The Great Gatsby" should appear in the books list
 
