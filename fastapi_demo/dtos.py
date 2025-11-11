@@ -1,16 +1,9 @@
 from pydantic import BaseModel
 from typing import Optional
 
-
-class BookCreate(BaseModel):
+class BookInfo(BaseModel):
+    id: Optional[int] = None
     title: str
     author: str
+    price: float
     pages: int
-    category: str = "Fiction"
-    favorite: bool = False
-
-class BookInfo(BookCreate):
-    id: Optional[int] = None
-
-class BookFavorite(BaseModel):
-    favorite: bool
