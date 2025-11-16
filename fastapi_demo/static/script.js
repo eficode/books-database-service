@@ -254,6 +254,7 @@ function displayBooks(books) {
                 <button class="favorite-btn ${book.favorite ? 'active' : ''}" title="Toggle favorite">
                     <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="heart" class="svg-inline--fa fa-heart" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"></path></svg>
                 </button>
+                <p class="book-read">${book.read ? 'Read' : 'Not Read'}</p>
                 <button class="edit-btn" title="Edit book">
                     <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="edit" class="svg-inline--fa fa-edit" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M402.6 83.2l90.2 90.2c3.8 3.8 3.8 10 0 13.8L274.4 405.6l-92.8 10.3c-12.4 1.4-22.9-9.1-21.5-21.5l10.3-92.8L388.8 83.2c3.8-3.8 10-3.8 13.8 0zm162-22.9l-48.8-48.8c-15.2-15.2-39.9-15.2-55.2 0l-35.4 35.4c-3.8 3.8-3.8 10 0 13.8l90.2 90.2c3.8 3.8 10 3.8 13.8 0l35.4-35.4c15.2-15.3 15.2-40 0-55.2zM384 346.2V448H64V128h229.8c3.2 0 6.2-1.3 8.5-3.5l40-40c7.6-7.6 2.2-20.5-8.5-20.5H48C21.5 64 0 85.5 0 112v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V306.2c0-10.7-12.9-16-20.5-8.5l-40 40c-2.2 2.3-3.5 5.3-3.5 8.5z"></path></svg>
                 </button>
@@ -286,7 +287,8 @@ async function addBook(e) {
         return;
     }
     
-    const newBook = { title, author, pages, category };
+    const read = document.getElementById('read').checked;
+    const newBook = { title, author, pages, category, read };
     
     try {
         const response = await fetch(API_URL + '/', {
@@ -326,6 +328,7 @@ function openEditModal(book) {
         document.getElementById('edit-category').value = book.category;
     }
     
+    document.getElementById('edit-read').checked = book.read;
     editModal.style.display = 'block';
 }
 
@@ -349,7 +352,8 @@ async function updateBook(e) {
         return;
     }
     
-    const updatedBook = { title, author, pages, category };
+    const read = document.getElementById('edit-read').checked;
+    const updatedBook = { title, author, pages, category, read };
     
     try {
         const response = await fetch(`${API_URL}/${id}`, {
