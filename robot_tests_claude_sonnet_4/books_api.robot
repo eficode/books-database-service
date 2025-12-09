@@ -1,203 +1,192 @@
 *** Settings ***
-Documentation    API acceptance tests for Books Database Service
+Documentation    API acceptance tests for Books Database Service.
+...              Tests cover CRUD operations, favorite toggle, and error handling.
 Resource         resources/common.resource
-Resource         resources/keywords/api_keywords.resource
-Suite Setup      Create API Session
-Test Tags        api    acceptance
-
-*** Test Cases ***
-API Can Create A New Book
-    [Documentation]    Verify API can create a new book
-    [Tags]    crud
-    Given the API is available
-    When a new book is created with title "API Test Book" author "API Author" pages "150" category "Fiction"
-    Then the book should be created successfully
-    And the book should have correct properties
-
-API Can Retrieve All Books
-    [Documentation]    Verify API can retrieve all books
-    [Tags]    read
-    Given the API has books
-    When all books are requested
-    Then all books should be returned
-
-API Can Retrieve A Specific Book
-    [Documentation]    Verify API can retrieve a book by ID
-    [Tags]    read
-    Given the API has a book
-    When the book is requested by ID
-    Then the correct book should be returned
-
-API Can Update An Existing Book
-    [Documentation]    Verify API can update book properties
-    [Tags]    crud
-    Given the API has a book to update
-    When the book is updated with new title "Updated Title"
-    Then the book should be updated successfully
-    And the book should have the new properties
-
-API Can Delete A Book
-    [Documentation]    Verify API can delete a book
-    [Tags]    crud
-    Given the API has a book to delete
-    When the book is deleted
-    Then the book should be removed successfully
-
-API Can Search For Books
-    [Documentation]    Verify API can search books by title
-    [Tags]    search
-    Given the API has searchable books
-    When books are searched with term "Search"
-    Then only matching books should be returned
-
-API Can Filter Books By Category
-    [Documentation]    Verify API can filter books by category
-    [Tags]    filter
-    Given the API has books in different categories
-    When books are filtered by "Fiction" category
-    Then only fiction books should be returned
-
-API Handles Invalid Book Creation
-    [Documentation]    Verify API handles invalid book data
-    [Tags]    validation
-    Given the API is available
-    When an invalid book is created
-    Then an error response should be returned
+Resource         resources/api_keywords.resource
+Suite Setup      Setup API Test Suite
+Suite Teardown   Teardown API Test Suite
+Test Setup       Create Session For API
 
 *** Keywords ***
-The API Is Available
+Setup API Test Suite
+    [Documentation]    Setup test suite with Docker environment
+    Setup Test Environment
+
+Teardown API Test Suite
+    [Documentation]    Cleanup test suite environment
+    Teardown Test Environment
+
+*** Test Cases ***
+User can retrieve all books via API
+    [Documentation]    Test retrieving all books through API
+    [Tags]    api    smoke
+    Given the books API is available
+    When all books are requested from the API
+    Then a successful response should be received
+    And the response should contain a list of books
+
+User can create a new book via API
+    [Documentation]    Test creating a new book through API
+    [Tags]    api    crud
+    Given the books API is available
+    When a new book is created with valid data
+    Then a successful creation response should be received
+    And the book should be created with correct details
+
+User can retrieve a specific book via API
+    [Documentation]    Test retrieving a specific book by ID through API
+    [Tags]    api    crud
+    Given the books API is available
+    And a book has been created via API
+    When the book is requested by its ID
+    Then the correct book details should be received
+
+User can update an existing book via API
+    [Documentation]    Test updating an existing book through API
+    [Tags]    api    crud
+    Given the books API is available
+    And a book has been created via API
+    When the book is updated with new data
+    Then a successful update response should be received
+    And the book should be updated with new details
+
+User can delete a book via API
+    [Documentation]    Test deleting a book through API
+    [Tags]    api    crud
+    Given the books API is available
+    And a book has been created via API
+    When the book is deleted
+    Then a successful deletion response should be received
+    And the book should no longer exist
+
+User can toggle book favorite status via API
+    [Documentation]    Test toggling book favorite status through API
+    [Tags]    api    favorite
+    Given the books API is available
+    And a book has been created via API
+    When the book favorite status is toggled to true
+    Then a successful response should be received
+    And the book should be marked as favorite
+
+API returns 404 for non-existent book
+    [Documentation]    Test API returns 404 for non-existent book
+    [Tags]    api    error
+    Given the books API is available
+    When a non-existent book is requested
+    Then a 404 not found response should be received
+
+*** Keywords ***
+The Books API Is Available
     [Documentation]    Verify API is accessible
-    ${response}=    GET On Session    books_api    /books    expected_status=any
-    Should Be Equal As Numbers    ${response.status_code}    200
+    ${response}=    Get All Books Via API
+    Verify Response Status Code    ${response}    200
 
-A New Book Is Created With Title "${title}" Author "${author}" Pages "${pages}" Category "${category}"
-    [Documentation]    Create a new book via API
-    ${book}=    Create Book Via API    ${title}    ${author}    ${pages}    ${category}
-    Set Test Variable    ${CREATED_BOOK}    ${book}
-
-The Book Should Be Created Successfully
-    [Documentation]    Verify book creation was successful
-    Should Not Be Equal    ${CREATED_BOOK}[id]    ${None}
-    Should Be True    ${CREATED_BOOK}[id] > 0
-    Should Be Equal    ${CREATED_BOOK}[title]    API Test Book
-
-The Book Should Have Correct Properties
-    [Documentation]    Verify book has expected properties
-    Verify Book Properties    ${CREATED_BOOK}    API Test Book    API Author    150    Fiction
-
-The API Has Books
-    [Documentation]    Ensure API has books for testing
-    Create Book Via API    Book 1    Author 1    100    Fiction
-    Create Book Via API    Book 2    Author 2    200    Non-Fiction
-
-All Books Are Requested
+All Books Are Requested From The API
     [Documentation]    Request all books from API
-    ${books}=    Get All Books Via API
-    Set Test Variable    ${ALL_BOOKS}    ${books}
+    ${response}=    Get All Books Via API
+    Set Test Variable    ${API_RESPONSE}    ${response}
 
-All Books Should Be Returned
-    [Documentation]    Verify all books are returned
-    Should Not Be Empty    ${ALL_BOOKS}
-    ${length}=    Get Length    ${ALL_BOOKS}
-    Should Be True    ${length} >= 2
+A Successful Response Should Be Received
+    [Documentation]    Verify successful API response
+    Verify Response Status Code    ${API_RESPONSE}    200
 
-The API Has A Book
-    [Documentation]    Create a book for retrieval testing
-    ${book}=    Create Book Via API    Retrieve Test    Test Author    120    Fiction
-    Set Test Variable    ${TEST_BOOK}    ${book}
+The Response Should Contain A List Of Books
+    [Documentation]    Verify response contains books list
+    ${books_list}=    Set Variable    ${API_RESPONSE.json()}
+    Should Be True    isinstance($books_list, list)
 
-The Book Is Requested By ID
+A New Book Is Created With Valid Data
+    [Documentation]    Create a new book with test data
+    ${title}    ${author}    ${pages}    ${category}=    Generate Random Book Data
+    ${response}=    Create Book Via API    ${title}    ${author}    ${pages}    ${category}
+    Set Test Variable    ${API_RESPONSE}    ${response}
+    Set Test Variable    ${TEST_TITLE}    ${title}
+    Set Test Variable    ${TEST_AUTHOR}    ${author}
+    Set Test Variable    ${TEST_PAGES}    ${pages}
+    Set Test Variable    ${TEST_CATEGORY}    ${category}
+
+A Successful Creation Response Should Be Received
+    [Documentation]    Verify successful book creation
+    Verify Response Status Code    ${API_RESPONSE}    200
+
+The Book Should Be Created With Correct Details
+    [Documentation]    Verify created book has correct details
+    Verify Book Data In Response    ${API_RESPONSE}    ${TEST_TITLE}    ${TEST_AUTHOR}
+    ...                             ${TEST_PAGES}    ${TEST_CATEGORY}
+    ${book_data}=    Set Variable    ${API_RESPONSE.json()}
+    Set Test Variable    ${CREATED_BOOK_ID}    ${book_data}[id]
+
+A Book Has Been Created Via API
+    [Documentation]    Create a book for testing
+    ${title}    ${author}    ${pages}    ${category}=    Generate Random Book Data
+    ${response}=    Create Book Via API    ${title}    ${author}    ${pages}    ${category}
+    ${book_data}=    Set Variable    ${response.json()}
+    Set Test Variable    ${CREATED_BOOK_ID}    ${book_data}[id]
+    Set Test Variable    ${TEST_TITLE}    ${title}
+    Set Test Variable    ${TEST_AUTHOR}    ${author}
+    Set Test Variable    ${TEST_PAGES}    ${pages}
+    Set Test Variable    ${TEST_CATEGORY}    ${category}
+
+The Book Is Requested By Its ID
     [Documentation]    Request specific book by ID
-    ${book}=    Get Book By ID Via API    ${TEST_BOOK}[id]
-    Set Test Variable    ${RETRIEVED_BOOK}    ${book}
+    ${response}=    Get Book By ID Via API    ${CREATED_BOOK_ID}
+    Set Test Variable    ${API_RESPONSE}    ${response}
 
-The Correct Book Should Be Returned
-    [Documentation]    Verify correct book is returned
-    Should Be Equal    ${RETRIEVED_BOOK}[id]    ${TEST_BOOK}[id]
-    Should Be Equal    ${RETRIEVED_BOOK}[title]    Retrieve Test
+The Correct Book Details Should Be Received
+    [Documentation]    Verify correct book details in response
+    Verify Response Status Code    ${API_RESPONSE}    200
+    Verify Book Data In Response    ${API_RESPONSE}    ${TEST_TITLE}    ${TEST_AUTHOR}
+    ...                             ${TEST_PAGES}    ${TEST_CATEGORY}
 
-The API Has A Book To Update
-    [Documentation]    Create a book for update testing
-    ${book}=    Create Book Via API    Update Test    Original Author    180    Fiction
-    Set Test Variable    ${UPDATE_BOOK}    ${book}
+The Book Is Updated With New Data
+    [Documentation]    Update book with new test data
+    ${new_title}    ${new_author}    ${new_pages}    ${new_category}=    Generate Random Book Data
+    ${response}=    Update Book Via API    ${CREATED_BOOK_ID}    ${new_title}    ${new_author}
+    ...                                    ${new_pages}    ${new_category}
+    Set Test Variable    ${API_RESPONSE}    ${response}
+    Set Test Variable    ${UPDATED_TITLE}    ${new_title}
+    Set Test Variable    ${UPDATED_AUTHOR}    ${new_author}
+    Set Test Variable    ${UPDATED_PAGES}    ${new_pages}
+    Set Test Variable    ${UPDATED_CATEGORY}    ${new_category}
 
-The Book Is Updated With New Title "${new_title}"
-    [Documentation]    Update book with new title
-    ${updated_book}=    Update Book Via API    ${UPDATE_BOOK}[id]    ${new_title}    Updated Author    180    Fiction
-    Set Test Variable    ${UPDATED_BOOK}    ${updated_book}
+A Successful Update Response Should Be Received
+    [Documentation]    Verify successful book update
+    Verify Response Status Code    ${API_RESPONSE}    200
 
-The Book Should Be Updated Successfully
-    [Documentation]    Verify book update was successful
-    Should Be Equal    ${UPDATED_BOOK}[title]    Updated Title
-
-The Book Should Have The New Properties
-    [Documentation]    Verify book has updated properties
-    Should Be Equal    ${UPDATED_BOOK}[author]    Updated Author
-
-The API Has A Book To Delete
-    [Documentation]    Create a book for deletion testing
-    ${book}=    Create Book Via API    Delete Test    Delete Author    90    Fiction
-    Set Test Variable    ${DELETE_BOOK}    ${book}
+The Book Should Be Updated With New Details
+    [Documentation]    Verify book has updated details
+    Verify Book Data In Response    ${API_RESPONSE}    ${UPDATED_TITLE}    ${UPDATED_AUTHOR}
+    ...                             ${UPDATED_PAGES}    ${UPDATED_CATEGORY}
 
 The Book Is Deleted
-    [Documentation]    Delete the book via API
-    Delete Book Via API    ${DELETE_BOOK}[id]
+    [Documentation]    Delete the test book
+    ${response}=    Delete Book Via API    ${CREATED_BOOK_ID}
+    Set Test Variable    ${API_RESPONSE}    ${response}
 
-The Book Should Be Removed Successfully
-    [Documentation]    Verify book is deleted
-    ${response}=    GET On Session    books_api    /books/${DELETE_BOOK}[id]    expected_status=any
-    Should Be Equal As Numbers    ${response.status_code}    404
+A Successful Deletion Response Should Be Received
+    [Documentation]    Verify successful book deletion
+    Verify Response Status Code    ${API_RESPONSE}    200
 
-The API Has Searchable Books
-    [Documentation]    Create books for search testing
-    Create Book Via API    Search Book 1    Search Author    160    Fiction
-    Create Book Via API    Different Book    Other Author    140    Non-Fiction
+The Book Should No Longer Exist
+    [Documentation]    Verify book no longer exists
+    ${response}=    Get Book By ID Via API    ${CREATED_BOOK_ID}
+    Verify Response Status Code    ${response}    404
 
-Books Are Searched With Term "${search_term}"
-    [Documentation]    Search for books
-    ${books}=    Search Books Via API    ${search_term}
-    Set Test Variable    ${SEARCH_RESULTS}    ${books}
+The Book Favorite Status Is Toggled To True
+    [Documentation]    Toggle book favorite status to true
+    ${response}=    Toggle Book Favorite Via API    ${CREATED_BOOK_ID}    ${True}
+    Set Test Variable    ${API_RESPONSE}    ${response}
 
-Only Matching Books Should Be Returned
-    [Documentation]    Verify search results are correct
-    Should Not Be Empty    ${SEARCH_RESULTS}
-    ${found_search_book}=    Set Variable    ${False}
-    FOR    ${book}    IN    @{SEARCH_RESULTS}
-        ${contains_search}=    Run Keyword And Return Status    Should Contain    ${book}[title]    Search
-        IF    ${contains_search}
-            ${found_search_book}=    Set Variable    ${True}
-        END
-    END
-    Should Be True    ${found_search_book}    No books with 'Search' in title found
+The Book Should Be Marked As Favorite
+    [Documentation]    Verify book is marked as favorite
+    ${book_data}=    Set Variable    ${API_RESPONSE.json()}
+    Should Be True    ${book_data}[favorite]
 
-The API Has Books In Different Categories
-    [Documentation]    Create books in different categories
-    Create Book Via API    Fiction Book    Fiction Author    200    Fiction
-    Create Book Via API    Science Book    Science Author    300    Non-Fiction
+A Non-Existent Book Is Requested
+    [Documentation]    Request a book that doesn't exist
+    ${response}=    Get Book By ID Via API    99999
+    Set Test Variable    ${API_RESPONSE}    ${response}
 
-Books Are Filtered By "${category}" Category
-    [Documentation]    Filter books by category
-    ${books}=    Filter Books By Category Via API    ${category}
-    Set Test Variable    ${FILTERED_BOOKS}    ${books}
-
-Only Fiction Books Should Be Returned
-    [Documentation]    Verify filter results are correct
-    Should Not Be Empty    ${FILTERED_BOOKS}
-    ${found_fiction_book}=    Set Variable    ${False}
-    FOR    ${book}    IN    @{FILTERED_BOOKS}
-        ${is_fiction}=    Run Keyword And Return Status    Should Contain    ${book}[category]    Fiction
-        IF    ${is_fiction}
-            ${found_fiction_book}=    Set Variable    ${True}
-        END
-    END
-    Should Be True    ${found_fiction_book}    No Fiction books found in results
-
-An Invalid Book Is Created
-    [Documentation]    Attempt to create invalid book
-    ${book_data}=    Create Dictionary    title=${EMPTY}    author=${EMPTY}
-    ${response}=    POST On Session    books_api    /books    json=${book_data}    expected_status=any
-    Set Test Variable    ${ERROR_RESPONSE}    ${response}
-
-An Error Response Should Be Returned
-    [Documentation]    Verify error response is returned
-    Should Be Equal As Numbers    ${ERROR_RESPONSE.status_code}    422
+A 404 Not Found Response Should Be Received
+    [Documentation]    Verify 404 response for non-existent book
+    Verify Response Status Code    ${API_RESPONSE}    404

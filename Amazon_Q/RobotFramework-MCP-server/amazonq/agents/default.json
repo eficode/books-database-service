@@ -1,0 +1,69 @@
+{
+  "name": "q_ide_default",
+  "description": "Default agent configuration",
+  "prompt": "",
+  "mcpServers": {
+    "Calculator": {
+      "command": "/usr/local/bin/docker",
+      "args": [
+        "run",
+        "--rm",
+        "--name",
+        "calculator-mcp-stdio",
+        "-i",
+        "calculator-mcp"
+      ],
+      "timeout": 60000,
+      "disabled": false
+    },
+    "RobotFramework": {
+      "command": "/usr/bin/docker",
+      "disabled": false,
+      "timeout": 60000,
+      "args": [
+        "exec",
+        "-i",
+        "RobotFramework-mcp-persistent",
+        "python",
+        "/app/server.py"
+      ]
+    }
+  },
+  "tools": [
+    "fs_read",
+    "execute_bash",
+    "fs_write",
+    "report_issue",
+    "use_aws",
+    "@Calculator/calculate",
+    "@Calculator/hello",
+    "@RobotFramework"
+  ],
+  "toolAliases": {},
+  "allowedTools": [
+    "fs_read",
+    "report_issue",
+    "use_aws",
+    "execute_bash",
+    "fs_write",
+    "@Calculator/calculate"
+  ],
+  "toolsSettings": {
+    "use_aws": {
+      "preset": "readOnly"
+    },
+    "execute_bash": {
+      "preset": "readOnly"
+    }
+  },
+  "resources": [
+    "file://AmazonQ.md",
+    "file://README.md",
+    "file://.amazonq/rules/**/*.md"
+  ],
+  "hooks": {
+    "agentSpawn": [],
+    "userPromptSubmit": []
+  },
+  "useLegacyMcpJson": true
+}
