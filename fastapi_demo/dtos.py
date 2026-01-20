@@ -1,16 +1,11 @@
 from pydantic import BaseModel
-from typing import Optional
 
+class FavouriteCreate(BaseModel):
+    book_id: int
 
-class BookCreate(BaseModel):
-    title: str
-    author: str
-    pages: int
-    category: str = "Fiction"
-    favorite: bool = False
-
-class BookInfo(BookCreate):
-    id: Optional[int] = None
-
-class BookFavorite(BaseModel):
-    favorite: bool
+class FavouriteInfo(BaseModel):
+    id: int
+    user_id: int
+    book_id: int
+    class Config:
+        orm_mode = True
