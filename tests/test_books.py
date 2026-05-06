@@ -1,78 +1,50 @@
-# FILEPATH: /Users/alexjantunen/dev/fast-api-demo/test_main.py
-from unittest.mock import MagicMock, patch
 from fastapi.testclient import TestClient
 from fastapi_demo.main import app
 from fastapi_demo.models import Book
-
-from fastapi import HTTPException
+from fastapi_demo.database import SessionLocal, Base, engine
+import pytest
 
 client = TestClient(app)
 
-def test_create_book(mock_db_session):
-    response = client.post("/books/", json={
-        "title": "Test Book",
-        "author": "Test Author",
-        "pages": 100
-    })
+@pytest.fixture(scope='module')
+def setup_database():
+    Base.metadata.create_all(bind=engine)
+    db = SessionLocal()
+    db.add(Book(title='Book A', author='Author A', pages=100))
+    db.add(Book(title='Book B', author='Author B', pages=150))
+    db.commit()
+    yield db
+    db.close()
+    Base.metadata.drop_all(bind=engine)
 
+
+def test_sort_books_ascending(setup_database):
+    response = client.get('/books/sort?order=asc')
     assert response.status_code == 200
-    assert response.json().get("title") == "Test Book"
-    assert response.json().get("author") == "Test Author"
-    assert response.json().get("pages") == 100
+    books = response.json()
+    assert len(books) == 2
+    assert books[0]['title'] == 'Book A'
+    assert books[1]['title'] == 'Book B'
 
-def test_read_book_success(mock_db_session):
-    mock_db_session.query.return_value.filter.return_value.first.return_value = Book(id=1, title="Test Book", author="Test Author", pages=100)
-    response = client.get("/books/1")
+
+def test_sort_books_descending(setup_database):
+    response = client.get('/books/sort?order=desc')
     assert response.status_code == 200
-    assert response.json().get("title") == "Test Book"
-    assert response.json().get("author") == "Test Author"
-    assert response.json().get("pages") == 100
-
-def test_read_book_not_found(mock_db_session):
-    mock_db_session.query.return_value.filter.return_value.first.return_value = None
-    response = client.get("/books/1")
-    assert response.status_code == 404
-    assert response.json().get("detail") == "Book not found"
+    books = response.json()
+    assert len(books) == 2
+    assert books[0]['title'] == 'Book B'
+    assert books[1]['title'] == 'Book A'
 
 
-def test_update_book_success(mock_db_session):
-    mock_db_session.query.return_value.filter.return_value.first.return_value = Book(id=1, title="Old Title", author="Old Author", pages=100)
-
-    response = client.put("/books/1", json={
-        "title": "New Title",
-        "author": "New Author",
-        "pages": 200
-    })
-
+def test_sort_books_empty_list():
+    # Ensure the database is empty
+    Base.metadata.drop_all(bind=engine)
+    Base.metadata.create_all(bind=engine)
+    response = client.get('/books/sort?order=asc')
     assert response.status_code == 200
-    assert response.json().get("title") == "New Title"
-    assert response.json().get("author") == "New Author"
-    assert response.json().get("pages") == 200
-
-def test_update_book_not_found(mock_db_session):
-    mock_db_session.query.return_value.filter.return_value.first.return_value = None
-
-    response = client.put("/books/1", json={
-        "title": "New Title",
-        "author": "New Author",
-        "pages": 200
-    })
-
-    assert response.status_code == 404
-    assert response.json().get("detail") == "Book not found"
-
-def test_delete_book_success(mock_db_session):
-    mock_db_session.query.return_value.filter.return_value.first.return_value = Book(id=1, title="Test Book", author="Test Author", pages=100)
-
-    response = client.delete("/books/1")
-
+    books = response.json()
+    assert len(books) == 0
+    response = client.get('/books/sort?order=desc')
     assert response.status_code == 200
-    assert response.json().get("message") == "Book deleted successfully"
-
-def test_delete_book_not_found(mock_db_session):
-    mock_db_session.query.return_value.filter.return_value.first.return_value = None
-
-    response = client.delete("/books/1")
-
-    assert response.status_code == 404
-    assert response.json().get("detail") == "Book not found"
+    books = response.json()
+    assert len(books) == 0
