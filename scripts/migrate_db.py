@@ -1,6 +1,7 @@
 """
-Script to migrate the database with the new category column
+Script to migrate the database with the new category and price columns
 """
+
 import sys
 import os
 import sqlite3
@@ -8,11 +9,11 @@ import re
 
 # Add parent directory to path so we can import from fastapi_demo
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
 from fastapi_demo.database import engine, SQLALCHEMY_DATABASE_URL
 
+
 def migrate_database():
-    """Add the category column to the books table if it doesn't exist"""
+    """Add the category and price columns to the books table if they don't exist"""
     # Extract database path from SQLALCHEMY_DATABASE_URL
     # SQLite URL format: sqlite:///path/to/database.db
     match = re.search(r'sqlite:///(.+)', SQLALCHEMY_DATABASE_URL)
@@ -20,16 +21,16 @@ def migrate_database():
         db_path = match.group(1)
     else:
         db_path = 'test.db'
-        
+
     print(f"Migrating database at: {db_path}")
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
-    
+
     # Check if the column exists
     cursor.execute("PRAGMA table_info(books)")
     columns = cursor.fetchall()
     column_names = [column[1] for column in columns]
-    
+
     if 'category' not in column_names:
         print("Adding 'category' column to books table...")
         cursor.execute("ALTER TABLE books ADD COLUMN category TEXT DEFAULT 'Fiction'")
@@ -37,7 +38,7 @@ def migrate_database():
         print("Column added successfully.")
     else:
         print("Column 'category' already exists.")
-        
+
     # Add favorite column if it doesn't exist
     if 'favorite' not in column_names:
         print("Adding 'favorite' column to books table...")
@@ -46,8 +47,18 @@ def migrate_database():
         print("Favorite column added successfully.")
     else:
         print("Column 'favorite' already exists.")
-    
+
+    # Add price column if it doesn't exist
+    if 'price' not in column_names:
+        print("Adding 'price' column to books table...")
+        cursor.execute("ALTER TABLE books ADD COLUMN price FLOAT")
+        conn.commit()
+        print("Price column added successfully.")
+    else:
+        print("Column 'price' already exists.")
+
     conn.close()
+
 
 if __name__ == "__main__":
     migrate_database()
