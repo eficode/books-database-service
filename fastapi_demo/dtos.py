@@ -1,13 +1,13 @@
 from pydantic import BaseModel
 from typing import Optional
 
-
 class BookCreate(BaseModel):
     title: str
     author: str
     pages: int
     category: str = "Fiction"
     favorite: bool = False
+    isbn: str
 
 class BookInfo(BookCreate):
     id: Optional[int] = None
