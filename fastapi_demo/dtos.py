@@ -1,7 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
 
-
 class BookCreate(BaseModel):
     title: str
     author: str
@@ -14,3 +13,13 @@ class BookInfo(BookCreate):
 
 class BookFavorite(BaseModel):
     favorite: bool
+
+class FavoriteCreate(BaseModel):
+    book_id: int
+
+class FavoriteInfo(BaseModel):
+    id: int
+    book_id: int
+    title: str
+    author: str
+    pages: int
